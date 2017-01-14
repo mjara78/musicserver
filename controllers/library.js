@@ -1,7 +1,12 @@
+//
 // Library Controller
+//
 
+var Promise = require("bluebird");
 var models = require('../models/index');
 var LibraryDao = require("../models/dao/libraryDao");
+var LibraryRefreshingError = require("errors/libraryErrors").LibraryRefreshingError;
+var LibraryNotBaseDirError = require("errors/libraryErrors").LibraryNotBaseDirError;
 
 // GET - Return library
 exports.getLibrary = function(req, res) {
@@ -36,28 +41,62 @@ exports.updateLibrary = function(req, res) {
 
 //POST - Refresh Library content
 exports.refreshLibrary = function(req, res) {
-
-	var baseDir;
+  
+	LibraryDao.getLibrary()
+    .then(lockLibrary)
+    .then(scanBaseDir)
+		.then(function (library) {
+			// return OK
+			res.status(200).json(library);
+		})
+		.catch(LibraryRefreshingError, function (error) {
+			res.status(error.statusCode).json(error);
+		})
+		.catch(LibraryNotBaseDirError, function (error) {
+			res.status(error.statusCode).json(error);
+		})
+    .catch( function(error){
+    	res.status(500).json(error.message);
+    });
 	
-	LibraryDao.getLibrary().then(updateReadedLibrary);
-	
-	var scanUpdatedLibrary = function (error,result) {
-		if (!error){
-			// Now scan base_dir
+  function lockLibrary (library){
+    return new Promise (function (resolve, reject) {
+			
+       	if (library.base_dir) { // base_dir not null
+				   if (library.state != 'updating') {	
+							// update library content
+							// first change state of library
+							library.state = 'updating';
+							LibraryDao.updateLibrary(library).then(resolve).catch(reject);
+					
+				} else { // library updating 
+					throw new LibraryRefreshingError();
+				}	
+			} else { // base_dir not defined
+				throw new LibraryNotBaseDirError();
+			}	
+      
+   })
+   }
+  
+	function scanBaseDir (library) {
+		return new Promise (function (resolve, reject) {
+			
 			var Scanner = require("../utils/scanner");
 			var scanner = new Scanner();
 			var elements = 0;
 		  
 			console.time("Library Update ends");
 		
-			scanner.scan(baseDir, function (filePath, stat){
+			// Now scan base_dir
+			scanner.scan(library.base_dir, function (filePath, stat){
 		    	elements++;
 		      
 			      //id3({ file: filePath, type: id3.OPEN_LOCAL }, function(err, tags) {
 			      //    console.log('===>Track' + tags.track);
 			      //    console.log('===>Title' + tags.title);
 			      //    console.log('===>Album' + tags.album);
-			      //    console.log('===>Artist' + tags.artist);
+			      //    console.log('===>Aritist' + tags.artist);
 			      //});
 			});
 			
@@ -73,48 +112,14 @@ exports.refreshLibrary = function(req, res) {
 		    		last_refresh: new Date()
 				};
 				
-				// update library
-				LibraryDao.updateLibrary(library, function (error, updatedLibrary) {
-					if (error) {
-						console.log(error.message);
-					} 
-				})
+				// update library when scan finished, then do nothing
+				LibraryDao.updateLibrary(library).then(function () {}).catch(reject);
 			});
 			
-			// return OK
-			res.status(200).json(result);
+			// return library
+			resolve(library);
 			
-		} else { // error updating library state
-			res.status(500).json(error.message);				
-		}
+		})
 	}
-	
-	var updateReadedLibrary = function (error, library) {
-		
-		if (!error) { // get library correctly
-    		if (library.base_dir) { // base_dir not null
-				if (library.state != 'updating') {
-					
-					// set base_dir
-					baseDir = library.base_dir;	
-					
-					// update library content
-					// first change state of library
-					library.state = 'updating';
-					LibraryDao.updateLibrary(library, scanUpdatedLibrary);
-					
-				} else { // library updating 
-					res.status(418).json('Library already in refresh process, wait until finish.');
-				}
-				
-			} else { // base_dir not defined
-				res.status(418).json('base_dir not defined.');
-			}	
-			
-    	} else { // Error reading library from DB
-    		res.status(500).json(error.message);
-    	}
-	}
-
 }; 
 

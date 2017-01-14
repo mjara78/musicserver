@@ -18,7 +18,7 @@ exports.getLibrary = function () {
 exports.updateLibrary = function (library) {
 	return new Promise(function (resolve, reject) {
 		
-    	Library.update(
+    Library.update(
 			{ base_dir: library.base_dir,
 			  num_elements: library.num_elements,
 			  state: library.state,
@@ -27,7 +27,9 @@ exports.updateLibrary = function (library) {
 			  where: { id: 1 }
 			}
 		)
-		.then(resolve)
+		.then(function (result){
+				resolve(library);
+			})
 		.catch(reject);    
-    });
+  });
 };
