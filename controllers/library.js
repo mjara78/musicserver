@@ -5,8 +5,8 @@
 var Promise = require("bluebird");
 var models = require('../models/index');
 var LibraryDao = require("../models/dao/libraryDao");
-var LibraryRefreshingError = require("errors/libraryErrors").LibraryRefreshingError;
-var LibraryNotBaseDirError = require("errors/libraryErrors").LibraryNotBaseDirError;
+var LibraryRefreshingError = require("./errors/libraryErrors").LibraryRefreshingError;
+var LibraryNotBaseDirError = require("./errors/libraryErrors").LibraryNotBaseDirError;
 
 // GET - Return library
 exports.getLibrary = function(req, res) {
