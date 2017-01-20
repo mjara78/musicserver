@@ -2,6 +2,8 @@ var express = require('express');
 
 // API Controllers
 var LibraryCtrl = require("../controllers/library.js");
+var GenreCtrl = require("../controllers/genre.js");
+
 
 // API routes
 var router = express.Router();
@@ -21,6 +23,13 @@ router.route('/library')
 // Songs
 
 // Genres
+router.route('/genre/:id')
+  .get(GenreCtrl.getGenreById)
+  .put(GenreCtrl.updateGenre);
+  
+router.route('/genres')
+  .get(GenreCtrl.getGenres);
+
 
 // Artist
 
