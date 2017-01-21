@@ -1,8 +1,8 @@
 //
 // Define LibraryNotBaseDirError
 //
-function LibraryNotBaseDirError (message) {
-    this.message = 'basedir not defined.' + message;
+function LibraryNotBaseDirError () {
+    this.message = 'basedir not defined.';
     this.name = "LibraryNotBaseDirError";
     this.code = 1001;
     this.statusCode = 418;
@@ -16,8 +16,8 @@ exports.LibraryNotBaseDirError = LibraryNotBaseDirError;
 //
 // Define LibraryRefreshingError
 //
-function LibraryRefreshingError (message) {
-    this.message = 'Library already in refresh process, wait until finish.' + message;
+function LibraryRefreshingError () {
+    this.message = 'Library already in refresh process, wait until finish.';
     this.name = "LibraryRefreshingError";
     this.code = 1002;
     this.statusCode = 418;

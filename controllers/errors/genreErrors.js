@@ -1,8 +1,8 @@
 //
 // Define GenreNotFoundError
 //
-function GenreNotFoundError (message) {
-    this.message = 'Genre not found.' + message;
+function GenreNotFoundError () {
+    this.message = 'Genre not found.' ;
     this.name = "GenreNotFoundError";
     this.code = 2000;
     this.statusCode = 404;
