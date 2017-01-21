@@ -33,7 +33,7 @@ exports.getGenres = function () {
 exports.getOrCreateGenreByName = function (genre) {
     return new Promise(function (resolve, reject) {
         Genre.findOrCreate({
-	    	where: { name: genre.name }
+	    	where: { name: genre }
 	    }).then(function (result) {
 	    	// result contains the genre and one boolean indicanting if was create  
 	    	resolve(result[0]); 

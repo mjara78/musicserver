@@ -3,8 +3,8 @@
 //
 
 var Promise = require("bluebird");
-var models = require('../models/index');
 var LibraryDao = require("../models/dao/libraryDao");
+var GenreDao = require("../models/dao/genreDao");
 var LibraryRefreshingError = require("./errors/libraryErrors").LibraryRefreshingError;
 var LibraryNotBaseDirError = require("./errors/libraryErrors").LibraryNotBaseDirError;
 
@@ -89,15 +89,11 @@ exports.refreshLibrary = function(req, res) {
 			console.time("Library Update ends");
 		
 			// Now scan base_dir
-			scanner.scan(library.base_dir, function (filePath, stat){
+			scanner.scan(library.base_dir, function (filePath, stat) {
+				
 		    	elements++;
-		      
-			      //id3({ file: filePath, type: id3.OPEN_LOCAL }, function(err, tags) {
-			      //    console.log('===>Track' + tags.track);
-			      //    console.log('===>Title' + tags.title);
-			      //    console.log('===>Album' + tags.album);
-			      //    console.log('===>Aritist' + tags.artist);
-			      //});
+		    	
+			    readMusicFile(filePath, stat);
 			});
 			
 			// call when scan finished
@@ -123,3 +119,28 @@ exports.refreshLibrary = function(req, res) {
 	}
 }; 
 
+function readMusicFile(filePath, stat) {
+	var fs = require('fs');
+	var mm = require('musicmetadata');
+	
+	var readableStream = fs.createReadStream(filePath);
+	var parser = mm(readableStream, function (err, metadata) {
+		if (err) throw err;
+		var genre;
+		
+		if (metadata.genre.length > 0) {
+			genre = metadata.genre[0];	
+		}
+		else {
+			genre = 'no genre';
+		}
+		
+		GenreDao.getOrCreateGenreByName(genre).then().catch(function (error) {
+			readableStream.close();
+			return console.error(error.message);
+		});
+		
+		readableStream.close();
+	});
+	
+}

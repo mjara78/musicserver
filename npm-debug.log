@@ -8,7 +8,7 @@
 7 verbose unsafe-perm in lifecycle true
 8 info musicserver@0.0.0 Failed to exec start script
 9 verbose stack Error: musicserver@0.0.0 start: `node ./bin/www`
-9 verbose stack Exit status 1
+9 verbose stack Exit status 137
 9 verbose stack     at EventEmitter.<anonymous> (/usr/lib/node_modules/npm/lib/utils/lifecycle.js:217:16)
 9 verbose stack     at emitTwo (events.js:87:13)
 9 verbose stack     at EventEmitter.emit (events.js:172:7)
@@ -25,7 +25,7 @@
 15 error npm  v2.15.11
 16 error code ELIFECYCLE
 17 error musicserver@0.0.0 start: `node ./bin/www`
-17 error Exit status 1
+17 error Exit status 137
 18 error Failed at the musicserver@0.0.0 start script 'node ./bin/www'.
 18 error This is most likely a problem with the musicserver package,
 18 error not with npm itself.
