@@ -1,40 +1,30 @@
 var express = require('express');
+var Promise = require("bluebird");
 var router = express.Router();
 //var id3 = require("id3js");
 
 /* GET library. */
 router.get('/', function(req, res, next) {
   
-  
-  
-  var Scanner = require("../utils/scanner");
-  
-  var scanner = new Scanner();
+  var scanner = require("../utils/scan");
   
   console.log("Update library...");
   console.time("Library Update ends");
 
   var elements = 0;  
 
-  scanner.scan('/home/osmc/Music', function (filePath, stat){
-      
-      elements++;
-      //console.log(filePath);
-      
-      //id3({ file: filePath, type: id3.OPEN_LOCAL }, function(err, tags) {
-      //    console.log('===>Track' + tags.track);
-      //    console.log('===>Title' + tags.title);
-      //    console.log('===>Album' + tags.album);
-      //    console.log('===>Artist' + tags.artist);
-      //});
-  });
-  
-  scanner.on('end', function (){
+  scanner.extractMetadata('/home/osmc/Music', function (filePath, tags){
+      return Promise (function  (resolve, reject){
+        elements ++;
+        
+        console.log('Filename:' + filePath + ' => Genre:' + tags.genre);
+        resolve();
+      })
+  }).then( function (elements){
     console.log("Files readed: " + elements);
     console.timeEnd("Library Update ends");
-  });
-  
-  
+  });      
+      
   res.send('library readed');
 });
 
