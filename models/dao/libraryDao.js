@@ -7,7 +7,11 @@ exports.getLibrary = function () {
     return new Promise(function (resolve, reject) {
         Library.findOrCreate({
 	    	where: { id: 1 }, 
-	    	defaults: { state: 'updated' }
+	    	defaults: { base_dir: null,
+	    				state: 'updated',
+	    				num_elements: null,
+	    				last_refresh: null 
+	    	}
 	    }).then(function (result) {
 	    	// result contains the library and one boolean indicanting if was create  
 	    	resolve(result[0]); 

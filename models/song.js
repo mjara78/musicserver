@@ -5,14 +5,16 @@ module.exports = function(sequelize, DataTypes) {
     year: DataTypes.STRING,
     track: DataTypes.INTEGER,
     comment: DataTypes.STRING,
-    length: DataTypes.INTEGER
+    duration: DataTypes.INTEGER,
+    file_path: DataTypes.STRING,
+    last_sync: DataTypes.DATE
   }, {
     classMethods: {
       associate: function(models) {
         // associations can be defined here
         Song.belongsTo(models.Album);
-        Song.belongsTo(models.Artist, {as: 'song_artist'});
-        Song.belongsTo(models.Artist, {as: 'composer' });
+        Song.belongsTo(models.Artist);
+        Song.belongsTo(models.Artist, {as: 'album_artist' });
         Song.belongsTo(models.Genre);
       }
     }

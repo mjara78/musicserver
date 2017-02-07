@@ -5,11 +5,15 @@
 var Promise = require("bluebird");
 var LibraryDao = require("../models/dao/libraryDao");
 var GenreDao = require("../models/dao/genreDao");
+var ArtistDao = require("../models/dao/artistDao");
+var AlbumDao = require("../models/dao/albumDao");
+var SongDao = require("../models/dao/songDao");
 var LibraryRefreshingError = require("./errors/libraryErrors").LibraryRefreshingError;
 var LibraryNotBaseDirError = require("./errors/libraryErrors").LibraryNotBaseDirError;
+var SongNotFoundError = require("./errors/songErrors").SongNotFoundError;
 
 // GET - Return library
-exports.getLibrary = function(req, res) {
+exports.getLibrary = function getLibrary(req, res) {
 
 	LibraryDao.getLibrary()
 		.then( function (library) {
@@ -21,7 +25,7 @@ exports.getLibrary = function(req, res) {
 };
 
 // PUT - Update one reg already exists
-exports.updateLibrary = function(req, res) {
+exports.updateLibrary = function updateLibrary(req, res) {
 	
 	// only update base_dir
 	var library = { base_dir: req.body.base_dir	};
@@ -40,21 +44,21 @@ exports.updateLibrary = function(req, res) {
 };
 
 //POST - Refresh Library content
-exports.refreshLibrary = function(req, res) {
+exports.refreshLibrary = function refreshLibrary(req, res) {
   
 	LibraryDao.getLibrary()
     .then(lockLibrary)
     .then(scanBaseDir)
-		.then(function (library) {
-			// return OK
-			res.status(200).json(library);
-		})
-		.catch(LibraryRefreshingError, function (error) {
-			res.status(error.statusCode).json(error);
-		})
-		.catch(LibraryNotBaseDirError, function (error) {
-			res.status(error.statusCode).json(error);
-		})
+	.then(function (library) {
+		// return OK
+		res.status(200).json(library);
+	})
+	.catch(LibraryRefreshingError, function (error) {
+		res.status(error.statusCode).json(error);
+	})
+	.catch(LibraryNotBaseDirError, function (error) {
+		res.status(error.statusCode).json(error);
+	})
     .catch( function(error){
     	res.status(500).json(error.message);
     });
@@ -82,25 +86,74 @@ exports.refreshLibrary = function(req, res) {
 	function scanBaseDir (library) {
 		return new Promise (function (resolve, reject) {
 			
-			var Scanner = require("../utils/scanner");
-			var scanner = new Scanner();
+			var scanner = require("../utils/scan");
+			
 			var elements = 0;
-		  
-			console.time("Library Update ends");
-		
-			// Now scan base_dir
-			scanner.scan(library.base_dir, function (filePath, stat) {
-				
-		    	elements++;
-		    	
-			    readMusicFile(filePath, stat);
+
+			console.log("Update library...");
+  			console.time("Library Update ends");
+
+			// Scan base_dir
+			var extract = scanner.extractMetadata(library.base_dir, function (filePath, tags){
+				return new Promise (function  (resolve, reject){
+					
+					// Search or Create Genre
+					var promiseGenre = GenreDao.getOrCreateGenreByName(tags.genre);
+					
+					// When Genre found then search or create Album
+					promiseGenre.then(function (genre) {
+						var album = {
+							name: tags.album,
+							year: tags.year,
+							GenreId: genre.id
+						}
+						// Sync promises
+						Promise.join(ArtistDao.getOrCreateArtistByName(tags.artist), // Search or Create Artist
+									 ArtistDao.getOrCreateArtistByName(tags.albumArtist), // Search or Create Album Artist
+									 AlbumDao.getOrCreateAlbumByName(album), // Search or create Album
+									 function (artist, albumArtist, album) {
+									 	// get song
+									 	SongDao.getSongByFilePath(filePath)
+									 	.then()
+									 	.catch(SongNotFoundError, function (error) {
+									 		
+									 		// Create Song
+									 		var song = {
+									 			title: tags.title,
+									            year: tags.year,
+									            track: tags.track,
+									            // comment: DataTypes.STRING,
+									            duration: tags.duration,
+									            file_path: filePath,
+									            last_sync: new Date(),
+												AlbumId: album.id,
+												ArtistId: artist.id,
+												albumArtistId: albumArtist.id,
+												GenreId: genre.id
+									 		};
+									 		
+									 		SongDao.createSong(song)
+									 		.then(function (song) {
+									 			elements ++;
+									 			resolve(elements);
+									 		})
+									 		.catch(reject);
+									 	})
+									 	.catch(reject);
+									 	
+						});
+					})
+					.catch(reject);
+					
+					//console.log('Filename:' + filePath + ' => Genre:' + tags.genre);
+				});
 			});
 			
 			// call when scan finished
-			scanner.on('end', function () {
+			extract.then( function (elements){
 				console.log("Files readed: " + elements);
 				console.timeEnd("Library Update ends");
-				
+
 				// compose library object for update
 				var library = {
 					num_elements: elements,
@@ -109,38 +162,11 @@ exports.refreshLibrary = function(req, res) {
 				};
 				
 				// update library when scan finished, then do nothing
-				LibraryDao.updateLibrary(library).then(function () {}).catch(reject);
+				LibraryDao.updateLibrary(library).catch(reject);
 			});
 			
 			// return library
 			resolve(library);
-			
 		})
-	}
-}; 
-
-function readMusicFile(filePath, stat) {
-	var fs = require('fs');
-	var mm = require('musicmetadata');
-	
-	var readableStream = fs.createReadStream(filePath);
-	var parser = mm(readableStream, function (err, metadata) {
-		if (err) throw err;
-		var genre;
-		
-		if (metadata.genre.length > 0) {
-			genre = metadata.genre[0];	
-		}
-		else {
-			genre = 'no genre';
-		}
-		
-		GenreDao.getOrCreateGenreByName(genre).then().catch(function (error) {
-			readableStream.close();
-			return console.error(error.message);
-		});
-		
-		readableStream.close();
-	});
-	
+	} 
 }

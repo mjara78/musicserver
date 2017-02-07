@@ -10,7 +10,7 @@ var GenreNotFoundError = require("../../controllers/errors/genreErrors").GenreNo
 var me = exports;  
 
 // Returns a Genre by id
-exports.getGenreById = function (idGenre) {
+exports.getGenreById = function getGenreById (idGenre) {
     return new Promise(function (resolve, reject) {
         Genre.findById(idGenre).then(function (result) {
         	if (result) {
@@ -23,26 +23,44 @@ exports.getGenreById = function (idGenre) {
 };
 
 // Returns all Genres
-exports.getGenres = function () {
+exports.getGenres = function getGenres () {
     return new Promise(function (resolve, reject) {
         Genre.findAll().then(resolve).catch(reject);
     });
 };
 
 // Get or Create a Genre by Name
-exports.getOrCreateGenreByName = function (genre) {
+exports.getOrCreateGenreByName = function getOrCreateGenreByName (genre) {
     return new Promise(function (resolve, reject) {
-        Genre.findOrCreate({
+        Genre.find({
 	    	where: { name: genre }
 	    }).then(function (result) {
-	    	// result contains the genre and one boolean indicanting if was create  
-	    	resolve(result[0]); 
+			if (result) {
+				resolve(result);
+			} else { // genre not exists
+				Genre.create({
+					name: genre
+				})
+				.then(resolve)
+				.catch(reject);
+			}
 	    }).catch(reject);
     });
 };
 
+
+// Get a Genre by Name
+exports.getGenreByName = function getGenreByName (genre) {
+    return new Promise(function (resolve, reject) {
+        Genre.find({
+	    	where: { name: genre }
+	    }).then(resolve).catch(reject);
+    });
+};
+
+
 // Update Genre name by id
-exports.updateGenre = function (genre) {
+exports.updateGenre = function updateGenre (genre) {
 	return new Promise(function (resolve, reject) {
 		
     Genre.update(

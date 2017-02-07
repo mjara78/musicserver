@@ -10,36 +10,44 @@ function extractMetadata(baseDir, callback) {
      return new Promise (function (resolve, reject) {
        
         fs.readdirAsync(baseDir)
-          .map(processElement)
-          .all (resolve)
+          .map(processElement,{concurrency: 1 })
+					.reduce(function (total, elem) {
+							if ( elem > total){
+									return elem;
+							} else {
+									return total;
+							}
+					})
+					.then(resolve)
           .catch(reject);
        
        });
   
   function processElement (element) {
+        return new Promise (function (resolve, reject) {
+          
+          var filePath = path.join(baseDir, element);
+          var ext = path.extname(filePath);
+          
+          fs.statAsync(filePath)
+          .then( function (stats) {
+               if (stats.isFile()) {
+                   if (admittedType(ext)) {
+                      readMetadata(filePath)
+                        .then(function (tags) {
+                            return callback (filePath, tags).then(resolve);
+                        })
+                        .catch(reject);
+                   } else { // Filetype not admitted
+                     return resolve(0);
+                   }
+               } else { // is a directory
+                  return extractMetadata(filePath, callback).then(resolve);
+               }
+            })
+          .catch(reject);
+        });
         
-        var filePath = path.join(baseDir, element);
-        var ext = path.extname(filePath);
-        
-        fs.statAsync(filePath)
-        .then( function (stats) {
-             if (stats.isFile) {
-                 if (admittedType(ext)) {
-                    readMetadata(filePath)
-                      .then(function (tags) {
-                          return callback (filePath, tags);
-                      })
-                      .catch(function (error) {
-                         throw new Error(error);
-                      });
-                 }
-             } else { // is a directory
-                return extractMetadata(filePath, callback);
-             }
-          })
-        .catch(function (error) {
-             throw new Error(error);
-          });
   }
   
   function admittedType (ext) {
@@ -58,26 +66,68 @@ function extractMetadata(baseDir, callback) {
       var tagGenre;
       
       var readableStream = fsSync.createReadStream(filePath);
-      var parser = mm(readableStream, function (err, metadata) {
+      var parser = mm(readableStream, { duration: true }, function (err, metadata) {
         
         if (err) throw err;
        
+        // Genre
         if (metadata.genre.length > 0) {
           tagGenre = metadata.genre[0];	
         }
         else {
-          tagGenre = 'no genre';
+          tagGenre = 'unknow genre';
         }
+        
+        // Year
+        var year = metadata.year;
+        
+        // Artist
+        var artist;
+        if (metadata.artist.length > 0) {
+          artist = metadata.artist[0];	
+        }
+        else {
+          artist = 'unknow artist';
+        }
+        
+        // Album Artist
+        var albumArtist;
+        if (metadata.albumartist.length > 0) {
+          albumArtist = metadata.albumartist[0];	
+        }
+        else {
+          albumArtist = artist;
+        }
+        
+        // Album
+        var album = metadata.album; 
+        
+        // Title
+        var title = metadata.title;
+        
+        // Track
+        var track = metadata.track.no;
+        
+        // Duration
+        var duration = metadata.duration;
         
         readableStream.close();
         
         var tags = {
-          genre: tagGenre.toLowerCase()
+          genre: tagGenre,
+          year: year,
+          artist: artist,
+          album: album,
+          albumArtist: albumArtist,
+          title: title,
+          track: track,
+          duration: duration
         };
         
+        resolve(tags);
       });
     });
   }
 }
 
-module.exports.extractMetadata = extractMetadata;
+exports.extractMetadata = extractMetadata;

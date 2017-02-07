@@ -13,14 +13,16 @@ router.get('/', function(req, res, next) {
 
   var elements = 0;  
 
-  scanner.extractMetadata('/home/osmc/Music', function (filePath, tags){
-      return Promise (function  (resolve, reject){
+  var extract = scanner.extractMetadata('/home/osmc/Music', function (filePath, tags){
+      return new Promise (function  (resolve, reject){
         elements ++;
         
-        console.log('Filename:' + filePath + ' => Genre:' + tags.genre);
-        resolve();
-      })
-  }).then( function (elements){
+        //console.log('Filename:' + filePath + ' => Genre:' + tags.genre);
+        resolve(elements);
+      });
+  });
+  
+  extract.then( function (elements){
     console.log("Files readed: " + elements);
     console.timeEnd("Library Update ends");
   });      
