@@ -3,12 +3,23 @@
 <head>  
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="assets/css/please-wait.css" rel="stylesheet">
+  <link href="assets/css/loading.css" rel="stylesheet">
   <title>Music Server</title>
 </head>  
-<body>  
+<body layout="column">  
   <ms-app></ms-app>
+  <script type="text/javascript" src="assets/js/please-wait.min.js"></script>
+    <script type="text/javascript">
+      window.loading_screen = window.pleaseWait({
+        logo: "assets/images/cloud-computing.png",
+        backgroundColor: '#f46d3b',
+        loadingHtml: '<div class="spinner"></div>'
+      });
+    </script>
   <script type="text/javascript" src="app.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="assets/css/angular-material.css">
+  <link rel="stylesheet" href="assets/css/app.css">
+  <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:400,500,700,400italic'>
 </body>  
 </html>
