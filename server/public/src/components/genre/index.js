@@ -5,7 +5,7 @@ import { GenreListComponent } from './genre-list/genre-list.component'
 import GenreService from './genre.service'
 
 const genre = angular  
-  .module('genres', [])
+  .module('genre', [])
   .service('GenreService', GenreService)
   .component('genreItem', GenreItemComponent)
   .component('genreList', GenreListComponent)
