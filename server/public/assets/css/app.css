@@ -41,21 +41,24 @@ md-sidenav md-list {
   padding: 0px 0px 8px 0px;
 }
 
+/*
 md-sidenav md-toolbar {
     padding: 15px;
     height: 120px;
+    min-height: 70px;
     max-height: 120px;
-}
+}*/
   
 md-sidenav md-toolbar md-divider {
     margin-top: 4px;
     margin-bottom: 4px;
   }
 
+/*
 md-sidenav md-icon {
     fill: #737373;
     position: relative;
-}
+}*/
 
 .app-logo {
   height: 64px;
