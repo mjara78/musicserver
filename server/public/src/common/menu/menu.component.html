@@ -1,0 +1,18 @@
+<md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-swipe-left="$ctrl.toggleMenu()" md-component-id="menu" md-is-locked-open="$mdMedia('gt-sm')">
+  <md-toolbar class="md-hue-2 md-tall" flex="auto" layout="column" layout-align="start center">
+    <md-icon flex="noshrink" class="app-logo" md-svg-icon="appLogo"></md-icon>
+    <span flex="noshrink" class="md-headline">Music Server</span>
+  </md-toolbar>
+  	<md-list>
+  			<div ng-repeat="option in $ctrl.options">
+  				<md-divider ng-if="option.divider"></md-divider>
+    			<md-subheader ng-if="option.divider"  class="md-no-sticky">{{option.dividerLabel}}</md-subheader>	
+    			<md-list-item class="md-2-line" role="link" ng-click="option.link">
+      			<md-icon md-svg-icon="{{option.icon}}" aria-label="{{option.ariaLabel}}"></md-icon>
+    			  <div class="md-list-item-text">
+        			<span class="md-body-2">{{option.label}}</span>
+      			</div>
+    			</md-list-item>
+    </div>
+  </md-list>
+</md-sidenav>

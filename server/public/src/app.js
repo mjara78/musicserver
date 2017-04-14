@@ -5,8 +5,8 @@ import 'angular-animate';
 import 'angular-aria';
 import 'angular-material';
 
-import common from './common/common'  
-import components from './components/components'  
+import common from './common/common.module'  
+import components from './components/components.module'  
 import { AppComponent } from './app.component'
 
 const root = angular  

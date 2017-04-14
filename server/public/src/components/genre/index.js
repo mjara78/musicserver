@@ -12,7 +12,7 @@ const genre = angular
   .config(($stateProvider, $urlRouterProvider) => {
     $stateProvider
       .state('genres', {
-        url: '/',
+        url: '/genres',
         component: 'genreList'/*,
         resolve: {
           genres: GenreService => GenreService.getGenres()

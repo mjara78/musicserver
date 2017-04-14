@@ -1,0 +1,43 @@
+[
+			{
+						"name": "home",
+						"icon" : "home",
+						"label" : "Home",
+						"ariaLabel" :"Home",
+						"divider" : false,
+						"link": "#/"
+			},
+			{
+						"name": "listenig",
+						"icon" : "listening",
+						"label" : "Listening",
+						"ariaLabel" :"Listening",
+						"divider" : false,
+						"links": "#/genres"
+			},
+			{
+						"name": "music",
+						"icon" : "musicLib",
+						"label" : "Music",
+						"ariaLabel" :"Music Library",
+						"divider" : false,
+						"link": "#/"
+			},
+			{
+						"name": "playlists",
+						"icon" : "playlist",
+						"label" : "Playlists",
+						"ariaLabel" :"Playlists",
+						"divider" : false,
+						"link": "#/"
+			},
+			{
+						"name": "settings",
+						"icon" : "settings",
+						"label" : "Settings",
+						"ariaLabel" :"Settings",
+						"divider" : true,
+						"dividerLabel": "Management",
+						"link": "#/"
+			}
+]
