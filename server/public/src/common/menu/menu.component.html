@@ -7,7 +7,7 @@
   			<div ng-repeat="option in $ctrl.options">
   				<md-divider ng-if="option.divider"></md-divider>
     			<md-subheader ng-if="option.divider"  class="md-no-sticky">{{option.dividerLabel}}</md-subheader>	
-    			<md-list-item class="md-2-line" role="link" ng-click="option.link">
+    			<md-list-item class="md-2-line" role="link" ng-click="$ctrl.selectOption( option.name )">
       			<md-icon md-svg-icon="{{option.icon}}" aria-label="{{option.ariaLabel}}"></md-icon>
     			  <div class="md-list-item-text">
         			<span class="md-body-2">{{option.label}}</span>

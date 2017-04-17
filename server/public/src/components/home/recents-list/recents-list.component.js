@@ -1,10 +1,9 @@
-//import controller from './genre-list.controller'
+import controller from './recents-list.controller'
 
 export const RecentsListComponent = {  
-  /*bindings: {
-    genres: '<'
-  },
-  controller,*/
+  bindings: { },
+  require: { parent: "^msApp"},
+  controller,
   template: `
     Recents List
   `

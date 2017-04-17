@@ -1,7 +1,8 @@
 class MenuController {  
-  constructor($mdSidenav, MenuService) {
+  constructor($mdSidenav, MenuService, $state) {
     this.mdSidenav = $mdSidenav;
     this.menuService = MenuService;
+    this.state = $state;
     this.options = [];
     
     // Load menu options
@@ -17,13 +18,14 @@ class MenuController {
       .then( data => {
             this.options = data;
     });
-		}
+	}
 		
-		selectOption (option, label){
-					this.menuService.selectMenuOpt(option,label);
-		}
+	selectOption (option){
+				this.toggleMenu();
+				this.state.go(option);
+	}
 }
 
-MenuController.$inject = ['$mdSidenav','MenuService']
+MenuController.$inject = ['$mdSidenav','MenuService','$state']
 
 export default MenuController

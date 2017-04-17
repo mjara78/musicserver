@@ -9,12 +9,12 @@ class MenuService {
     return this.$http.get('/src/common/menu/menu.json').then(response => response.data)
   }
 
-			selectMenuOpt (option,label){
-					this.selectedOpt = {
-								name: option ,
-								label: label
-					}
+    selectMenuOpt (option,label){
+			this.selectedOpt = {
+						name: option ,
+						label: label
 			}
+	}
 }
 
 MenuService.$inject = ['$http']
