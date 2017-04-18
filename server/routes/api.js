@@ -23,7 +23,7 @@ router.route('/library')
 // Songs
 
 // Genres
-router.route('/genre/:id')
+router.route('/genres/:id')
   .get(GenreCtrl.getGenreById)
   .put(GenreCtrl.updateGenre);
   
