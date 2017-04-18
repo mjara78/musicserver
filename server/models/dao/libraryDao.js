@@ -9,7 +9,7 @@ exports.getLibrary = function () {
 	    	where: { id: 1 }, 
 	    	defaults: { base_dir: null,
 	    				state: 'updated',
-	    				num_elements: null,
+	    				num_elements: 0,
 	    				last_refresh: null 
 	    	}
 	    }).then(function (result) {

@@ -11,6 +11,8 @@ var SongDao = require("../models/dao/songDao");
 var LibraryRefreshingError = require("./errors/libraryErrors").LibraryRefreshingError;
 var LibraryNotBaseDirError = require("./errors/libraryErrors").LibraryNotBaseDirError;
 var SongNotFoundError = require("./errors/songErrors").SongNotFoundError;
+var ServerError = require("./errors/genericErrors").ServerError;
+var LibraryNotFoundError = require("./errors/libraryErrors").LibraryNotFoundError;
 
 // GET - Return library
 exports.getLibrary = function getLibrary(req, res) {
@@ -20,7 +22,8 @@ exports.getLibrary = function getLibrary(req, res) {
 			res.status(200).json(library);
 		})
 		.catch(function (error) {
-			res.status(500).json(error.message);
+			var errorObj = new ServerError(error.message);
+			res.status(errorObj.statusCode).json(errorObj);
 		});
 };
 
@@ -35,11 +38,13 @@ exports.updateLibrary = function updateLibrary(req, res) {
 			if (result) {
 				res.status(200).json(result);
 			} else {
-				res.status(404).json('Library not found.');	
+			 var errorObj = new LibraryNotFoundError();
+				res.status(errorObj.statusCode).json(errorObj);	
 			}
 		})
 		.catch(function (error) {
-			res.status(500).json(error.message);
+		 var errorObj = new ServerError(error.message);
+			res.status(errorObj.statusCode).json(errorObj);
 		});
 };
 
@@ -60,8 +65,9 @@ exports.refreshLibrary = function refreshLibrary(req, res) {
 		res.status(error.statusCode).json(error);
 	})
     .catch( function(error){
-    	res.status(500).json(error.message);
-    });
+    	var errorObj = new ServerError(error.message);
+			  res.status(errorObj.statusCode).json(errorObj);
+		});
 	
   function lockLibrary (library){
     return new Promise (function (resolve, reject) {
@@ -88,7 +94,7 @@ exports.refreshLibrary = function refreshLibrary(req, res) {
 			
 			var scanner = require("../utils/scan");
 			
-			var elements = 0;
+			var elements = library.num_elements;
 
 			console.log("Update library...");
   			console.time("Library Update ends");

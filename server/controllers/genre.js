@@ -6,6 +6,7 @@
 //var models = require('../models/index');
 var GenreDao = require("../models/dao/genreDao");
 var GenreNotFoundError = require("./errors/genreErrors").GenreNotFoundError;
+var ServerError = require("./errors/genericErrors").ServerError;
 
 // GET - Return a genre by id
 exports.getGenreById = function(req, res) {
@@ -18,7 +19,8 @@ exports.getGenreById = function(req, res) {
 			res.status(error.statusCode).json(error);
 		})
 		.catch(function (error) {
-			res.status(500).json(error.message);
+			var errorObj = new ServerError(error.message);
+			res.status(errorObj.statusCode).json(errorObj);
 		});
 };
 
@@ -30,7 +32,8 @@ exports.getGenres = function(req, res) {
 			res.status(200).json(genres);
 		})
 		.catch(function (error) {
-			res.status(500).json(error.message);
+			var errorObj = new ServerError(error.message);
+			res.status(errorObj.statusCode).json(errorObj);
 		});
 };
 
@@ -48,7 +51,8 @@ exports.updateGenre = function(req, res) {
 			res.status(error.statusCode).json(error);
 		})
 		.catch(function (error) {
-			res.status(500).json(error.message);
+			var errorObj = new ServerError(error.message);
+			res.status(errorObj.statusCode).json(errorObj);
 		});
 };
 

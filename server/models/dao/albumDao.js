@@ -9,7 +9,7 @@ var AlbumNotFoundError = require("../../controllers/errors/albumErrors").AlbumNo
 
 var me = exports;  
 
-// Returns a Album by id
+// Returns an Album by id
 exports.getAlbumById = function getAlbumById (idAlbum) {
     return new Promise(function (resolve, reject) {
         Album.findById(idAlbum).then(function (result) {
@@ -22,8 +22,8 @@ exports.getAlbumById = function getAlbumById (idAlbum) {
     });
 };
 
-// Returns all Album
-exports.getAlbum = function getAlbum () {
+// Returns all Albums
+exports.getAlbums = function getAlbums () {
     return new Promise(function (resolve, reject) {
         Album.findAll().then(resolve).catch(reject);
     });
