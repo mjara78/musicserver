@@ -4,6 +4,7 @@ import uiRouter from 'angular-ui-router'
 import 'angular-animate';
 import 'angular-aria';
 import 'angular-material';
+import 'restangular';
 
 import common from './common/common.module'  
 import components from './components/components.module'  
@@ -14,9 +15,10 @@ const root = angular
     uiRouter,
     common,
     components,
-    'ngMaterial'
+    'ngMaterial',
+    'restangular'
   ])
-  .config(($mdIconProvider, $mdThemingProvider) => {
+  .config(($mdIconProvider, $mdThemingProvider, RestangularProvider) => {
     // Register the icons
     $mdIconProvider
       .icon("menu", "assets/svg/menu.svg", 24)
@@ -26,9 +28,14 @@ const root = angular
       .icon("listening", "assets/svg/ic_queue_music_black_24px.svg",24)
       .icon("musicLib", "assets/svg/ic_library_music_black_24px.svg",24)
       .icon("settings", "assets/svg/ic_settings_black_24px.svg",24)
+      .icon("edit", "assets/svg/ic_mode_edit_black_24px.svg",24)
+      .icon("refresh", "assets/svg/ic_refresh_black_24px.svg",24)
       ;
 
     $mdThemingProvider.theme('default');
+    
+    // Restangular config
+    RestangularProvider.setBaseUrl('/api');
   })
   .component('msApp', AppComponent)
   .run( ($window) => { // Hide Loading page

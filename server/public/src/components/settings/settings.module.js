@@ -1,22 +1,21 @@
 import angular from 'angular'
 
-//import { GenreItemComponent } from './genre-item/genre-item.component'  
 import { LibSettingsComponent } from './lib-settings/lib-settings.component'  
-//import GenreService from './genre.service'
+import LibraryService from './library.service'
 
 const settings = angular  
   .module('settings', [])
-  //.service('GenreService', GenreService)
+  .service('LibraryService', LibraryService)
   //.component('genreItem', GenreItemComponent)
   .component('libSettings', LibSettingsComponent)
   .config(($stateProvider, $urlRouterProvider) => {
     $stateProvider
       .state('settings', {
         url: '/settings',
-        component: 'libSettings'/*,
+        component: 'libSettings',
         resolve: {
-          genres: GenreService => GenreService.getGenres()
-        }*/
+          library: LibraryService => LibraryService.getLibrary()
+        }
       })
     $urlRouterProvider.otherwise('/')
   })

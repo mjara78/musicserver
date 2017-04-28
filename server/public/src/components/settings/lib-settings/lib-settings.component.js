@@ -1,11 +1,10 @@
-//import controller from './genre-list.controller'
+import controller from './lib-settings.controller'
 
 export const LibSettingsComponent = {  
-  /*bindings: {
-    genres: '<'
-  },
-  controller,*/
-  template: `
-    Library Settings
-  `
+  bindings: { 
+  	library: "<"
+  	},
+  require: { parent: "^msApp"},
+  controller,
+  templateUrl: 'src/components/settings/lib-settings/lib-settings.component.html'
 }

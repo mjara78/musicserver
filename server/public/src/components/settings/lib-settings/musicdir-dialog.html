@@ -1,0 +1,12 @@
+<md-dialog flex="80" aria-label="Music Directory dialog">
+    <md-dialog-content class="md-dialog-content" layout="row">
+        <md-input-container flex>
+            <label>Music Directory</label>
+            <input ng-model="$ctrl.musicdir">
+        </md-input-container>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+        <md-button ng-click="$ctrl.mdDialog.cancel()" class="md-primary">cancel</md-button>
+        <md-button ng-click="$ctrl.saveMusicdir()" class="md-primary">save</md-button>
+    </md-dialog-actions>
+</md-dialog>
