@@ -64,65 +64,81 @@ function extractMetadata(baseDir, callback) {
     return new Promise (function (resolve, reject) {
       
       var tagGenre;
+      var currentFile = filePath;
       
       var readableStream = fsSync.createReadStream(filePath);
       var parser = mm(readableStream, { duration: true }, function (err, metadata) {
         
-        if (err) throw err;
-       
-        // Genre
-        if (metadata.genre.length > 0) {
-          tagGenre = metadata.genre[0];	
-        }
+        if (err) {
+          console.log('Error reading metadata from ' + currentFile + '. ' + err);
+          
+          var tags = {
+            genre: 'unknow genre',
+            year: '0000',
+            artist: 'unknow artist',
+            album: 'unknow album',
+            albumArtist: 'unknow artist',
+            title: 'error reading',
+            track: '0',
+            duration: '0'
+          };
+        
+        } 
         else {
-          tagGenre = 'unknow genre';
-        }
+          // Genre
+          if (metadata.genre.length > 0) {
+            tagGenre = metadata.genre[0];	
+          }
+          else {
+            tagGenre = 'unknow genre';
+          }
         
-        // Year
-        var year = metadata.year;
+          // Year
+          var year = metadata.year;
         
-        // Artist
-        var artist;
-        if (metadata.artist.length > 0) {
-          artist = metadata.artist[0];	
-        }
-        else {
-          artist = 'unknow artist';
-        }
+          // Artist
+          var artist;
+          if (metadata.artist.length > 0) {
+            artist = metadata.artist[0];	
+          }
+          else {
+            artist = 'unknow artist';
+          }
         
-        // Album Artist
-        var albumArtist;
-        if (metadata.albumartist.length > 0) {
-          albumArtist = metadata.albumartist[0];	
-        }
-        else {
-          albumArtist = artist;
-        }
+          // Album Artist
+          var albumArtist;
+          if (metadata.albumartist.length > 0) {
+            albumArtist = metadata.albumartist[0];	
+          }
+          else {
+            albumArtist = artist;
+          }
         
-        // Album
-        var album = metadata.album; 
+          // Album
+          var album = metadata.album; 
         
-        // Title
-        var title = metadata.title;
+          // Title
+          var title = metadata.title;
         
-        // Track
-        var track = metadata.track.no;
+          // Track
+          var track = metadata.track.no;
         
-        // Duration
-        var duration = metadata.duration;
+          // Duration
+          var duration = metadata.duration;
         
-        readableStream.close();
+          readableStream.close();
         
-        var tags = {
-          genre: tagGenre,
-          year: year,
-          artist: artist,
-          album: album,
-          albumArtist: albumArtist,
-          title: title,
-          track: track,
-          duration: duration
-        };
+          var tags = {
+            genre: tagGenre,
+            year: year,
+            artist: artist,
+            album: album,
+            albumArtist: albumArtist,
+            title: title,
+            track: track,
+            duration: duration
+          };
+        }    
         
         resolve(tags);
       });
