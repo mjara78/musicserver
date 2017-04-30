@@ -14,7 +14,7 @@ module.exports = function(sequelize, DataTypes) {
         // associations can be defined here
         Song.belongsTo(models.Album);
         Song.belongsTo(models.Artist);
-        Song.belongsTo(models.Artist, {as: 'album_artist' });
+        //Song.belongsTo(models.Artist, {as: 'album_artist' });
         Song.belongsTo(models.Genre);
       }
     }

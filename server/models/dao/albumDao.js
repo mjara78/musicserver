@@ -23,9 +23,10 @@ exports.getAlbumById = function getAlbumById (idAlbum) {
 };
 
 // Returns all Albums
-exports.getAlbums = function getAlbums () {
+exports.getAlbums = function getAlbums (options) {
     return new Promise(function (resolve, reject) {
-        Album.findAll().then(resolve).catch(reject);
+    console.log(options);
+        Album.findAll(options).then(resolve).catch(reject);
     });
 };
 
@@ -56,7 +57,8 @@ exports.updateAlbum = function updateAlbum (album) {
 		
     Album.update(
 			{ name: album.name,
-			  year: album.year },
+			  year: album.year,
+			  GenreId: album.GenreId },
 			{ where: { id: album.id }}
 		)
 		.then(function (idAlbum) {

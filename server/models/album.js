@@ -9,6 +9,7 @@ module.exports = function(sequelize, DataTypes) {
         // associations can be defined here
         Album.hasMany(models.Song);
         Album.belongsTo(models.Genre);
+        Album.belongsTo(models.Artist);
       }
     }
   });

@@ -103,53 +103,50 @@ exports.refreshLibrary = function refreshLibrary(req, res) {
 			var extract = scanner.extractMetadata(library.base_dir, function (filePath, tags){
 				return new Promise (function  (resolve, reject){
 					
-					// Search or Create Genre
-					var promiseGenre = GenreDao.getOrCreateGenreByName(tags.genre);
-					
-					// When Genre found then search or create Album
-					promiseGenre.then(function (genre) {
-						var album = {
-							name: tags.album,
-							year: tags.year,
-							GenreId: genre.id
-						}
-						// Sync promises
-						Promise.join(ArtistDao.getOrCreateArtistByName(tags.artist), // Search or Create Artist
-									 ArtistDao.getOrCreateArtistByName(tags.albumArtist), // Search or Create Album Artist
-									 AlbumDao.getOrCreateAlbumByName(album), // Search or create Album
-									 function (artist, albumArtist, album) {
-									 	// get song
-									 	SongDao.getSongByFilePath(filePath)
-									 	.then()
-									 	.catch(SongNotFoundError, function (error) {
+					Promise.join(
+					  GenreDao.getOrCreateGenreByName(tags.genre),
+					  ArtistDao.getOrCreateArtistByName(tags.albumArtist),
+					  function (genre, albumArtist) { // after create genre and albumArtist we can create album
+					    var album = {
+						     	name: tags.album,
+							     year: tags.year,
+					     		GenreId: genre.id,
+					     		Artist: albumArtist.id
+						   }
+					    Promise.join(
+					      AlbumDao.getOrCreateAlbumByName(album),
+					      ArtistDao.getOrCreateArtistByName(tags.artist),
+					      function ( album, artist){ // after create album and artist we can create song
+					        // get song
+									 	   SongDao.getSongByFilePath(filePath)
+									  	   .then()
+									     	.catch(SongNotFoundError, function (error) { // if song not found create it
+									  		
+									       		// Create Song
+									       		var song = {
+									   		      title: tags.title,
+									          year: tags.year,
+									          track: tags.track,
+									          duration: tags.duration,
+									          file_path: filePath,
+									          last_sync: new Date(),
+										        		AlbumId: album.id,
+									        			ArtistId: artist.id,
+									        			GenreId: genre.id
+									      		};
 									 		
-									 		// Create Song
-									 		var song = {
-									 			title: tags.title,
-									            year: tags.year,
-									            track: tags.track,
-									            // comment: DataTypes.STRING,
-									            duration: tags.duration,
-									            file_path: filePath,
-									            last_sync: new Date(),
-												AlbumId: album.id,
-												ArtistId: artist.id,
-												albumArtistId: albumArtist.id,
-												GenreId: genre.id
-									 		};
-									 		
-									 		SongDao.createSong(song)
-									 		.then(function (song) {
-									 			elements ++;
-									 			resolve(elements);
-									 		})
-									 		.catch(reject);
-									 	})
-									 	.catch(reject);
-									 	
-						});
-					})
-					.catch(reject);
+								    	  		SongDao.createSong(song)
+									       		.then(function (song) {
+								        	 			elements ++;
+									         			resolve(elements);
+								     	 		})
+									 	     	.catch(reject);
+									    	})
+									 	   .catch(reject);
+					      }
+					    );
+					  }
+					);
 					
 					//console.log('Filename:' + filePath + ' => Genre:' + tags.genre);
 				});

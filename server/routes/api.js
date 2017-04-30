@@ -3,6 +3,7 @@ var express = require('express');
 // API Controllers
 var LibraryCtrl = require("../controllers/library.js");
 var GenreCtrl = require("../controllers/genre.js");
+var AlbumCtrl = require("../controllers/album.js");
 
 
 // API routes
@@ -15,10 +16,12 @@ router.route('/library')
   .post(LibraryCtrl.refreshLibrary);
   
 // Albums
-//router.route('/tvshows/:id')
-//  .get(TVShowCtrl.findById)
-//  .put(TVShowCtrl.updateTVShow)
-//  .delete(TVShowCtrl.deleteTVShow);
+router.route('/albums/:id')
+  .get(AlbumCtrl.getAlbumById)
+  .put(AlbumCtrl.updateAlbum);
+  
+router.route('/albums')
+  .get(AlbumCtrl.getAlbums);
 
 // Songs
 
