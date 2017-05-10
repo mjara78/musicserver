@@ -6,7 +6,6 @@ import LibraryService from './library.service'
 const settings = angular  
   .module('settings', [])
   .service('LibraryService', LibraryService)
-  //.component('genreItem', GenreItemComponent)
   .component('libSettings', LibSettingsComponent)
   .config(($stateProvider, $urlRouterProvider) => {
     $stateProvider

@@ -1,22 +1,20 @@
 import angular from 'angular'
 
-//import { GenreItemComponent } from './genre-item/genre-item.component'  
 import { RecentsListComponent } from './recents-list/recents-list.component'  
-//import GenreService from './genre.service'
+import RecentsService from './recents.service'
 
 const home = angular  
   .module('home', [])
-  //.service('GenreService', GenreService)
-  //.component('genreItem', GenreItemComponent)
+  .service('RecentsService', RecentsService)
   .component('recentsList', RecentsListComponent)
   .config(($stateProvider, $urlRouterProvider) => {
     $stateProvider
       .state('home', {
         url: '/',
-        component: 'recentsList'/*,
+        component: 'recentsList',
         resolve: {
-          genres: GenreService => GenreService.getGenres()
-        }*/
+          recents: RecentsService => RecentsService.getRecents()
+        }
       })
     $urlRouterProvider.otherwise('/')
   })

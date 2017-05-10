@@ -27,15 +27,15 @@ exports.getAlbumById = function(req, res) {
 // GET - Return all albums
 exports.getAlbums = function(req, res) {
  var options = {};
- if (req.param('order')){
-   options.order = req.param('order');
+ if (req.query.order){
+   options.order = req.query.order;
  }
 
- if (req.param('limit')){
-   options.limit = req.param('limit');
+ if (req.query.limit){
+   options.limit = req.query.limit;
  }
- if (req.param('offset')){
-   options.offset = req.param('offset');
+ if (req.query.offset){
+   options.offset = req.query.offset;
  }
 
 	AlbumDao.getAlbums(options)

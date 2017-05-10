@@ -1,0 +1,26 @@
+<div layout="column" flex>
+    <span class="md-title" style="margin-bottom: 12px;" flex="auto">Recently Added</span>
+    <md-grid-list 
+        md-cols-xs="2" md-cols-sm="3" md-cols-md="4" md-cols-gt-md="5"
+        md-row-height="300px" md-row-height-xs="250px"
+        md-gutter="12px" md-gutter-xs="6px"
+        flex="noshrink">
+        <md-grid-tile ng-repeat="album in $ctrl.recents">
+            <md-card ng-class="$ctrl.msHeight" layout="column">
+            <img ng-src="assets/thumbnails/cover.large.png" class="md-card-image" alt="{{album.name}}">
+            <md-card-content  
+              layout="column"
+              style="padding: 6px;"
+              flex>
+              <span class="md-body-2">{{ album.name | limitTo: 32 }}{{album.name.length > 32 ? '...' : ''}}</span>
+              <span class="md-caption">{{ album.Artist.name }}</span>
+            </md-card-content>
+            <md-card-actions layout="row" layout-align="end start" style="margin-right: 2px">
+              <md-button class="md-icon-button" aria-label="menu album" style="margin-right: 2px;;padding: 0px;">
+                <md-icon md-svg-icon="more"></md-icon>
+              </md-button>
+            </md-card-actions>
+            </md-card>
+        </md-grid-tile>
+    </md-grid-list>    
+</div>

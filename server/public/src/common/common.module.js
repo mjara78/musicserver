@@ -5,6 +5,7 @@ import { HeaderComponent } from './header/header.component'
 import { MenuComponent } from './menu/menu.component'
 import MenuService from './menu/menu.service'
 import MessageService from './message/message.service'
+import { PlayerComponent } from './player/player.component'
 
 const common = angular  
   .module('app.common', [])
@@ -12,6 +13,7 @@ const common = angular
   .service('MessageService', MessageService)
   .component('msHeader', HeaderComponent)
   .component('msMenu', MenuComponent)
+  .component('msPlayer', PlayerComponent)
   .run(['Restangular', 'MessageService', 
     function(Restangular, MessageService){
       Restangular.setErrorInterceptor(

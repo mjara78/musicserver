@@ -1,7 +1,13 @@
-<md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-swipe-left="$ctrl.toggleMenu()" md-component-id="menu" md-is-locked-open="$mdMedia('gt-sm')">
-  <md-toolbar class="md-hue-2 md-tall" flex="auto" layout="column" layout-align="start center">
-    <md-icon flex="noshrink" class="app-logo" md-svg-icon="appLogo"></md-icon>
-    <span flex="noshrink" class="md-headline">Music Server</span>
+<md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="menu">
+<md-content>
+  <md-toolbar class="md-hue-2 md-tall" flex="auto" layout="row" >
+    <md-button class="md-fab md-mini md-accent " ng-click="$ctrl.toggleMenu()" aria-label="Show Menu" flex="13">
+        <md-icon md-svg-icon="back"></md-icon>
+    </md-button>
+    <div layout="column" layout-align="start center" flex="60">
+      <md-icon flex="noshrink" class="app-logo" md-svg-icon="appLogo"></md-icon>
+      <span flex="noshrink" class="md-headline">Music Server</span>
+    </div>
   </md-toolbar>
   	<md-list>
   			<div ng-repeat="option in $ctrl.options">
@@ -15,4 +21,5 @@
     			</md-list-item>
     </div>
   </md-list>
+  </md-content>
 </md-sidenav>

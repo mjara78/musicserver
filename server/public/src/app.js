@@ -30,6 +30,8 @@ const root = angular
       .icon("settings", "assets/svg/ic_settings_black_24px.svg",24)
       .icon("edit", "assets/svg/ic_mode_edit_black_24px.svg",24)
       .icon("refresh", "assets/svg/ic_refresh_black_24px.svg",24)
+      .icon("back", "assets/svg/ic_arrow_back_white_24px.svg",24)
+      .icon("more", "assets/svg/ic_more_vert_black_24px.svg",24)
       ;
 
     $mdThemingProvider.theme('default');

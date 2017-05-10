@@ -111,8 +111,9 @@ exports.refreshLibrary = function refreshLibrary(req, res) {
 						     	name: tags.album,
 							     year: tags.year,
 					     		GenreId: genre.id,
-					     		Artist: albumArtist.id
+					     		ArtistId: albumArtist.id
 						   }
+						   
 					    Promise.join(
 					      AlbumDao.getOrCreateAlbumByName(album),
 					      ArtistDao.getOrCreateArtistByName(tags.artist),

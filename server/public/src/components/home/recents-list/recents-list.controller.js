@@ -4,7 +4,9 @@ class RecentsListController {
 
   $onInit () {
     this.parent.setTitle("Home");
+    
   }
 }
+
 
 export default RecentsListController

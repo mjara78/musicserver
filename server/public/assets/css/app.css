@@ -157,3 +157,12 @@ span.name {
   padding-left: 5px;
 }
 
+/* Albums cards */
+.ms-card-album md-card-content {
+  padding: 0px;
+}
+
+.ms-card-album md-card-content div{
+  padding: 4px;
+}
+

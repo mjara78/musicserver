@@ -1,0 +1,24 @@
+
+    <span class="md-title">Recently Added</span>
+    <div layout="row" layout-wrap>
+      <div 
+        flex-xs="50" flex-sm="33" flex-md="25" flex-gt-md="20"
+        ng-repeat="album in $ctrl.recents">
+      <md-card class="ms-card-album">
+        <img ng-src="assets/thumbnails/cover.large.png" class="md-card-image" alt="{{album.name}}">
+        <md-card-content  
+           layout="row"
+           >
+           <div flex="85" layout="column">
+             <span md-truncate class="md-body-2">{{ album.name }}</span>
+             <span md-truncate class="md-caption">{{ album.Artist.name }}</span>
+           </div>
+             <md-button flex="15" class="md-icon-button" aria-label="menu album" style="margin: 0px;padding: 0px;">
+               <md-icon md-svg-icon="more"></md-icon>
+             </md-button>
+           
+        </md-card-content>
+        
+      </md-card>
+      </div>
+    </div>
