@@ -111,7 +111,8 @@ exports.refreshLibrary = function refreshLibrary(req, res) {
 						     	name: tags.album,
 							     year: tags.year,
 					     		GenreId: genre.id,
-					     		ArtistId: albumArtist.id
+					     		ArtistId: albumArtist.id,
+					     		artistName: albumArtist.name
 						   }
 						   
 					    Promise.join(

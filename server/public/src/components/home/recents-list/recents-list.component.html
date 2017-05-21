@@ -5,7 +5,7 @@
         flex-xs="50" flex-sm="33" flex-md="25" flex-gt-md="20"
         ng-repeat="album in $ctrl.recents">
       <md-card class="ms-card-album">
-        <img ng-src="assets/thumbnails/cover.large.png" class="md-card-image" alt="{{album.name}}">
+        <img ng-src="{{album.imageUrlLarge}}" class="md-card-image" alt="{{album.name}}">
         <md-card-content  
            layout="row"
            >

@@ -6,6 +6,7 @@ var Promise = require("bluebird");
 var models = require('../../models/index');
 var Artist = models.Artist;
 var ArtistNotFoundError = require("../../controllers/errors/artistErrors").ArtistNotFoundError;
+var musicArt = require("../../utils/music-art");
 
 var me = exports;  
 
@@ -38,11 +39,20 @@ exports.getOrCreateArtistByName = function getOrCreateArtistByName (artistName) 
 			if (artist) {
 				resolve(artist);
 			} else { // artist not exists
-				Artist.create({
-					name: artistName
-				})
-				.then(resolve)
-				.catch(reject);
+			 
+				musicArt.getImages(artistName, null) // Get images of artist
+					.then( function (images){ // Create artist when get images
+					
+						Artist.create({
+						  name: artistName,
+						  imageUrlSmall: images.imageUrlSmall,
+       imageUrlLarge: images.imageUrlLarge,
+       imageUrlExtralarge: images.imageUrlExtralarge
+						})
+						.then(resolve)
+						.catch(reject);
+					})
+					.catch(reject); // Error getting artist images
 			}
 	    }).catch(reject);
     });

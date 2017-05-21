@@ -12,6 +12,7 @@
     "serve": "parallelshell 'npm run dev' 'npm run watch'"
   },
   "dependencies": {
+    "album-art": "^1.0.2",
     "angular": "^1.5.5",
     "angular-animate": "^1.5.5",
     "angular-aria": "^1.5.5",
@@ -32,6 +33,7 @@
     "nodemon": "^1.11.0",
     "parallelshell": "^2.0.0",
     "please-wait": "0.0.5",
+    "request": "^2.81.0",
     "restangular": "^1.6.1",
     "sequelize": "^3.27.0",
     "sequelize-cli": "^2.4.0",

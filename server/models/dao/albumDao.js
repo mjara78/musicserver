@@ -7,6 +7,7 @@ var models = require('../../models/index');
 var Album = models.Album;
 var Artist = models.Artist;
 var AlbumNotFoundError = require("../../controllers/errors/albumErrors").AlbumNotFoundError;
+var musicArt = require("../../utils/music-art");
 
 var me = exports;  
 
@@ -40,14 +41,21 @@ exports.getOrCreateAlbumByName = function getOrCreateAlbumByName (album) {
 			if (result) {
 				resolve(result);
 			} else { // album not exists
-				Album.create({
-					name: album.name,
-					year: album.year,
-					GenreId: album.GenreId,
-					ArtistId: album.ArtistId
-				})
-				.then(resolve)
-				.catch(reject);
+			  musicArt.getImages(album.artistName, album.name) // Get images of album
+					.then( function (images){ // Create album when get images
+					
+			   	Album.create({
+			   		name: album.name,
+		   			year: album.year,
+	   				GenreId: album.GenreId,
+	  	 			ArtistId: album.ArtistId,
+	  	 			imageUrlSmall: images.imageUrlSmall,
+       imageUrlLarge: images.imageUrlLarge,
+       imageUrlExtralarge: images.imageUrlExtralarge
+		   		})
+			  	.then(resolve)
+		  		.catch(reject);
+		  	})
 			}
 	    }).catch(reject);
     });

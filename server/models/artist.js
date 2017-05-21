@@ -1,7 +1,10 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
   var Artist = sequelize.define('Artist', {
-    name: DataTypes.STRING
+    name: DataTypes.STRING,
+    imageUrlSmall: DataTypes.STRING,
+    imageUrlLarge: DataTypes.STRING,
+    imageUrlExtralarge: DataTypes.STRING
   }, {
     classMethods: {
       associate: function(models) {

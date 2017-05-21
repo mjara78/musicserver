@@ -56,4 +56,9 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+// Add Capitalize method to String
+String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+}
+
 module.exports = app;
