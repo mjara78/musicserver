@@ -1,11 +1,10 @@
 import angular from 'angular'
 
 import { RecentsListComponent } from './recents-list/recents-list.component'  
-import RecentsService from './recents.service'
 
 const home = angular  
   .module('home', [])
-  .service('RecentsService', RecentsService)
+  //.service('RecentsService', RecentsService)
   .component('recentsList', RecentsListComponent)
   .config(($stateProvider, $urlRouterProvider) => {
     $stateProvider
@@ -13,7 +12,7 @@ const home = angular
         url: '/',
         component: 'recentsList',
         resolve: {
-          recents: RecentsService => RecentsService.getRecents()
+          recents: AlbumService => AlbumService.getRecents()
         }
       })
     $urlRouterProvider.otherwise('/')

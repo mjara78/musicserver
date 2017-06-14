@@ -1,0 +1,20 @@
+<md-card class="ms-card-album">
+  <img ng-src="{{ $ctrl.album.imageUrlLarge }}" class="md-card-image" alt="{{ $ctrl.album.name }}">
+  <md-card-content layout="row">
+    <div flex="85" layout="column">
+      <span class="md-truncate md-body-2">{{ $ctrl.album.name }}</span>
+      <span class="md-truncate md-caption">{{ $ctrl.album.Artist.name }}</span>
+    </div>
+    <md-menu>
+      <md-button ng-click="$mdMenu.open($event)" class="md-icon-button" style="margin: 0px;padding: 0px;" aria-label="Open sample menu">
+        <md-icon md-svg-icon="more"></md-icon>
+      </md-button>
+      <md-menu-content>
+        <md-menu-item><md-button ng-click="doSomething()">Play Album</md-button></md-menu-item>
+        <md-menu-item><md-button ng-click="doSomething()">Add Album</md-button></md-menu-item>
+        <md-menu-item><md-button ng-click="doSomething()">Go to Album</md-button></md-menu-item>
+        <md-menu-item><md-button ng-click="doSomething()">Go to Artist</md-button></md-menu-item>
+      </md-menu-content>
+    </md-menu>
+  </md-card-content> 
+</md-card>

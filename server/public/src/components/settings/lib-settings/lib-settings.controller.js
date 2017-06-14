@@ -1,21 +1,21 @@
 import MusicdirDialogController from './musicdir-dialog.controller'
 
 class LibSettingsController {  
-  constructor(media, MessageService, mdDialog, LibraryService, state) {
-  	this.media = media;
+  constructor(MessageService, mdDialog, LibraryService, state) {
   	this.messageService = MessageService;
   	this.mdDialog = mdDialog;
 		this.libraryService = LibraryService;
 		this.state = state;
-
-  	this.density = "";
+		
   }
 
   $onInit () {
-    this.parent.setTitle("Settings");
-    if (this.media('xs')) {
-  				this.density = 'md-dense';
-  			}
+    //this.parent.setTitle("Settings");
+    this.onViewLoaded({
+      $event: {
+        view : this.$transition$.to().name
+      }
+    });
   }
   
   refresh () {
@@ -45,22 +45,6 @@ class LibSettingsController {
 			}
 		});	
 	}
-  
-  editBasedir (ev,initial) {
-  	var confirm = this.mdDialog.prompt()
-  		.title('Edit Music Directory')
-  		.placeholder('Music Directory')
-  		.ariaLabel('Music Directory')
-  		.initialValue(initial)
-  		.targetEvent(ev)
-  		.ok('Save')
-  		.cancel('Cancel');
-  		
-  	this.mdDialog.show(confirm)
-		.then( 
-			result => {	this.updateBasedir(result); }
-		);
-  }
 
   updateBasedir (basedir) {
 	this.libraryService.updateBasedir(basedir)
@@ -75,6 +59,6 @@ class LibSettingsController {
   }
 }
 
-LibSettingsController.$inject = ['$mdMedia', 'MessageService', '$mdDialog', 'LibraryService', '$state']
+LibSettingsController.$inject = ['MessageService', '$mdDialog', 'LibraryService', '$state']
 
 export default LibSettingsController

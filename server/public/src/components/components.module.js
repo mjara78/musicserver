@@ -1,11 +1,11 @@
 import angular from 'angular'
 
-import genre from './genre'
 import home from './home/home.module'
 import settings from './settings/settings.module'
+import album from './album/album.module'
 
 const components = angular  
-  .module('app.components', [home, genre, settings])
+  .module('app.components', [album, home, settings])
   .name
 
 export default components  
