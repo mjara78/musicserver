@@ -1,12 +1,26 @@
 class AppController {  
-  constructor() {
+  constructor() {  
     this.headerTitle = "";
+    
+    this.views = new Map();
+    this.views.set("home", "Home");
+    this.views.set("settings", "Settings"); 
   }
 		
-	setTitle (title){
+	setTitle(title){
 				this.headerTitle = title;
 	}
 	
+	handleViewLoaded( $event ) {
+	   if( this.views.has($event.view)){
+	     this.headerTitle = this.views.get($event.view); 
+	   }
+	   else {
+	     this.headerTitle = "undefined view";
+	   }
+	}
 }
+
+//AppController.$inject = ['$log']
 
 export default AppController
