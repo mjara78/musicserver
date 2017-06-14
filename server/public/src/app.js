@@ -1,10 +1,12 @@
 // /app/app.js
 import angular from 'angular'  
 import uiRouter from 'angular-ui-router'
+//import 'mediaPlayer'
 import 'angular-animate';
 import 'angular-aria';
 import 'angular-material';
 import 'restangular';
+
 
 import common from './common/common.module'  
 import components from './components/components.module'  
@@ -16,7 +18,8 @@ const root = angular
     common,
     components,
     'ngMaterial',
-    'restangular'
+    'restangular',
+    'angularSoundManager'
   ])
   .config(($mdIconProvider, $mdThemingProvider, RestangularProvider) => {
     // Register the icons
@@ -32,6 +35,10 @@ const root = angular
       .icon("refresh", "assets/svg/ic_refresh_black_24px.svg",24)
       .icon("back", "assets/svg/ic_arrow_back_white_24px.svg",24)
       .icon("more", "assets/svg/ic_more_vert_black_24px.svg",24)
+      .icon("previous", "assets/svg/ic_skip_previous_black_24px.svg",48)
+      .icon("playFilled", "assets/svg/ic_play_circle_filled_black_48px.svg",48)
+      .icon("pauseFilled", "assets/svg/ic_pause_circle_filled_black_24px.svg",48)
+      .icon("next", "assets/svg/ic_skip_next_black_24px.svg",48)
       ;
 
     $mdThemingProvider.theme('default');
@@ -45,7 +52,5 @@ const root = angular
   })
 
 document.addEventListener('DOMContentLoaded', () => angular.bootstrap(document, ['musicserver']))
-
-
 
 export default root  
