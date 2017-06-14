@@ -4,6 +4,7 @@ var express = require('express');
 var LibraryCtrl = require("../controllers/library.js");
 var GenreCtrl = require("../controllers/genre.js");
 var AlbumCtrl = require("../controllers/album.js");
+var SongCtrl = require("../controllers/song.js");
 
 
 // API routes
@@ -22,6 +23,9 @@ router.route('/albums/:id')
   
 router.route('/albums')
   .get(AlbumCtrl.getAlbums);
+  
+router.route('/albums/:idAlbum/songs')
+  .get(SongCtrl.getSongsByAlbum);
 
 // Songs
 

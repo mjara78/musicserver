@@ -5,6 +5,8 @@
 var Promise = require("bluebird");
 var models = require('../../models/index');
 var Song = models.Song;
+var Artist = models.Artist;
+var Album = models.Album;
 var SongNotFoundError = require("../../controllers/errors/songErrors").SongNotFoundError;
 
 var me = exports;  
@@ -23,7 +25,7 @@ exports.getSongById = function getSongById (idSong) {
 };
 
 // Returns all Song
-exports.getSong = function getSong () {
+exports.getSongs = function getSongs () {
     return new Promise(function (resolve, reject) {
         Song.findAll().then(resolve).catch(reject);
     });
@@ -65,4 +67,11 @@ exports.createSong = function createSong(song) {
 	});
 };
 
+// Returns all Song by album id
+exports.getSongsByAlbum = function getSongsByAlbum (options) {
+    return new Promise(function (resolve, reject) {
+        options.include = [Album, Artist];
+        Song.findAll(options).then(resolve).catch(reject);
+    });
+};
 
