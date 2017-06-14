@@ -1,3 +1,31 @@
-<md-toolbar layout="row" flex="auto" layout-fill class="md-toolbar-tools">
-      <h1>Player</h1>
-</md-toolbar>
+<sound-manager></sound-manager>
+<div style="margin-top:0px;" layout="column" flex="auto">
+  <md-progress-linear 
+     md-mode="determinate"
+     class="ms-progress md-accent"
+     id="progress" 
+     value="{{progress}}"
+     ng-click="$ctrl.setCurrentTime($event)"></md-progress-linear>
+  <div layout="row" flex="auto" layout-fill>
+    <div flex="10" class="md-caption">
+    {{currentPostion}}
+    </div>
+    <div flex="80" layout="row" layout-align="center center" >
+      <md-button class="md-icon-button" style="width:46px; height:46px;" aria-label="Previous track" prev-track>
+        <md-icon md-svg-icon="previous" style="width:36px; height:36px;"></md-icon>
+      </md-button>
+      <md-button play-all="$ctrl.songs" class="md-icon-button " ng-hide="isPlaying" style="width: 74px; height: 74px" aria-label="Play music">
+        <md-icon md-svg-icon="playFilled" class="md-primary" style="width: 64px; height: 64px;"></md-icon>
+      </md-button>
+      <md-button class="md-icon-button " ng-show="isPlaying" style="width: 74px; height: 74px" aria-label="Pause music" pause-music>
+        <md-icon md-svg-icon="pauseFilled" class="md-primary" style="width: 64px; height: 64px;"></md-icon>
+      </md-button>
+      <md-button class="md-icon-button" style="width:46px; height:46px;" aria-label="Next track" next-track>
+        <md-icon md-svg-icon="next" style="width:36px; height:36px;"></md-icon>
+      </md-button>
+    </div>
+    <div flex="10" class="md-caption">
+    {{currentDuration}}
+    </div>
+  </div>
+</div>

@@ -1,16 +1,23 @@
 
 import angular from 'angular'
 
+// compoments
 import { HeaderComponent } from './header/header.component'  
 import { MenuComponent } from './menu/menu.component'
+import { PlayerComponent } from './player/player.component'
+//import { AlbumCardComponent } from './album/album-card/album-card.component'
+
+// services
 import MenuService from './menu/menu.service'
 import MessageService from './message/message.service'
-import { PlayerComponent } from './player/player.component'
+import PlayerService from './player/player.service'
+//import AlbumService from './album/album.service'
 
 const common = angular  
   .module('app.common', [])
   .service('MenuService', MenuService)
   .service('MessageService', MessageService)
+  .service('PlayerService', PlayerService)
   .component('msHeader', HeaderComponent)
   .component('msMenu', MenuComponent)
   .component('msPlayer', PlayerComponent)
