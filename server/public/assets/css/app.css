@@ -166,3 +166,6 @@ span.name {
   padding: 4px;
 }
 
+.ms-progress {
+      cursor: pointer;
+}
