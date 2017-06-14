@@ -1,10 +1,11 @@
-<div flex="90" layout="row">
+<div flex="85" layout="row">
   <ms-menu></ms-menu>  
   <div flex layout="column" >
     <ms-header title="$ctrl.headerTitle"></ms-header>
     <md-content layout-padding >
-      <div ui-view layout="column"></div>
+      <div ui-view on-view-loaded="$ctrl.handleViewLoaded( $event )" layout="column"></div>
     </md-content>
   </div>
 </div>
-<ms-player flex="10" layout="column"></ms-player>
+<!--ms-player player="$ctrl.player" flex="15" layout="column"></ms-player-->
+<ms-player flex="15" layout="column"></ms-player>

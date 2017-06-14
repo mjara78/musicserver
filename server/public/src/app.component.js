@@ -1,7 +1,10 @@
 import controller from './app.controller'
 
 export const AppComponent = {  
-	bindings: {},
+	bindings: {
+	 /* player : '=',
+	  playlist : '=' */
+	},
 	controller,
   templateUrl: 'src/app.component.html'
 }
