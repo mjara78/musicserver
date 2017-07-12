@@ -1,12 +1,13 @@
 class AlbumCardController {  
-  constructor() {
+  constructor(PlayerService) {
+     this.playerService = PlayerService;
   }
 
-  $onInit(){
-    console.log("album:"+ this.data.name);
+  playAlbum(){
+    this.playerService.playAlbum(this.album.id);
   }
 }
 
-//AlbumCardController.$inject = ['$mdSidenav']
+AlbumCardController.$inject = ['PlayerService']
 
 export default AlbumCardController

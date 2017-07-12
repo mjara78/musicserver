@@ -11,13 +11,14 @@ import { PlayerComponent } from './player/player.component'
 import MenuService from './menu/menu.service'
 import MessageService from './message/message.service'
 import PlayerService from './player/player.service'
-//import AlbumService from './album/album.service'
+import AlbumService from '../components/album/album.service'
 
 const common = angular  
   .module('app.common', [])
   .service('MenuService', MenuService)
   .service('MessageService', MessageService)
   .service('PlayerService', PlayerService)
+  .service('AlbumService', AlbumService)
   .component('msHeader', HeaderComponent)
   .component('msMenu', MenuComponent)
   .component('msPlayer', PlayerComponent)
