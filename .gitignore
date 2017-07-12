@@ -1,0 +1,7 @@
+node_modules/*
+bower_components/*
+server/public/assets/thumbnails/*
+
+*.log
+*.mp3
+*.sqlite
