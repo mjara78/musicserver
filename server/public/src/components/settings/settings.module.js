@@ -7,17 +7,17 @@ const settings = angular
   .module('settings', [])
   .service('LibraryService', LibraryService)
   .component('libSettings', LibSettingsComponent)
-  .config(($stateProvider, $urlRouterProvider) => {
+  .config(['$stateProvider','$urlRouterProvider',($stateProvider, $urlRouterProvider) => {
     $stateProvider
       .state('settings', {
         url: '/settings',
         component: 'libSettings',
         resolve: {
-          library: LibraryService => LibraryService.getLibrary()
+          library: ['LibraryService', LibraryService => LibraryService.getLibrary() ]
         }
       })
     $urlRouterProvider.otherwise('/')
-  })
+  }])
   .name
 
 export default settings 

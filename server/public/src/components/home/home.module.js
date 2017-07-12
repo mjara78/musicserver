@@ -6,17 +6,17 @@ const home = angular
   .module('home', [])
   //.service('RecentsService', RecentsService)
   .component('recentsList', RecentsListComponent)
-  .config(($stateProvider, $urlRouterProvider) => {
+  .config(['$stateProvider','$urlRouterProvider',($stateProvider, $urlRouterProvider) => {
     $stateProvider
       .state('home', {
         url: '/',
         component: 'recentsList',
         resolve: {
-          recents: AlbumService => AlbumService.getRecents()
+          recents: [ 'AlbumService', AlbumService => AlbumService.getRecents() ]
         }
       })
     $urlRouterProvider.otherwise('/')
-  })
+  }])
   .name
 
 export default home 
