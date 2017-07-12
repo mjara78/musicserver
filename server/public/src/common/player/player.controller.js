@@ -1,43 +1,7 @@
 class PlayerController {  
   constructor(PlayerService) {
-    this.playerService = PlayerService;
-//    this.buffering = 100;
- //   this.scope = scope;
-    
-    this.songs = [
-            {
-                id: '#1',
-                title: 'uno',
-                artist: 'Michael Giatchino',
-                url: 'listen/250'
-            },
-            {
-                id: '#2',
-                title: 'dos',
-                artist: 'Michael Giatchino',
-                url: 'listen/80'
-            },
-            {
-                id: '#3',
-                title: 'tres',
-                artist: 'Michael Giatchino',
-                url: 'listen/125'
-            },
-            {
-                id: '#4',
-                title: 'cuatro',
-                artist: 'Michael Giatchino',
-                url: 'listen/322'
-            },
-            {
-                id: '#5',
-                title: 'cinco',
-                artist: 'Michael Giatchino',
-                url: 'listen/222'
-            }
-        ];
-        
-     
+    this.playerService = PlayerService;   
+    this.volume = this.playerService.getVolume();
   }
   
 //  $onInit(){
@@ -54,6 +18,10 @@ class PlayerController {
   //  alert("posx="+posX+",dur="+dur+",rectx="+rect.left+",rectwidth="+rect.width+",seek="+((posX-rect.left)/rect.width)*dur);
    // console.log("posx="+posX+",dur="+dur+",rectx="+rect.left+",rectwidth="+rect.width+",seek="+((posX-rect.left)/rect.width)*dur);  
     this.playerService.setPosition( ((posX-rect.left)/rect.width)*dur );
+  }
+  
+  changeVolume(){
+    this.playerService.setVolume(this.volume);
   }
 }
 
