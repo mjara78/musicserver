@@ -21,11 +21,16 @@ router.get('/:id', function(req, res, next) {
 	       }
 	       else{
 	       
+	         var range = Number(stat.size) - 1;
+	         
+	        // console.log("range " + range);
+	      //   console.log("size " + stat.size);
+	       
 	         res.writeHead(200, {
             'Content-Type': 'audio/mpeg',
             'Content-Length': stat.size ,
             'Accept-Ranges': 'bytes' ,
-            'Content-Range': 'bytes 0-' + stat.size-1 + '/' + stat.size
+            'Content-Range': 'bytes 0-' + range + '/' + stat.size
           });
 
           var readStream = fs.createReadStream(song.file_path);
