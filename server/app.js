@@ -9,7 +9,19 @@ var index = require('./routes/index');
 var api = require("./routes/api");
 var listen = require('./routes/listen');
 
+var webpackDevMiddleware = require("webpack-dev-middleware");
+var webpack = require("webpack");
+var webpackConfig = require("../webpack.config.dev");
+
+
 var app = express();
+
+var compiler = webpack(webpackConfig);
+
+
+app.use(webpackDevMiddleware(compiler, {
+  publicPath: "/dist" // Same as `output.publicPath` in most cases.
+}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
