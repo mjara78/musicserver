@@ -1,6 +1,6 @@
 var express = require('express');
 var Promise = require("bluebird");
-var fs = require("fs");
+var ms = require("mediaserver");
 var router = express.Router();
 var SongDao = require("../models/dao/songDao");
 var SongNotFoundError = require("../controllers/errors/songErrors").SongNotFoundError;
@@ -13,30 +13,9 @@ router.get('/:id', function(req, res, next) {
   
   SongDao.getSongById(req.params.id)
 		.then(function (song) {
-	    
-	   fs.stat(song.file_path, function (err, stat){
-	     
-	       if (err){
-	         throw new SongFileNotFoundError(err.message);
-	       }
-	       else{
-	       
-	         var range = Number(stat.size) - 1;
-	         
-	        // console.log("range " + range);
-	      //   console.log("size " + stat.size);
-	       
-	         res.writeHead(200, {
-            'Content-Type': 'audio/mpeg',
-            'Content-Length': stat.size ,
-            'Accept-Ranges': 'bytes' ,
-            'Content-Range': 'bytes 0-' + range + '/' + stat.size
-          });
-
-          var readStream = fs.createReadStream(song.file_path);
-          readStream.pipe(res);
-        }
-	     })
+	   
+	   // Stream file 
+	   ms.pipe(req, res, song.file_path);
 
 		})
 		.catch(SongNotFoundError, function (error) {
