@@ -1,4 +1,5 @@
 import controller from './player.controller'
+import './player.scss';
 
 export const PlayerComponent = { 
 			bindings: {
