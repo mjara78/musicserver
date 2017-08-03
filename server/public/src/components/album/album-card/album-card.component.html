@@ -6,7 +6,10 @@
       <span class="md-truncate md-caption">{{ $ctrl.album.Artist.name }}</span>
     </div>
     <md-menu>
-      <md-button id="ms-card-album-option" ng-click="$mdMenu.open($event)" class="md-icon-button" style="margin: 0px;padding: 0px;" aria-label="Open sample menu">
+      <md-button ng-click="$mdMenu.open($event)" 
+                 class="md-icon-button" 
+                 style="margin: 0px;padding: 0px;" 
+                 aria-label="Open sample menu">
         <md-icon md-svg-icon="more"></md-icon>
       </md-button>
       <md-menu-content>
