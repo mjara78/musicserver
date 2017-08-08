@@ -21,7 +21,7 @@ var compiler = webpack(webpackConfig);
 
 app.use(webpackDevMiddleware(compiler, {
   publicPath: "/dist" // Same as `output.publicPath` in most cases.
-}));
+}))
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
