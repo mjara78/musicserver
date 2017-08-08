@@ -5,7 +5,7 @@ class AlbumService {
 
   getRecents () {
     return this.rest.all('albums')
-    	.getList({ limit:'10', order: 'Album.createdAt DESC'})
+    	.getList({ limit:'12', order: 'Album.createdAt DESC'})
     	.then(	response => response )
   }
 
