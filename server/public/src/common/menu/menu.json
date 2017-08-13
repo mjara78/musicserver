@@ -1,38 +1,37 @@
-[
-	{
-		"name": "home",
-		"icon" : "home",
-		"label" : "Home",
-		"ariaLabel" :"Home",
-		"divider" : false
-	},
-	{
-		"name": "listenig",
-		"icon" : "listening",
-		"label" : "Listening",
-		"ariaLabel" :"Listening",
-		"divider" : false
-	},
-	{
-		"name": "music",
-		"icon" : "musicLib",
-		"label" : "Music",
-		"ariaLabel" :"Music Library",
-		"divider" : false
-	},
-	{
-		"name": "playlists",
-		"icon" : "playlist",
-		"label" : "Playlists",
-		"ariaLabel" :"Playlists",
-		"divider" : false
-	},
-	{
-		"name": "settings",
-		"icon" : "settings",
-		"label" : "Settings",
-		"ariaLabel" :"Settings",
-		"divider" : true,
-		"dividerLabel": "Management"
-	}
+[{
+        "name": "home",
+        "icon": "home",
+        "label": "Home",
+        "ariaLabel": "Home",
+        "divider": false
+    },
+    {
+        "name": "listenig",
+        "icon": "listening",
+        "label": "Listening",
+        "ariaLabel": "Listening",
+        "divider": false
+    },
+    {
+        "name": "music.artists",
+        "icon": "musicLib",
+        "label": "Music",
+        "ariaLabel": "Music Library",
+        "divider": false
+    },
+    {
+        "name": "playlists",
+        "icon": "playlist",
+        "label": "Playlists",
+        "ariaLabel": "Playlists",
+        "divider": false
+    },
+    {
+        "name": "settings",
+        "icon": "settings",
+        "label": "Settings",
+        "ariaLabel": "Settings",
+        "divider": true,
+        "dividerLabel": "Management"
+    }
 ]
