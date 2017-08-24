@@ -73,3 +73,10 @@ exports.updateArtist = function updateArtist(artist) {
             .catch(reject);
     });
 };
+
+// Returns count Artists
+exports.getCountArtists = function getCountArtists(options) {
+    return new Promise(function(resolve, reject) {
+        Artist.count(options).then(resolve).catch(reject);
+    });
+};

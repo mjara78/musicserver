@@ -39,11 +39,14 @@ router.route('/genres')
     .get(GenreCtrl.getGenres);
 
 // Artist
-router.route('/artists/:id')
+router.route('/artists/:id([0-9])')
     .get(ArtistCtrl.getArtistById)
     .put(ArtistCtrl.updateArtist);
 
 router.route('/artists')
     .get(ArtistCtrl.getArtists);
+    
+router.route('/artists/count')
+    .get(ArtistCtrl.getCountArtists);
 
 module.exports = router;

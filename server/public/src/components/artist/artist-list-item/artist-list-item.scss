@@ -1,8 +1,9 @@
 ms-artist-list-item {
-  margin: 8px;
+  margin: 10px;
   span {
     text-align: center;
     margin-top: 3px;
+    font-weight: bolder;
   }
 }
 
@@ -11,4 +12,6 @@ ms-artist-list-item {
   box-shadow: 3px 2px 5px #aaaaaa;
   border: 1px solid #aaaaaa;
   padding: 3px;
+  width: 125px;
+  height: 125px;
 }

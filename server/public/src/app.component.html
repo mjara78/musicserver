@@ -1,10 +1,10 @@
 <div flex="auto" layout="row">
-  <ms-menu></ms-menu>  
-  <div flex layout="column" >
-    <ms-header title="$ctrl.headerTitle"></ms-header>
-    <md-content layout-padding >
-      <div ui-view on-view-loaded="$ctrl.handleViewLoaded( $event )" layout="column"></div>
-    </md-content>
-  </div>
+    <ms-menu></ms-menu>
+    <div flex layout="column">
+        <ms-header title="$ctrl.headerTitle"></ms-header>
+        <md-content id="main-content">
+            <div ui-view on-view-loaded="$ctrl.handleViewLoaded( $event )" layout="column"></div>
+        </md-content>
+    </div>
 </div>
 <ms-player md-whiteframe="2" flex="none" layout="column"></ms-player>

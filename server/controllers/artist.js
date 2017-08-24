@@ -66,3 +66,24 @@ exports.updateArtist = function(req, res) {
             res.status(errorObj.statusCode).json(errorObj);
         });
 };
+
+// GET - Return count artists
+exports.getCountArtists = function(req, res) {
+    var options = {};
+    
+    if (req.query.limit) {
+        options.limit = req.query.limit;
+    }
+    if (req.query.offset) {
+        options.offset = req.query.offset;
+    }
+
+    ArtistDao.getCountArtists(options)
+        .then(function(count) {
+            res.status(200).json(count);
+        })
+        .catch(function(error) {
+            var errorObj = new ServerError(error.message);
+            res.status(errorObj.statusCode).json(errorObj);
+        });
+};

@@ -15,10 +15,10 @@ const music = angular
             })
             .state('music.artists', {
                 url: '/artists',
-                component: 'artistList',
+                component: 'artistList'/*,
                 resolve: {
                     artists: ['ArtistService', ArtistService => ArtistService.getArtists()]
-                }
+                }*/
             })
             .state('music.albums', {
                 url: '/albums',
