@@ -1,46 +1,51 @@
 ms-player {
-    height:115px;
-    margin-top:1px;
+    height: 90px;
+    margin-top: 1px;
 }
 
 .ms-player-img {
-    width:110px; 
-    height:110px;
+    width: 90px;
+    height: 90px;
 }
 
 .ms-progress {
-      cursor: pointer;
-       height:15px;
+    cursor: pointer;
+    height: 15px;
 }
 
-.ms-player-position{
-    padding:3px;
+.ms-player-position {
+    text-align: end;
+    padding-right: 6px;
 }
 
-.ms-player-info-title{
-    margin-left:3px;
+.ms-player-info-title {
+    /* margin-left: 3px;*/
 }
 
-.ms-player-info{
-    margin-left:3px;
+.ms-player-info {
+    padding-left: 6px;
 }
 
-.ms-player-info-album{
-    margin-bottom:5px;
+.ms-player-info-album {
+    margin-bottom: 5px;
 }
 
-.ms-player-button{
-    width:46px; height:46px;
+.ms-player-button {
+    width: 46px;
+    height: 46px;
 }
 
-.ms-player-icon-button{
-    width:36px; height:36px;
+.ms-player-icon-button {
+    width: 36px;
+    height: 36px;
 }
 
-.md-icon-button#ms-player-button-big{
-    width: 74px; height: 74px
+.md-icon-button#ms-player-button-big {
+    width: 74px;
+    height: 74px
 }
 
-md-icon#ms-player-icon-big{
-    width: 64px; height: 64px;
+md-icon#ms-player-icon-big {
+    width: 64px;
+    height: 64px;
 }

@@ -1,86 +1,53 @@
 <sound-manager></sound-manager>
 <div class="ms-player-container" layout="row">
-  <img class="ms-player-img" ng-show="isActive" flex="none" 
-       ng-src="{{ currentPlaying.imageUrlLarge }}">
-  <div layout="column" flex="auto">
-    <div ng-show="isActive" id="progress" class="ms-progress"
-        ng-click="$ctrl.setCurrentTime($event)" layout="column">
-        <md-progress-linear md-mode="buffer" class="md-accent" flex value="{{progress}}" 
-            ng-show="isActive"
-            md-buffer-value="{{loaded}}"></md-progress-linear>
+    <img class="ms-player-img" ng-show="isActive" flex="none" ng-src="{{ currentPlaying.imageUrlLarge }}">
+    <div layout="column" flex="auto">
+        <div ng-show="isActive" id="progress" class="ms-progress" ng-click="$ctrl.setCurrentTime($event)" layout="column">
+            <md-progress-linear md-mode="buffer" class="md-accent" flex value="{{progress}}" ng-show="isActive" md-buffer-value="{{loaded}}"></md-progress-linear>
+        </div>
+        <div layout="row" flex="auto">
+            <div flex-xm="20" flex-sm="25" flex-md="30" flex-lg="35" flex-xl="40" layout="column" class="ms-player-info">
+                <div class="md-body-2 ms-player-info-title">{{ currentPlaying.title}}</div>
+                <span class="md-caption ms-player-info-album">{{ currentPlaying.album}}</span>
+                <span class="md-caption">{{ currentPlaying.artist}}</span>
+            </div>
+            <div flex-xm="80" flex-sm="75" flex-md="70" flex-lg="65" flex-xl="60" layout="row" layout-align="space-between">
+                <div layout="row" id="controls" flex="none" layout-align="start center">
+                    <md-button class="md-icon-button ms-player-button" aria-label="Previous track" prev-track>
+                        <md-icon md-svg-icon="previous" class="ms-player-icon-button"></md-icon>
+                    </md-button>
+                    <md-button id="ms-player-button-big" play-music class="md-icon-button" ng-hide="isPlaying" aria-label="Play music">
+                        <md-icon md-svg-icon="playFilled" id="ms-player-icon-big" class="md-primary"></md-icon>
+                    </md-button>
+                    <md-button id="ms-player-button-big" class="md-icon-button" ng-show="isPlaying" aria-label="Pause music" pause-music>
+                        <md-icon id="ms-player-icon-big" md-svg-icon="pauseFilled" class="md-primary"></md-icon>
+                    </md-button>
+                    <md-button class="md-icon-button ms-player-button" aria-label="Next track" next-track>
+                        <md-icon md-svg-icon="next" class="ms-player-icon-button"></md-icon>
+                    </md-button>
+                </div>
+                <div layout="row" flex="none" id="rating" ng-show="isActive" layout-align="start center">
+                    <md-button class="md-icon-button" aria-label="Dislike">
+                        <md-icon md-svg-icon="dislike" md-colors="{color: 'grey-300'}"></md-icon>
+                    </md-button>
+                    <md-button class="md-icon-button" aria-label="Like">
+                        <md-icon md-svg-icon="like" class="md-primary"></md-icon>
+                    </md-button>
+                </div>
+                <div layout="column" flex="30">
+                    <div ng-show="isActive" class="md-caption ms-player-position">{{currentPostion}} / {{currentDuration}}</div>
+                    <div id="volume" hide-xs layout="row" layout-align="start center">
+                        <md-button md-no-ink class="md-icon-button" aria-label="Volume Down">
+                            <md-icon md-svg-icon="volumeDown"></md-icon>
+                        </md-button>
+                        <md-slider flex class="md-primary" ng-model="$ctrl.volume" ng-change="$ctrl.changeVolume()" step="1" min="0" max="100">
+                        </md-slider>
+                        <md-button md-no-ink class="md-icon-button" aria-label="Volume Up">
+                            <md-icon md-svg-icon="volumeUp"></md-icon>
+                        </md-button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div flex="auto" layout="row" ng-show="isActive"
-        layout-align="space-between end">
-        <div class="md-body-2 ms-player-info-title">
-        {{ currentPlaying.title}}
-        </div>
-        <div class="md-caption ms-player-position">
-          {{currentPostion}} / {{currentDuration}}
-        </div>
-    </div>
-    <div layout="row" flex="auto">
-      <div flex-xm="20"
-          flex-sm="25"
-          flex-md="30"
-          flex-lg="35"
-          flex-xl="40" 
-          layout="column" class="ms-player-info">
-        <span class="md-caption ms-player-info-album">
-        {{ currentPlaying.album}}
-        </span>
-        <span class="md-caption">
-        {{ currentPlaying.artist}}
-        </span>
-      </div>
-      <div flex-xm="80"
-          flex-sm="75"
-          flex-md="70"
-          flex-lg="65"
-          flex-xl="60"
-          layout="row" layout-align="space-between" >
-        <div layout="row" id="controls" flex="none" layout-align="start center" >
-          <md-button class="md-icon-button ms-player-button" 
-                     aria-label="Previous track" prev-track>
-            <md-icon md-svg-icon="previous" class="ms-player-icon-button"></md-icon>
-          </md-button>
-          <md-button id="ms-player-button-big" play-music class="md-icon-button" 
-                     ng-hide="isPlaying" aria-label="Play music">
-            <md-icon md-svg-icon="playFilled"
-                     id="ms-player-icon-big" 
-                     class="md-primary"></md-icon>
-          </md-button>
-          <md-button id="ms-player-button-big" class="md-icon-button" 
-                     ng-show="isPlaying" aria-label="Pause music" pause-music>
-            <md-icon id="ms-player-icon-big" md-svg-icon="pauseFilled" class="md-primary"></md-icon>
-          </md-button>
-          <md-button class="md-icon-button ms-player-button" aria-label="Next track" next-track>
-            <md-icon md-svg-icon="next" class="ms-player-icon-button"></md-icon>
-          </md-button>
-        </div>
-        <div layout="row" flex="none" id="rating" ng-show="isActive" layout-align="start center">
-          <md-button class="md-icon-button"  aria-label="Dislike">
-            <md-icon md-svg-icon="dislike" md-colors="{color: 'grey-300'}"></md-icon>
-          </md-button>
-          <md-button class="md-icon-button" aria-label="Like">
-            <md-icon md-svg-icon="like" class="md-primary"></md-icon>
-          </md-button>
-        </div>
-        <div id="volume" hide-xs flex="30" layout="row" layout-align="start center" >
-          <md-button md-no-ink class="md-icon-button" aria-label="Volume Down">
-            <md-icon md-svg-icon="volumeDown"></md-icon>
-          </md-button>
-          <md-slider
-            flex
-            class="md-primary"
-            ng-model="$ctrl.volume" 
-            ng-change="$ctrl.changeVolume()"
-            step="1" min="0" max="100">
-          </md-slider>
-          <md-button md-no-ink class="md-icon-button" aria-label="Volume Up">
-            <md-icon md-svg-icon="volumeUp"></md-icon>
-          </md-button>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
