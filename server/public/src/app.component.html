@@ -3,7 +3,7 @@
     <div flex layout="column">
         <ms-header title="$ctrl.headerTitle"></ms-header>
         <md-content id="main-content">
-            <div ui-view on-view-loaded="$ctrl.handleViewLoaded( $event )" layout="column"></div>
+            <div ui-view id="main-view" on-view-loaded="$ctrl.handleViewLoaded( $event )" layout="column"></div>
         </md-content>
     </div>
 </div>
