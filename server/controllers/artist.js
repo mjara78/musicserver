@@ -25,18 +25,22 @@ exports.getArtistById = function(req, res) {
 // GET - Return all artist
 exports.getArtists = function(req, res) {
     var options = {};
+    var filter = {};
+
     if (req.query.order) {
         options.order = req.query.order;
     }
-
     if (req.query.limit) {
         options.limit = req.query.limit;
     }
     if (req.query.offset) {
         options.offset = req.query.offset;
     }
+    if (req.query.name) {
+        filter.name = req.query.name;
+    }
 
-    ArtistDao.getArtists(options)
+    ArtistDao.getArtists(options, filter)
         .then(function(artists) {
             res.status(200).json(artists);
         })
@@ -70,15 +74,19 @@ exports.updateArtist = function(req, res) {
 // GET - Return count artists
 exports.getCountArtists = function(req, res) {
     var options = {};
-    
+    var filter = {};
+
     if (req.query.limit) {
         options.limit = req.query.limit;
     }
     if (req.query.offset) {
         options.offset = req.query.offset;
     }
+    if (req.query.name) {
+        filter.name = req.query.name;
+    }
 
-    ArtistDao.getCountArtists(options)
+    ArtistDao.getCountArtists(options, filter)
         .then(function(count) {
             res.status(200).json(count);
         })

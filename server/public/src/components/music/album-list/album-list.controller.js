@@ -1,14 +1,12 @@
 import VirtualRepeaterList from '../virtual-repeater-list'
-import angular from 'angular'
 
-class ArtistListController {
-    constructor(artistService, mdMedia, window, state) {
-        this.artistService = artistService
+class AlbumListController {
+    constructor(albumService, mdMedia, window) {
+        this.albumService = albumService
         this.mdMedia = mdMedia
         this.window = window
-        this.state = state
 
-        this.artists = null
+        this.albums = null
 
         if (this.mdMedia('md')) {
             this.columns = 4
@@ -26,25 +24,26 @@ class ArtistListController {
     }
 
     $onInit() {
-        // Select correct tab
+       // Select correct tab
         this.onTabPageLoaded({
           $event: {
-            selected : "artists"
+            selected : "albums"
           }
-        })
-
+        });
+        
         // Load repeter component
         var paramFilter = {
             name: this.filter
         }
-        this.artistService.getCountArtists(paramFilter)
+        this.albumService.getCountAlbums(paramFilter)
             .then(numItems => {
-                this.artists = new VirtualRepeaterList(this.columns,
+                this.albums = new VirtualRepeaterList(this.columns,
                     this.pageSize,
                     numItems,
-                    this.artistService,
+                    this.albumService,
                     paramFilter)
             })
+
     }
 
     $onChanges(changesObj) {
@@ -53,25 +52,25 @@ class ArtistListController {
 
                 var value = changesObj.filter.currentValue
 
-                if (this.artists) {
+                if (this.albums) {
                     var paramFilter = {
                         name: value
                     }
                     if (value) {
                         if (value.length >= 3) {
-                            this.artistService.getCountArtists(paramFilter)
+                            this.albumService.getCountAlbums(paramFilter)
                                 .then(numItems => {
-                                    this.artists.numItems = numItems
-                                    this.artists.loadedData = {}
-                                    this.artists.filter.name = value
+                                    this.albums.numItems = numItems
+                                    this.albums.loadedData = {}
+                                    this.albums.filter.name = value
                                 })
                         }
                     } else {
-                        this.artistService.getCountArtists(paramFilter)
+                        this.albumService.getCountAlbums(paramFilter)
                             .then(numItems => {
-                                this.artists.numItems = numItems
-                                this.artists.loadedData = {}
-                                this.artists.filter.name = value
+                                this.albums.numItems = numItems
+                                this.albums.loadedData = {}
+                                this.albums.filter.name = value
                             })
                     }
 
@@ -80,13 +79,14 @@ class ArtistListController {
             }
         }
     }
-
+    
+    
     // Workaround for vinrtual-repeat height: https://github.com/angular/material/issues/4314
     getListHeight() {
-        return { height: '' + (this.window.innerHeight - 116 /* player */ - 64 /* header */ - 48 /* nav-bar */ - 20 /* padding */ ) + 'px' };
+        return { height: '' + (this.window.innerHeight - 91 /* player */ - 64 /* header */ - 48 /* nav-bar */ - 20 /* padding */ ) + 'px' };
     };
 }
 
-ArtistListController.$inject = ['ArtistService', '$mdMedia', '$window', '$state']
+AlbumListController.$inject = ['AlbumService', '$mdMedia', '$window']
 
-export default ArtistListController
+export default AlbumListController

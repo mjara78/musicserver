@@ -27,6 +27,8 @@ exports.getAlbumById = function(req, res) {
 // GET - Return all albums
 exports.getAlbums = function(req, res) {
  var options = {};
+ var filter = {};
+ 
  if (req.query.order){
    options.order = req.query.order;
  }
@@ -37,8 +39,11 @@ exports.getAlbums = function(req, res) {
  if (req.query.offset){
    options.offset = req.query.offset;
  }
+ if (req.query.name) {
+   filter.name = req.query.name;
+ }
 
-	AlbumDao.getAlbums(options)
+	AlbumDao.getAlbums(options, filter)
 		.then(function (albums) {
 			res.status(200).json(albums);
 		})
@@ -68,6 +73,31 @@ exports.updateAlbum = function(req, res) {
 			var errorObj = new ServerError(error.message);
 			res.status(errorObj.statusCode).json(errorObj);
 		});
+};
+
+// GET - Return count albums
+exports.getCountAlbums = function(req, res) {
+    var options = {};
+    var filter = {};
+    
+    if (req.query.limit) {
+        options.limit = req.query.limit;
+    }
+    if (req.query.offset) {
+        options.offset = req.query.offset;
+    }
+    if (req.query.name) {
+        filter.name = req.query.name;
+    }
+
+    AlbumDao.getCountAlbums(options, filter)
+        .then(function(count) {
+            res.status(200).json(count);
+        })
+        .catch(function(error) {
+            var errorObj = new ServerError(error.message);
+            res.status(errorObj.statusCode).json(errorObj);
+        });
 };
 
 

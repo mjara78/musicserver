@@ -1,6 +1,6 @@
 <sound-manager></sound-manager>
 <div class="ms-player-container" layout="row">
-    <img class="ms-player-img" ng-show="isActive" flex="none" ng-src="{{ currentPlaying.imageUrlLarge }}">
+    <img class="ms-player-img" hide-xs ng-show="isActive" flex="none" ng-src="{{ currentPlaying.imageUrlLarge }}">
     <div layout="column" flex="auto">
         <div ng-show="isActive" id="progress" class="ms-progress" ng-click="$ctrl.setCurrentTime($event)" layout="column">
             <md-progress-linear md-mode="buffer" class="md-accent" flex value="{{progress}}" ng-show="isActive" md-buffer-value="{{loaded}}"></md-progress-linear>
@@ -34,8 +34,8 @@
                         <md-icon md-svg-icon="like" class="md-primary"></md-icon>
                     </md-button>
                 </div>
-                <div layout="column" flex="30">
-                    <div ng-show="isActive" class="md-caption ms-player-position">{{currentPostion}} / {{currentDuration}}</div>
+                <div ng-show="isActive" layout="column" flex="30">
+                    <div class="md-caption ms-player-position">{{currentPostion}} / {{currentDuration}}</div>
                     <div id="volume" hide-xs layout="row" layout-align="start center">
                         <md-button md-no-ink class="md-icon-button" aria-label="Volume Down">
                             <md-icon md-svg-icon="volumeDown"></md-icon>

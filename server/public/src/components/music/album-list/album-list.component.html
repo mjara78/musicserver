@@ -1,0 +1,9 @@
+
+<md-virtual-repeat-container class="album-repeat-full-height" ng-style="$ctrl.getListHeight()">
+    <div md-virtual-repeat="row in $ctrl.albums" class="ms-album-row" layout="row" layout-align="center center" md-on-demand flex>
+        <div ng-repeat="albumItem in row" 
+        flex-xs="50" flex-sm="33" flex-md="20" flex-gt-md="15">
+            <ms-album-card album="albumItem"></ms-album-card>
+        </div>
+    </div>
+</md-virtual-repeat-container>

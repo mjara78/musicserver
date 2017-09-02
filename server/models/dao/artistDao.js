@@ -24,7 +24,14 @@ exports.getArtistById = function getArtistById(idArtist) {
 };
 
 // Returns all Artists
-exports.getArtists = function getArtists(options) {
+exports.getArtists = function getArtists(options, filter) {
+    if (filter.name){
+      options.where = {
+        name: {
+          $like: '%' + filter.name + '%'
+        }
+      };
+    }
     return new Promise(function(resolve, reject) {
         Artist.findAll(options).then(resolve).catch(reject);
     });
@@ -75,7 +82,14 @@ exports.updateArtist = function updateArtist(artist) {
 };
 
 // Returns count Artists
-exports.getCountArtists = function getCountArtists(options) {
+exports.getCountArtists = function getCountArtists(options, filter) {
+    if (filter.name){
+      options.where = {
+        name: {
+          $like: '%' + filter.name + '%'
+        }
+      };
+    }
     return new Promise(function(resolve, reject) {
         Artist.count(options).then(resolve).catch(reject);
     });

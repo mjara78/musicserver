@@ -18,12 +18,15 @@ router.route('/library')
     .post(LibraryCtrl.refreshLibrary);
 
 // Albums
-router.route('/albums/:id')
+router.route('/albums/:id([0-9])')
     .get(AlbumCtrl.getAlbumById)
     .put(AlbumCtrl.updateAlbum);
 
 router.route('/albums')
     .get(AlbumCtrl.getAlbums);
+    
+router.route('/albums/count')
+    .get(AlbumCtrl.getCountAlbums);
 
 router.route('/albums/:idAlbum/songs')
     .get(SongCtrl.getSongsByAlbum);

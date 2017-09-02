@@ -1,7 +1,13 @@
-<md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="Explore Music">
+<md-nav-bar md-selected-nav-item="$ctrl.currentNavItem" nav-bar-aria-label="Explore Music">
     <md-nav-item md-nav-sref="music.artists" name="artists">Artists</md-nav-item>
     <md-nav-item md-nav-sref="music.albums" name="albums">Albums</md-nav-item>
-    <md-nav-item md-nav-sref="music.songs" name="songs">Songs</md-nav-item>
-    <md-nav-item md-nav-sref="music.genres" name="genres">Genres</md-nav-item>
+    <!--md-nav-item md-nav-sref="music.songs" name="songs">Songs</md-nav-item>
+    <md-nav-item md-nav-sref="music.genres" name="genres">Genres</md-nav-item-->
+    <div flex layout="row" layout-align="end start">
+        <md-input-container md-no-float class="ms-filter-input-container">
+            <md-icon md-svg-icon="search" md-colors="{color: 'grey-400'}"></md-icon>
+            <input type="text" placeholder="Filter elements" ng-model="$ctrl.filterText">
+        </md-input-container>
+    </div>
 </md-nav-bar>
-<div ui-view></div>
+<div ui-view on-tab-page-loaded="$ctrl.selectNavItem( $event )" filter="$ctrl.filterText"></div>

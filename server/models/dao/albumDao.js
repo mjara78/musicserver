@@ -25,7 +25,14 @@ exports.getAlbumById = function getAlbumById (idAlbum) {
 };
 
 // Returns all Albums
-exports.getAlbums = function getAlbums (options) {
+exports.getAlbums = function getAlbums (options, filter) {
+    if (filter.name){
+      options.where = {
+        name: {
+          $like: '%' + filter.name + '%'
+        }
+      };
+    }
     return new Promise(function (resolve, reject) {
         options.include = [Artist];
         Album.findAll(options).then(resolve).catch(reject);
@@ -80,4 +87,18 @@ exports.updateAlbum = function updateAlbum (album) {
 		})
 		.catch(reject);    
   });
+};
+
+// Returns count Albums
+exports.getCountAlbums = function getCountAlbums(options, filter) {
+    if (filter.name){
+      options.where = {
+        name: {
+          $like: '%' + filter.name + '%'
+        }
+      };
+    }
+    return new Promise(function(resolve, reject) {
+        Album.count(options).then(resolve).catch(reject);
+    });
 };

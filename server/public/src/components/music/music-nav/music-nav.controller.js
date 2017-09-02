@@ -1,8 +1,6 @@
 class MusicNavController {
-    constructor(scope) {
-        this.scope = scope;
-
-        this.scope.currentNavItem = 'artists';
+    constructor() {
+        this.filterText;
     }
 
     $onInit() {
@@ -12,9 +10,14 @@ class MusicNavController {
             }
         });
     }
+    
+    selectNavItem($event){
+       this.currentNavItem = $event.selected
+    }
+    
 
 }
 
-MusicNavController.$inject = ['$scope']
+//MusicNavController.$inject = ['$scope']
 
 export default MusicNavController

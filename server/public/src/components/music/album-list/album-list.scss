@@ -1,0 +1,45 @@
+$break-xsmall: 320px;
+$break-medsmall: 480px;
+$break-small: 600px;
+$break-medium: 960px;
+$break-large: 1280px;
+$break-medlarge: 1520px;
+$break-superlarge: 1680px;
+$break-xlarge: 1920px;
+$break-4kxlarge: 2560px;
+.album-repeat-full-height {
+    min-height: 300px;
+}
+
+.ms-album-row {
+    @media screen and (min-width: $break-xlarge) {
+        height: 350px;
+    }
+    @media screen and (min-width: $break-4kxlarge) {
+        height: 420px;
+    }
+    @media screen and (min-width: $break-superlarge) and (max-width: $break-xlarge - 1px) {
+        height: 335px;
+    }
+    @media screen and (min-width: $break-medlarge) and (max-width: $break-superlarge - 1px) {
+        height: 290px;
+    }
+    @media screen and (min-width: $break-large) and (max-width: $break-medlarge - 1px) {
+        height: 265px;
+    }
+    @media screen and (min-width: $break-medium) and (max-width: $break-large - 1px) {
+        height: 250px;
+    }
+    @media screen and (min-width: $break-small) and (max-width: $break-medium - 1px) {
+        height: 340px;
+    }
+    @media screen and (min-width: $break-medsmall) and (max-width: $break-small - 1px) {
+        height: 325px;
+    }
+    @media screen and (min-width: $break-xsmall) and (max-width: $break-medsmall - 1px) {
+        height: 225px;
+    }
+    @media screen and (min-width: 0) and (max-width: $break-xsmall - 1px) {
+        height: 180px;
+    }
+}

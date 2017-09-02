@@ -1,5 +1,5 @@
 import controller from './music-nav.controller.js';
-//import './album-card.scss';
+import './music-nav.scss';
 
 export const MusicNavComponent = {
     bindings: {
