@@ -3,6 +3,7 @@
 //
 
 var Promise = require("bluebird");
+var fs = Promise.promisifyAll(require("fs"));
 var LibraryDao = require("../models/dao/libraryDao");
 var GenreDao = require("../models/dao/genreDao");
 var ArtistDao = require("../models/dao/artistDao");
@@ -74,11 +75,16 @@ exports.refreshLibrary = function refreshLibrary(req, res) {
 			
        	if (library.base_dir) { // base_dir not null
 				   if (library.state != 'updating') {	
-							// update library content
-							// first change state of library
-							library.state = 'updating';
-							LibraryDao.updateLibrary(library).then(resolve).catch(reject);
-					
+				     // Test if base_dir exists
+				     fs.readdirAsync(library.base_dir)
+				       .then(function(){
+				          // update library content
+			        			// first change state of library
+				       			library.state = 'updating';
+			       				LibraryDao.updateLibrary(library).then(resolve).catch(reject);
+				       }) 
+				       .catch(reject);
+				       
 				} else { // library updating 
 					throw new LibraryRefreshingError();
 				}	
