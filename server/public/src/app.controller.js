@@ -1,27 +1,37 @@
 class AppController {
-    constructor() {
+    constructor(securityService) {
+        this.securityService = securityService
+        
         this.headerTitle = "";
+        this.userInfo = null
 
         this.views = new Map();
-        this.views.set("home", "Home");
-        this.views.set("settings", "Settings");
-        this.views.set("music.artists", "Music Explorer");
-        this.views.set("music.albums", "Music Explorer");
+        this.views.set("secure.home", "Home");
+        this.views.set("secure.settings", "Settings");
+        this.views.set("secure.music.artists", "Music Explorer");
+        this.views.set("secure.music.albums", "Music Explorer");
     }
 
-    setTitle(title) {
-        this.headerTitle = title;
-    }
-
-    handleViewLoaded($event) {
-        if (this.views.has($event.view)) {
-            this.headerTitle = this.views.get($event.view);
+    handleViewLoaded(view) {
+     
+        if (this.views.has(view)) {
+            this.headerTitle = this.views.get(view);
         } else {
             this.headerTitle = "undefined view";
         }
+        
+    }
+    
+    handleUserLoaded($event) {
+        
+        this.userInfo = $event.userInfo
+    }
+    
+    userAuthenticated(){
+      return this.securityService.isAuthenticated();
     }
 }
 
-//AppController.$inject = ['$log']
+AppController.$inject = ['SecurityService']
 
 export default AppController

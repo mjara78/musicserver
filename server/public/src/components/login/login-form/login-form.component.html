@@ -1,0 +1,16 @@
+<md-toolbar layout="column" layout-align="center center" style="padding: 6px;">
+
+  <div><md-icon class="app-logo-med" md-svg-icon="appLogo"></md-icon></div>
+  <md-input-container md-theme="docsDark" class="md-primary">
+    <label>Username</label>
+    <input ng-model="$ctrl.name" type="text"> 
+  </md-input-container> 
+  <md-input-container md-theme="docsDark" class="md-primary"> 
+    <label>Password</label> 
+    <input ng-model="$ctrl.password" type="password">
+  </md-input-container>
+  <md-button class="login-button md-raised md-primary md-hue-2" ng-click="$ctrl.login()">Log in</md-button>
+  <span id="admin-msg" ng-show="$ctrl.noAdmin">
+    Admin user not found. <a ng-click="$ctrl.createAdminUser()" style="text-decoration: none;" md-colors="{color:'docsDark-primary'}">Create it</a>
+  </span>
+</md-toolbar>

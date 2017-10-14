@@ -1,11 +1,12 @@
 // /app/app.js
 import angular from 'angular'
 import uiRouter from 'angular-ui-router'
-//import 'mediaPlayer'
-import 'angular-animate';
-import 'angular-aria';
-import 'angular-material';
-import 'restangular';
+import 'angular-animate'
+import 'angular-aria'
+import 'angular-material'
+import 'restangular'
+import 'satellizer'
+import 'ngstorage'
 
 import '/home/osmc/workspace/angular-soundmanager2/dist/angular-soundmanager2'
 
@@ -21,12 +22,16 @@ const root = angular
         components,
         'ngMaterial',
         'restangular',
-        'angularSoundManager'
+        'angularSoundManager',
+        'satellizer',
+        'ngStorage'
     ])
     .config(['$mdIconProvider',
         '$mdThemingProvider',
         'RestangularProvider',
-        ($mdIconProvider, $mdThemingProvider, RestangularProvider) => {
+        '$authProvider',
+        '$sessionStorageProvider',
+        ($mdIconProvider, $mdThemingProvider, RestangularProvider, $authProvider, $sessionStorageProvider) => {
             // Register the icons
             $mdIconProvider
                 .icon("menu", "assets/svg/menu.svg", 24)
@@ -48,12 +53,51 @@ const root = angular
                 .icon("playFilled", "assets/svg/ic_play_circle_filled_black_48px.svg", 48)
                 .icon("pauseFilled", "assets/svg/ic_pause_circle_filled_black_24px.svg", 48)
                 .icon("next", "assets/svg/ic_skip_next_black_24px.svg", 48)
-                .icon("search", "assets/svg/ic_search_black_24px.svg", 24);
+                .icon("account", "assets/svg/ic_account_circle_white_24px.svg", 24)
+                .icon("search", "assets/svg/ic_search_black_24px.svg", 24)
+                .icon("exit", "assets/svg/ic_exit_to_app_black_24px.svg", 24)
+                .icon("arrowDropDown", "assets/svg/ic_arrow_drop_down_white_24px.svg", 24)
+                .icon("arrowDropUp", "assets/svg/ic_arrow_drop_up_white_24px.svg", 24)
+      
 
             $mdThemingProvider.theme('default');
+              
+           /* $mdThemingProvider.definePalette('white', {
+        '50': '#fff',
+        '100': '#fff',
+        '200': '#fff',
+        '300': '#fff',
+        '400': '#fff',
+        '500': '#B2EBF2',
+        '600': '#fff',
+        '700': '#fff',
+        '800': '#fff',
+        '900': '#fff',
+        'A100': '#fff',
+        'A200': '#fff',
+        'A400': '#fff',
+        'A700': '#fff',
+        'contrastDefaultColor': 'light',    // whether, by default, text (contrast)
+                                            // on this palette should be dark or light
+        'contrastDarkColors': ['50', '100', //hues which contrast should be 'dark' by default
+            '200', '300', '400', 'A100'],
+        'contrastLightColors': undefined    // could also specify this if default was 'dark'
+    });*/
+    
+    $mdThemingProvider.theme('docsDark', 'default')
+      .primaryPalette('cyan', {'default':'200'})
+      .dark();
 
             // Restangular config
             RestangularProvider.setBaseUrl('/api');
+
+            // Satellizer config
+            $authProvider.loginUrl = "api/login"
+            $authProvider.tokenName = "token"
+            $authProvider.tokenPrefix = "musicserver"
+            
+            // Storage config
+            $sessionStorageProvider.setKeyPrefix('ms')
         }
     ])
     .component('msApp', AppComponent)

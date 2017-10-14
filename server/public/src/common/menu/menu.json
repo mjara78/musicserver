@@ -1,33 +1,33 @@
 [{
-        "name": "home",
+        "name": "secure.home",
         "icon": "home",
         "label": "Home",
         "ariaLabel": "Home",
         "divider": false
     },
     {
-        "name": "listenig",
+        "name": "secure.listenig",
         "icon": "listening",
         "label": "Listening",
         "ariaLabel": "Listening",
         "divider": false
     },
     {
-        "name": "music.artists",
+        "name": "secure.music.artists",
         "icon": "musicLib",
         "label": "Music",
         "ariaLabel": "Music Library",
         "divider": false
     },
     {
-        "name": "playlists",
+        "name": "secure.playlists",
         "icon": "playlist",
         "label": "Playlists",
         "ariaLabel": "Playlists",
         "divider": false
     },
     {
-        "name": "settings",
+        "name": "secure.settings",
         "icon": "settings",
         "label": "Settings",
         "ariaLabel": "Settings",

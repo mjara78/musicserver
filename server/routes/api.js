@@ -1,55 +1,65 @@
 var express = require('express');
 
 // API Controllers
-var LibraryCtrl = require("../controllers/library.js");
-var GenreCtrl = require("../controllers/genre.js");
-var AlbumCtrl = require("../controllers/album.js");
-var SongCtrl = require("../controllers/song.js");
-var ArtistCtrl = require("../controllers/artist.js");
+var LibraryCtrl = require("../controllers/library.controller");
+var GenreCtrl = require("../controllers/genre.controller");
+var AlbumCtrl = require("../controllers/album.controller");
+var SongCtrl = require("../controllers/song.controller");
+var ArtistCtrl = require("../controllers/artist.controller");
+var UserCtrl = require("../controllers/user.controller");
 
-
+var ensureAuthenticated = require("../utils/security").ensureAuthenticated;
 // API routes
 var router = express.Router();
 
+// Authentication 
+router.route('/login').post(UserCtrl.loginUser);
+router.route('/users/count').get(UserCtrl.getCountUsers);
+router.route('/users/default').post(UserCtrl.createDefaultUser);
+
+// Users
+
 // Library
 router.route('/library')
-    .get(LibraryCtrl.getLibrary)
-    .put(LibraryCtrl.updateLibrary)
-    .post(LibraryCtrl.refreshLibrary);
+    .get(ensureAuthenticated, LibraryCtrl.getLibrary)
+    .put(ensureAuthenticated, LibraryCtrl.updateLibrary)
+    .post(ensureAuthenticated, LibraryCtrl.refreshLibrary);
 
 // Albums
 router.route('/albums/:id([0-9])')
-    .get(AlbumCtrl.getAlbumById)
-    .put(AlbumCtrl.updateAlbum);
+    .get(ensureAuthenticated, AlbumCtrl.getAlbumById)
+    .put(ensureAuthenticated, AlbumCtrl.updateAlbum);
 
 router.route('/albums')
-    .get(AlbumCtrl.getAlbums);
-    
+    .get(ensureAuthenticated, AlbumCtrl.getAlbums);
+
 router.route('/albums/count')
-    .get(AlbumCtrl.getCountAlbums);
+    .get(ensureAuthenticated, AlbumCtrl.getCountAlbums);
 
 router.route('/albums/:idAlbum/songs')
-    .get(SongCtrl.getSongsByAlbum);
+    .get(ensureAuthenticated, SongCtrl.getSongsByAlbum);
 
 // Songs
+router.route('/songs/:id/stream')
+    .get(SongCtrl.getSongStream);
 
 // Genres
 router.route('/genres/:id')
-    .get(GenreCtrl.getGenreById)
-    .put(GenreCtrl.updateGenre);
+    .get(ensureAuthenticated, GenreCtrl.getGenreById)
+    .put(ensureAuthenticated, GenreCtrl.updateGenre);
 
 router.route('/genres')
-    .get(GenreCtrl.getGenres);
+    .get(ensureAuthenticated, GenreCtrl.getGenres);
 
 // Artist
 router.route('/artists/:id([0-9])')
-    .get(ArtistCtrl.getArtistById)
-    .put(ArtistCtrl.updateArtist);
+    .get(ensureAuthenticated, ArtistCtrl.getArtistById)
+    .put(ensureAuthenticated, ArtistCtrl.updateArtist);
 
 router.route('/artists')
-    .get(ArtistCtrl.getArtists);
-    
+    .get(ensureAuthenticated, ArtistCtrl.getArtists);
+
 router.route('/artists/count')
-    .get(ArtistCtrl.getCountArtists);
+    .get(ensureAuthenticated, ArtistCtrl.getCountArtists);
 
 module.exports = router;

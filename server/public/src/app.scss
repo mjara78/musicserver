@@ -1,5 +1,9 @@
 md-content#main-content {
-    .main-view {
+
+    height: 100%;
+    
+    div#main-view {
         padding: 0px;
+        height: inherit;
     }
 }

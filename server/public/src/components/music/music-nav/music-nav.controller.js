@@ -1,20 +1,19 @@
-class MusicNavController {
-    constructor() {
-        this.filterText;
-    }
+import BaseNavController from '../../../common/base-nav.controller'
 
-    $onInit() {
-        this.onViewLoaded({
-            $event: {
-                view: this.$transition$.to().name
-            }
-        });
+
+class MusicNavController extends BaseNavController {
+    constructor() {
+        super()
+        this.filterText;
     }
     
     selectNavItem($event){
        this.currentNavItem = $event.selected
     }
     
+    $onInit() {
+      super.registerNavigation()
+    }
 
 }
 

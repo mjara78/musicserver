@@ -25,7 +25,7 @@ class PlayerService {
            //Populate new playlist
            for (let song of songs){
              let track = {
-               url : 'listen/' + song.id,
+               url : 'api/songs/' + song.id + '/stream',
                id : '#'+song.id,
                title : song.title,
                track : song.track,

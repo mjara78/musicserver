@@ -1,13 +1,12 @@
-class RecentsListController {
-    constructor() {}
+import BaseNavController from '../../../common/base-nav.controller'
+
+class RecentsListController extends BaseNavController {
+    constructor() {
+      super()
+    }
 
     $onInit() {
-        this.onViewLoaded({
-            $event: {
-                view: this.$transition$.to().name
-            }
-        });
-
+        super.registerNavigation()
     }
 
 }

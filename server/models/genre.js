@@ -9,7 +9,13 @@ module.exports = function(sequelize, DataTypes) {
         Genre.hasMany(models.Album);
         Genre.hasMany(models.Song);
       }
-    }
+    },
+    indexes: [
+       { 
+         unique : true,
+         fields: ['id']
+       }
+    ]
   });
   return Genre;
 };

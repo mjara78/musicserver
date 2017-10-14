@@ -1,10 +1,10 @@
 
 class MessageService {  
-  constructor ($mdToast) {
+  constructor($mdToast) {
     this.toast = $mdToast
   }
 
-  showMessage (text, delay) {
+  showMessage(text, delay) {
     if (!delay) {
     	delay = 3000;
     }

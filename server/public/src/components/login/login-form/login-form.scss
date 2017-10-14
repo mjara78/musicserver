@@ -1,0 +1,23 @@
+login-form {
+  height: inherit;
+  background-color: green;
+  md-toolbar {
+    height: inherit;
+    md-input-container{
+      width: 300px;
+    }
+    .login-button{
+      width: 300px;
+    }
+    span#admin-msg{
+      width: 300px;
+      margin-top: 15px;
+    }
+
+  }
+}
+
+.app-logo-med {
+  height: 100px;
+  width: 100px;
+}

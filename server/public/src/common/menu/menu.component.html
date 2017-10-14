@@ -1,16 +1,25 @@
 
 <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="menu">
 <md-content>
-  <md-toolbar class="md-hue-2 md-tall" flex="auto" layout="row" >
-    <md-button class="md-fab md-mini md-accent " ng-click="$ctrl.toggleMenu()" aria-label="Show Menu" flex="13">
+  <md-toolbar class="md-hue-2" layout="column" >
+    <div flex="70" layout="row" style="">
+      <md-button class="md-fab md-mini md-accent " ng-click="$ctrl.toggleMenu()" aria-label="Show Menu">
         <md-icon md-svg-icon="back"></md-icon>
-    </md-button>
-    <div layout="column" layout-align="start center" flex="60">
-      <md-icon flex="noshrink" class="app-logo" md-svg-icon="appLogo"></md-icon>
-      <span flex="noshrink" class="md-headline">Music Server</span>
+      </md-button>
+      <div layout="column" layout-align="start center" flex="60">
+        <md-icon class="app-logo" md-svg-icon="appLogo"></md-icon>
+        <span class="md-headline">Music Server</span>
+      </div>
     </div>
+    <md-list flex="30" class="account-list">
+      <md-list-item role="link" ng-click="$ctrl.toggleUserMenu()">
+         <md-icon id="account-icon" md-svg-icon="account" aria-label="user"></md-icon>
+      	  <div class="md-list-item-text">{{$ctrl.userInfo.name}}</div>
+      	  <md-icon ng-show="$ctrl.showUserMenu" md-svg-icon="arrowDropUp"></md-icon>
+      	  <md-icon ng-hide="$ctrl.showUserMenu" md-svg-icon="arrowDropDown"></md-icon>
+      </md-list>
   </md-toolbar>
-  	<md-list>
+  	<md-list ng-hide="$ctrl.showUserMenu">
   			<div ng-repeat="option in $ctrl.options">
   				<md-divider ng-if="option.divider"></md-divider>
     			<md-subheader ng-if="option.divider"  class="md-no-sticky">{{option.dividerLabel}}</md-subheader>	
@@ -21,6 +30,20 @@
       			</div>
     			</md-list-item>
     </div>
+  </md-list>
+  <md-list ng-show="$ctrl.showUserMenu">
+    <md-list-item ng-show="$ctrl.userInfo.isAdmin" class="md-2-line" role="link" ng-click="$ctrl.selectOption('accounts')">
+      <md-icon md-svg-icon="settings" aria-label="Manage accounts"></md-icon>
+    			<div class="md-list-item-text">
+        <span class="md-body-2">Manage Accounts</span>
+      	</div>
+    </md-list-item>
+    <md-list-item class="md-2-line" role="link" ng-click="$ctrl.logout()">
+      <md-icon md-svg-icon="exit" aria-label="Exit application"></md-icon>
+    			<div class="md-list-item-text">
+        <span class="md-body-2">Logout</span>
+      	</div>
+    </md-list-item>
   </md-list>
   </md-content>
 </md-sidenav>

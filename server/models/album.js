@@ -14,7 +14,22 @@ module.exports = function(sequelize, DataTypes) {
         Album.belongsTo(models.Genre);
         Album.belongsTo(models.Artist);
       }
-    }
+    },
+    indexes: [
+       { 
+         unique : true,
+         fields: ['id']
+       },
+       {
+         fields:['GenreId']
+       },
+       {
+         fields:['ArtistId']
+       },
+       {
+         fields:['name']
+       }
+    ]
   });
   return Album;
 };

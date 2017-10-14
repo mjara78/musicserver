@@ -16,8 +16,28 @@ module.exports = function(sequelize, DataTypes) {
         Song.belongsTo(models.Artist);
         //Song.belongsTo(models.Artist, {as: 'album_artist' });
         Song.belongsTo(models.Genre);
+        Song.hasMany(models.SongUser);
       }
-    }
+    },
+    indexes: [
+       { 
+         unique : true,
+         fields: ['id']
+       },
+       { 
+         unique : true,
+         fields: ['file_path']
+       },
+       { 
+         fields: ['AlbumId']
+       },
+       { 
+         fields: ['ArtistId']
+       },
+       { 
+         fields: ['GenreId']
+       }
+    ]
   });
   return Song;
 };

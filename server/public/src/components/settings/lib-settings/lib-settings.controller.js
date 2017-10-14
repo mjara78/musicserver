@@ -1,7 +1,9 @@
 import MusicdirDialogController from './musicdir-dialog.controller'
+import BaseNavController from '../../../common/base-nav.controller'
 
-class LibSettingsController {  
+class LibSettingsController extends BaseNavController {  
   constructor(MessageService, mdDialog, LibraryService, state) {
+    super()
   	this.messageService = MessageService;
   	this.mdDialog = mdDialog;
 		this.libraryService = LibraryService;
@@ -9,13 +11,8 @@ class LibSettingsController {
 		
   }
 
-  $onInit () {
-    //this.parent.setTitle("Settings");
-    this.onViewLoaded({
-      $event: {
-        view : this.$transition$.to().name
-      }
-    });
+  $onInit() {
+    super.registerNavigation()
   }
   
   refresh () {

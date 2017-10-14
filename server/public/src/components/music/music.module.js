@@ -11,15 +11,15 @@ const music = angular
     .component('albumList', AlbumListComponent)
     .config(['$stateProvider', '$urlRouterProvider', ($stateProvider, $urlRouterProvider) => {
         $stateProvider
-            .state('music', {
+            .state('secure.music', {
                 url: '/music',
                 component: 'musicNav'
             })
-            .state('music.artists', {
+            .state('secure.music.artists', {
                 url: '/artists',
-                component: 'artistList' 
+                component: 'artistList'
             })
-            .state('music.albums', {
+            .state('secure.music.albums', {
                 url: '/albums',
                 component: 'albumList'
             })

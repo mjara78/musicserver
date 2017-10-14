@@ -13,7 +13,16 @@ module.exports = function(sequelize, DataTypes) {
                 Artist.hasMany(models.Song, { as: 'composer_song' });
                 Artist.hasMany(models.Album);
             }
-        }
+        },
+        indexes: [
+          {
+            unique: true, 
+            fields: ['id']
+          },
+          { 
+           fields: ['name']
+          }
+        ]
     });
     return Artist;
 };
