@@ -1,4 +1,4 @@
-import BaseNavController from '../../../common/base-nav.controller'
+import BaseNavController from 'common/base-nav.controller'
 
 
 class MusicNavController extends BaseNavController {

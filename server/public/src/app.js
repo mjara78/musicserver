@@ -1,6 +1,6 @@
 // /app/app.js
 import angular from 'angular'
-import uiRouter from 'angular-ui-router'
+import uiRouter from '@uirouter/angularjs'
 import 'angular-animate'
 import 'angular-aria'
 import 'angular-material'

@@ -29,5 +29,11 @@ module.exports = {
       }
     ]
   },
-  devtool: "inline-source-map"
+  devtool: "inline-source-map",
+  resolve: {
+    modules: [
+      path.resolve('./server/public/src'),
+      path.resolve('./node_modules')
+    ]
+  }
 };

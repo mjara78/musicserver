@@ -1,5 +1,5 @@
 import MusicdirDialogController from './musicdir-dialog.controller'
-import BaseNavController from '../../../common/base-nav.controller'
+import BaseNavController from 'common/base-nav.controller'
 
 class LibSettingsController extends BaseNavController {  
   constructor(MessageService, mdDialog, LibraryService, state) {
