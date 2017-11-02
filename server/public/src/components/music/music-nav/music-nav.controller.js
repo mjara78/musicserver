@@ -17,6 +17,4 @@ class MusicNavController extends BaseNavController {
 
 }
 
-//MusicNavController.$inject = ['$scope']
-
 export default MusicNavController

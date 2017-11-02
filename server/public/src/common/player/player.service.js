@@ -1,7 +1,7 @@
 class PlayerService {  
-  constructor (angularPlayer, AlbumService) {
+  constructor (angularPlayer, $msAlbum) { "ngInject";
     this.angularPlayer = angularPlayer;
-    this.albumService = AlbumService;
+    this.$msAlbum = $msAlbum;
   }
 
   setPosition(pos){
@@ -13,14 +13,11 @@ class PlayerService {
   }
   
   playAlbum(id){
-    this.albumService.getAlbumSongs(id)
+    this.$msAlbum.getAlbumSongs(id)
       .then( songs => {
          // Clear playlist
-       //  console.log("clear")
          
          this.angularPlayer.clearPlaylist( data => {
-         
-          // console.log("songs " + songs.length)
          
            //Populate new playlist
            for (let song of songs){
@@ -35,13 +32,8 @@ class PlayerService {
                imageUrlLarge : song.Album.imageUrlLarge
              };
            
-            // console.log("track "+ track) ;
-             
-           //  console.log("url "+ track.url)
-           
              // Add to playlist
              this.angularPlayer.addTrack(track);
-           //  console.log("track added "+ track.title)
            }
          
            // Play first track of new playlist
@@ -58,7 +50,5 @@ class PlayerService {
     this.angularPlayer.adjustVolumeSlider(value);
   }
 }
-
-PlayerService.$inject = ['angularPlayer','AlbumService']
 
 export default PlayerService

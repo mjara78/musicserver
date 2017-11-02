@@ -11,7 +11,7 @@ const home = angular
                 url: '/home',
                 component: 'recentsList',
                 resolve: {
-                    recents: ['AlbumService', AlbumService => AlbumService.getRecents()]
+                    recents: ['$msAlbum', $msAlbum => $msAlbum.getRecents()]
                 }
             })
         $urlRouterProvider.otherwise('/')

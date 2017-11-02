@@ -1,6 +1,6 @@
 class VirtualRepeaterList {
 
-    constructor(numColumns, pageSize, numItems, modelService, filter) {
+    constructor(numColumns, pageSize, numItems, $msModel, filter) { 
         this.numColumns = numColumns;
         this.pageSize = pageSize;
         this.numItems = numItems;
@@ -8,7 +8,7 @@ class VirtualRepeaterList {
 
         this.loadedData = {};
 
-        this.modelService = modelService;
+        this.$msModel = $msModel;
     }
 
     getItemAtIndex(index) {
@@ -23,7 +23,7 @@ class VirtualRepeaterList {
             this.loadedData[pageNumber] = null
                 // Call the function for get data of page
            
-            this.modelService.fetchPage(pageNumber * this.pageSize, this.pageSize, this.filter)
+            this.$msModel.fetchPage(pageNumber * this.pageSize, this.pageSize, this.filter)
                 .then(data => {
                     this.loadedData[pageNumber] = []
                         // Split data on arrays with columns 

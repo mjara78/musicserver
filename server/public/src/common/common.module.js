@@ -15,11 +15,11 @@ import SecurityService from './security/security.service'
 
 const common = angular
     .module('app.common', [])
-    .service('MenuService', MenuService)
-    .service('MessageService', MessageService)
-    .service('PlayerService', PlayerService)
-    .service('AlbumService', AlbumService)
-    .service('SecurityService', SecurityService)
+    .service('$msMenu', MenuService)
+    .service('$msMessage', MessageService)
+    .service('$msPlayer', PlayerService)
+    .service('$msAlbum', AlbumService)
+    .service('$msSecurity', SecurityService)
     .component('msHeader', HeaderComponent)
     .component('msMenu', MenuComponent)
     .component('msPlayer', PlayerComponent)
@@ -31,20 +31,20 @@ const common = angular
                 abstract: true,
                 component: 'msSecurity',
                 resolve: {
-                    access: ['SecurityService', SecurityService => SecurityService.redirectIfNotAuthenticated()]
+                    access: ['$msSecurity', $msSecurity => $msSecurity.redirectIfNotAuthenticated()]
                 }
             })
         $urlRouterProvider.otherwise('/')
     }])
-    .run(['Restangular', 'MessageService',
-        function(Restangular, MessageService) {
+    .run(['Restangular', '$msMessage',
+        function(Restangular, $msMessage) {
             Restangular.setErrorInterceptor(
                 function(response) {
 
                     if (response.status == 418) { // Bussness Logic Error
-                        MessageService.showMessage(response.data.message);
+                        $msMessage.showMessage(response.data.message);
                     } else { // Other Errors
-                        MessageService.showMessageError(response.data);
+                        $msMessage.showMessageError(response.data);
                     }
 
                     return false; // stop the promise chain

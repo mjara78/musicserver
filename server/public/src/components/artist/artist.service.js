@@ -1,6 +1,6 @@
 class ArtistService {
-    constructor(rest) {
-        this.rest = rest;
+    constructor(Restangular) { "ngInject";
+        this.Restangular = Restangular
 
         this.options = {};
     }
@@ -16,7 +16,7 @@ class ArtistService {
             this.options.name = null
         }
 
-        return this.rest.all('artists')
+        return this.Restangular.all('artists')
             .getList(this.options)
             .then(response => response)
     }
@@ -25,19 +25,17 @@ class ArtistService {
         if (filter.name) {
             this.options.name = filter.name
             
-            return this.rest.one('artists')
+            return this.Restangular.one('artists')
                 .customGET("count", this.options)
                 .then(response => response)
         } else {
            
-            return this.rest.one('artists')
+            return this.Restangular.one('artists')
                 .customGET("count")
                 .then(response => response)
         }
 
     }
 }
-
-ArtistService.$inject = ['Restangular']
 
 export default ArtistService

@@ -1,12 +1,11 @@
 class SecurityService {
-    constructor(auth, q, state, timeout, message, rest, storage) {
-        this.$auth = auth
-        this.$q = q
-        this.$state = state
-        this.$timeout = timeout
-        this.$messageService = message
-        this.$rest = rest
-        this.$storage = storage
+    constructor($auth, $q, $state, $timeout, Restangular, $sessionStorage) { "ngInject";
+        this.$auth = $auth
+        this.$q = $q
+        this.$state = $state
+        this.$timeout = $timeout
+        this.Restangular = Restangular
+        this.$sessionStorage = $sessionStorage
         
         this.options = {}
         this.$auth.setStorageType('sessionStorage')
@@ -44,7 +43,7 @@ class SecurityService {
          password: password
         })
         .then( (response) => {
-           this.$storage.user = response.data.user
+           this.$sessionStorage.user = response.data.user
            this.$timeout(() => {
                 this.$state.go('secure.home')
             },100);
@@ -61,27 +60,25 @@ class SecurityService {
     getCountUserAdmin() {
         this.options.isAdmin = true
         
-        return this.$rest.one('users')
+        return this.Restangular.one('users')
             .customGET("count", this.options)
             .then(response => response)
     }
     
     createUserAdmin(){
-      return this.$rest.one('users')
+      return this.Restangular.one('users')
             .customPOST({}, "default")
             .then(response => response)
     }
     
     getUser(){
-      return this.$storage.user
+      return this.$sessionStorage.user
     }
     
     logout(){
       this.$auth.logout()
-      this.$storage.user = null
+      this.$sessionStorage.user = null
     }
 }
-
-SecurityService.$inject = ['$auth', '$q', '$state', '$timeout', 'MessageService', 'Restangular', '$sessionStorage']
 
 export default SecurityService

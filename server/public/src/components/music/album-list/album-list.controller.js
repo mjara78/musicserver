@@ -1,23 +1,23 @@
 import VirtualRepeaterList from '../virtual-repeater-list'
 
 class AlbumListController {
-    constructor(albumService, mdMedia, window) {
-        this.albumService = albumService
-        this.mdMedia = mdMedia
-        this.window = window
+    constructor($msAlbum, $mdMedia, $window) { "ngInject";
+        this.$msAlbum = $msAlbum
+        this.$mdMedia = $mdMedia
+        this.$window = $window
 
         this.albums = null
 
-        if (this.mdMedia('md')) {
+        if (this.$mdMedia('md')) {
             this.columns = 4
             this.pageSize = 52
-        } else if (this.mdMedia('gt-md')) {
+        } else if (this.$mdMedia('gt-md')) {
             this.columns = 6
             this.pageSize = 54
-        } else if (this.mdMedia('sm')) {
+        } else if (this.$mdMedia('sm')) {
             this.columns = 3
             this.pageSize = 51
-        } else if (this.mdMedia('xs')) {
+        } else if (this.$mdMedia('xs')) {
             this.columns = 2
             this.pageSize = 50
         }
@@ -35,12 +35,12 @@ class AlbumListController {
         var paramFilter = {
             name: this.filter
         }
-        this.albumService.getCountAlbums(paramFilter)
+        this.$msAlbum.getCountAlbums(paramFilter)
             .then(numItems => {
                 this.albums = new VirtualRepeaterList(this.columns,
                     this.pageSize,
                     numItems,
-                    this.albumService,
+                    this.$msAlbum,
                     paramFilter)
             })
 
@@ -58,7 +58,7 @@ class AlbumListController {
                     }
                     if (value) {
                         if (value.length >= 3) {
-                            this.albumService.getCountAlbums(paramFilter)
+                            this.$msAlbum.getCountAlbums(paramFilter)
                                 .then(numItems => {
                                     this.albums.numItems = numItems
                                     this.albums.loadedData = {}
@@ -66,7 +66,7 @@ class AlbumListController {
                                 })
                         }
                     } else {
-                        this.albumService.getCountAlbums(paramFilter)
+                        this.$msAlbum.getCountAlbums(paramFilter)
                             .then(numItems => {
                                 this.albums.numItems = numItems
                                 this.albums.loadedData = {}
@@ -83,10 +83,8 @@ class AlbumListController {
     
     // Workaround for vinrtual-repeat height: https://github.com/angular/material/issues/4314
     getListHeight() {
-        return { height: '' + (this.window.innerHeight - 91 /* player */ - 64 /* header */ - 48 /* nav-bar */ - 20 /* padding */ ) + 'px' };
+        return { height: '' + (this.$window.innerHeight - 91 /* player */ - 64 /* header */ - 48 /* nav-bar */ - 20 /* padding */ ) + 'px' };
     };
 }
-
-AlbumListController.$inject = ['AlbumService', '$mdMedia', '$window']
 
 export default AlbumListController

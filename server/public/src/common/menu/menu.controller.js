@@ -1,9 +1,9 @@
 class MenuController {  
-  constructor(mdSidenav, menu, state, security) {
-    this.$mdSidenav = mdSidenav;
-    this.$menu = menu;
-    this.$state = state;
-    this.$security = security
+  constructor($mdSidenav, $msMenu, $state, $msSecurity) { "ngInject";
+    this.$mdSidenav = $mdSidenav
+    this.$msMenu = $msMenu
+    this.$state = $state
+    this.$msSecuriry = $msSecurity
     
     this.options = [];
     this.showUserMenu = false
@@ -21,7 +21,7 @@ class MenuController {
   }
   
   loadData() {
-    this.options = this.$menu.getMenuOptions()
+    this.options = this.$msMenu.getMenuOptions()
       .then( data => {
             this.options = data;
     });
@@ -43,11 +43,9 @@ class MenuController {
 	 logout(){
 	   this.toggleUserMenu()
 	   this.toggleMenu()
-	   this.$security.logout()
+	   this.$msSecuriry.logout()
 	   this.$state.go("login")
 	 }
 }
-
-MenuController.$inject = ['$mdSidenav','MenuService','$state', 'SecurityService']
 
 export default MenuController

@@ -5,7 +5,7 @@ import ArtistService from './artist.service'
 
 const artist = angular
     .module('artist', [])
-    .service('ArtistService', ArtistService)
+    .service('$msArtist', ArtistService)
     .component('msArtistListItem', ArtistListItemComponent)
     .name
 

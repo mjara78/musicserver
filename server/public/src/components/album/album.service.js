@@ -1,17 +1,17 @@
 class AlbumService {  
-  constructor (rest) {
-    this.rest  = rest;
+  constructor (Restangular) { "ngInject";
+    this.Restangular  = Restangular
     this.options = {};
   }
 
   getRecents () {
-    return this.rest.all('albums')
+    return this.Restangular.all('albums')
     	.getList({ limit:'12', order: 'Album.createdAt DESC'})
     	.then(	response => response )
   }
 
   getAlbumSongs (idAlbum) {
-    return this.rest.one('albums', idAlbum).all('songs')
+    return this.Restangular.one('albums', idAlbum).all('songs')
     	.getList({ order: 'track'})
     	.then(	response => response )
   }
@@ -27,7 +27,7 @@ class AlbumService {
             this.options.name = null
         }
         
-        return this.rest.all('albums')
+        return this.Restangular.all('albums')
             .getList(this.options)
             .then(response => response)
     }
@@ -36,17 +36,15 @@ class AlbumService {
     if (filter.name) {
         this.options.name = filter.name
         
-        return this.rest.one('albums')
+        return this.Restangular.one('albums')
             .customGET("count", this.options)
             .then(response => response)
     } else {
-        return this.rest.one('albums')
+        return this.Restangular.one('albums')
             .customGET("count")
             .then(response => response)
     }
   }
 }
-
-AlbumService.$inject = ['Restangular']
 
 export default AlbumService

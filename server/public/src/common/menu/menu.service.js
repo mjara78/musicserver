@@ -1,6 +1,6 @@
 
 class MenuService {  
-  constructor ($http) {
+  constructor ($http) { "ngInject";
     this.$http = $http
     this.selectedOpt = {}
   }
@@ -16,7 +16,5 @@ class MenuService {
 			}
 	}
 }
-
-MenuService.$inject = ['$http']
 
 export default MenuService

@@ -1,13 +1,11 @@
 class AlbumCardController {  
-  constructor(PlayerService) {
-     this.playerService = PlayerService;
+  constructor($msPlayer) { "ngInject";
+     this.$msPlayer = $msPlayer
   }
 
   playAlbum(){
-    this.playerService.playAlbum(this.album.id);
+    this.$msPlayer.playAlbum(this.album.id);
   }
 }
-
-AlbumCardController.$inject = ['PlayerService']
 
 export default AlbumCardController

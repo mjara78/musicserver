@@ -1,26 +1,24 @@
 class LibraryService {  
-  constructor (rest) {
-    this.rest = rest;
+  constructor (Restangular) { "ngInject";
+    this.Restangular = Restangular;
   }
 
   getLibrary () {
-    return this.rest.one('library')
+    return this.Restangular.one('library')
     	.get()
     	.then(	response => response )
   }
 
   updateBasedir (basedir) {
-    var library = this.rest.one('library');
+    var library = this.Restangular.one('library');
     library.base_dir = basedir; 
     
     return library.put();
   }
   
   refreshLibrary () {
-    return this.rest.one('library').post();
+    return this.Restangular.one('library').post();
   }
 }
-
-LibraryService.$inject = ['Restangular']
 
 export default LibraryService

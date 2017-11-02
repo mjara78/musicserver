@@ -5,7 +5,7 @@ import AlbumService from './album.service'
 
 const album = angular  
   .module('album', [])
-  .service('AlbumService', AlbumService)
+  .service('$msAlbum', AlbumService)
   .component('msAlbumCard', AlbumCardComponent)
   .name
 

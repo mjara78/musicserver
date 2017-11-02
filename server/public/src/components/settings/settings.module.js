@@ -5,7 +5,7 @@ import LibraryService from './library.service'
 
 const settings = angular
     .module('settings', [])
-    .service('LibraryService', LibraryService)
+    .service('$msLibrary', LibraryService)
     .component('libSettings', LibSettingsComponent)
     .config(['$stateProvider', '$urlRouterProvider', ($stateProvider, $urlRouterProvider) => {
         $stateProvider
@@ -13,7 +13,7 @@ const settings = angular
                 url: '/settings',
                 component: 'libSettings',
                 resolve: {
-                    library: ['LibraryService', LibraryService => LibraryService.getLibrary()]
+                    library: ['$msLibrary', $msLibrary => $msLibrary.getLibrary()]
                 }
             })
         $urlRouterProvider.otherwise('/')

@@ -1,20 +1,17 @@
 class SecurityController {
-    constructor(security) {
-      this.$security = security
+    constructor($msSecurity) { "ngInject";
+      this.$msSecurity = $msSecurity
     }
 
     $onInit() {
         this.onSecureLoaded({
             $event: {
-                userInfo: this.$security.getUser()
+                userInfo: this.$msSecurity.getUser()
             }
         });
     }
     
 
 }
-
-SecurityController.$inject = ['SecurityService']
-
 
 export default SecurityController

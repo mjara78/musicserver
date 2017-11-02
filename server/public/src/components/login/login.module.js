@@ -11,7 +11,7 @@ const login = angular
                 url: '/',
                 component: 'loginForm',
                 resolve: {
-                    skip: ['SecurityService', SecurityService => SecurityService.skipIfAuthenticate()]
+                    skip: ['$msSecurity', $msSecurity => $msSecurity.skipIfAuthenticate()]
                 }
             })
     }])

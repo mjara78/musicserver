@@ -1,6 +1,6 @@
 class AppController {
-    constructor(securityService) {
-        this.securityService = securityService
+    constructor($msSecurity) { "ngInject";
+        this.$msSecurity = $msSecurity
         
         this.headerTitle = "";
         this.userInfo = null
@@ -28,10 +28,8 @@ class AppController {
     }
     
     userAuthenticated(){
-      return this.securityService.isAuthenticated();
+      return this.$msSecurity.isAuthenticated();
     }
 }
-
-AppController.$inject = ['SecurityService']
 
 export default AppController
