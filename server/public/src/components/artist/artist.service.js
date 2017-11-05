@@ -1,40 +1,23 @@
-class ArtistService {
-    constructor(Restangular) { "ngInject";
-        this.Restangular = Restangular
+import GenericResourceService from 'common/services/generic-resource.service'
 
-        this.options = {};
+class ArtistService extends GenericResourceService {
+    constructor(Restangular) { "ngInject";
+        super(Restangular)
+
+        this.resource = 'artists'
     }
 
     fetchPage(offset, limit, filter) {
-        this.options.order = 'name';
-        this.options.offset = offset;
-        this.options.limit = limit;
-
+        var options = {}
+        options.order = 'name';
+        options.offset = offset;
+        options.limit = limit;
+     
         if (filter.name) {
-            this.options.name = filter.name;
-        } else {
-            this.options.name = null
+          options.name = filter.name;
         }
-
-        return this.Restangular.all('artists')
-            .getList(this.options)
-            .then(response => response)
-    }
-
-    getCountArtists(filter) {
-        if (filter.name) {
-            this.options.name = filter.name
-            
-            return this.Restangular.one('artists')
-                .customGET("count", this.options)
-                .then(response => response)
-        } else {
-           
-            return this.Restangular.one('artists')
-                .customGET("count")
-                .then(response => response)
-        }
-
+                   
+        return this.getAll(options)
     }
 }
 

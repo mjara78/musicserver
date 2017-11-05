@@ -1,13 +1,14 @@
-class AlbumService {  
+import GenericResourceService from 'common/services/generic-resource.service'
+
+class AlbumService extends GenericResourceService {  
   constructor (Restangular) { "ngInject";
-    this.Restangular  = Restangular
-    this.options = {};
+    super(Restangular)
+    
+    this.resource = 'albums'
   }
 
   getRecents () {
-    return this.Restangular.all('albums')
-    	.getList({ limit:'12', order: 'Album.createdAt DESC'})
-    	.then(	response => response )
+    return this.getAll({ limit:'12', order: 'Album.createdAt DESC'})
   }
 
   getAlbumSongs (idAlbum) {
@@ -17,34 +18,18 @@ class AlbumService {
   }
   
   fetchPage(offset, limit, filter) {
-        this.options.order = 'Album.name';
-        this.options.offset = offset;
-        this.options.limit = limit;
-
-        if (filter.name) {
-            this.options.name = filter.name;
-        } else {
-            this.options.name = null
-        }
-        
-        return this.Restangular.all('albums')
-            .getList(this.options)
-            .then(response => response)
-    }
-    
-  getCountAlbums(filter) {
+    var options = {}
+    options.order = 'Album.name';
+    options.offset = offset;
+    options.limit = limit;
+ 
     if (filter.name) {
-        this.options.name = filter.name
-        
-        return this.Restangular.one('albums')
-            .customGET("count", this.options)
-            .then(response => response)
-    } else {
-        return this.Restangular.one('albums')
-            .customGET("count")
-            .then(response => response)
+      options.name = filter.name;
     }
+               
+    return this.getAll(options)
   }
+    
 }
 
 export default AlbumService

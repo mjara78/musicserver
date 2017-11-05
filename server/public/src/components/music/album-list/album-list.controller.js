@@ -35,7 +35,8 @@ class AlbumListController {
         var paramFilter = {
             name: this.filter
         }
-        this.$msAlbum.getCountAlbums(paramFilter)
+
+        this.$msAlbum.getCount(paramFilter)
             .then(numItems => {
                 this.albums = new VirtualRepeaterList(this.columns,
                     this.pageSize,
@@ -43,7 +44,6 @@ class AlbumListController {
                     this.$msAlbum,
                     paramFilter)
             })
-
     }
 
     $onChanges(changesObj) {
@@ -58,7 +58,7 @@ class AlbumListController {
                     }
                     if (value) {
                         if (value.length >= 3) {
-                            this.$msAlbum.getCountAlbums(paramFilter)
+                            this.$msAlbum.getCount(paramFilter)
                                 .then(numItems => {
                                     this.albums.numItems = numItems
                                     this.albums.loadedData = {}
@@ -66,7 +66,7 @@ class AlbumListController {
                                 })
                         }
                     } else {
-                        this.$msAlbum.getCountAlbums(paramFilter)
+                        this.$msAlbum.getCount(paramFilter)
                             .then(numItems => {
                                 this.albums.numItems = numItems
                                 this.albums.loadedData = {}

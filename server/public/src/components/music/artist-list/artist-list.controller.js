@@ -37,7 +37,7 @@ class ArtistListController {
         var paramFilter = {
             name: this.filter
         }
-        this.$msArtist.getCountArtists(paramFilter)
+        this.$msArtist.getCount(paramFilter)
             .then(numItems => {
                 this.artists = new VirtualRepeaterList(this.columns,
                     this.pageSize,
@@ -59,7 +59,7 @@ class ArtistListController {
                     }
                     if (value) {
                         if (value.length >= 3) {
-                            this.$msArtist.getCountArtists(paramFilter)
+                            this.$msArtist.getCount(paramFilter)
                                 .then(numItems => {
                                     this.artists.numItems = numItems
                                     this.artists.loadedData = {}
@@ -67,7 +67,7 @@ class ArtistListController {
                                 })
                         }
                     } else {
-                        this.$msArtist.getCountArtists(paramFilter)
+                        this.$msArtist.getCount(paramFilter)
                             .then(numItems => {
                                 this.artists.numItems = numItems
                                 this.artists.loadedData = {}
