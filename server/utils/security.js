@@ -4,6 +4,7 @@ var moment = require('moment');
 var config = require('../config/security.config');
 var AccessDeniedError = require("../controllers/errors/genericErrors").AccessDeniedError;
 var UnauthorizedAccessError = require("../controllers/errors/genericErrors").UnauthorizedAccessError;
+var UserDao = require("../models/dao/userDao");
 
 exports.createToken = function(userId) {
     var payload = {
@@ -13,6 +14,19 @@ exports.createToken = function(userId) {
     };
     return jwt.encode(payload, config.TOKEN_SECRET);
 };
+
+exports.ensureAdminUser = function(req, res, next) {
+  
+  UserDao.getUserById(req.user)
+    .then(function (user) {
+      if (!user.isAdmin) {
+        var error = new AccessDeniedError('Insufficient privileges.');
+        return res.status(error.statusCode).json(error);    
+      } else {
+        next();
+      }
+    }) 
+}
 
 exports.ensureAuthenticated = function(req, res, next) {
   if(!req.headers.authorization) {
@@ -28,7 +42,7 @@ exports.ensureAuthenticated = function(req, res, next) {
   if(payload.exp <= moment().unix()) {
      var error = new UnauthorizedAccessError("Expired token");
      return res
-     	.status(error.statusCode)
+      .status(error.statusCode)
         .json(error);
   }
   

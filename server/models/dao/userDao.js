@@ -5,11 +5,14 @@
 var Promise = require("bluebird");
 var models = require('../../models/index');
 var UserPassNotFound = require("../../controllers/errors/userErrors").UserPassNotFound;
+var UserNotFound = require("../../controllers/errors/userErrors").UserNotFound;
 var User = models.User;
+var SongUser = models.SongUser;
+var Sequelize = require('sequelize');
 
 var me = exports;
 
-// Returns an Album by id
+// Returns a User by Name and password
 exports.getUserByNamePass = function getUserByNamePass(name, password) {
     return new Promise(function(resolve, reject) {
         User.find({
@@ -68,5 +71,58 @@ exports.createUser = function createUser(user) {
           password: user.password,
           isAdmin: user.isAdmin,
         }).then(resolve).catch(reject);
+    });
+};
+
+// Returns all Users
+exports.getUsers = function getUsers(options, filter) {
+    if (filter.name) {
+        options.where = {
+            name: {
+                $like: '%' + filter.name + '%'
+            }
+        };
+    }
+    
+    options.attributes = ['id', 'name','isAdmin','lastLogin'];
+    
+    return new Promise(function(resolve, reject) {
+        User.findAll(options).then(resolve).catch(reject);
+    });
+};
+
+exports.deleteUsers = function (ids) {
+    return new Promise(function (resolve, reject) {
+    
+    // Create transaction 
+    return Sequelize.transaction(function (t) {
+        // Delete first Song info for user
+        return SongUser.destroy({
+            where: { UserId: idUser },
+            transaction: t })
+        .then( function(result){
+            // Delete User
+            return User.destroy({
+                 where: { id: idUser }, transaction: t 
+            })
+        })        
+    })
+    .then(function (result) {
+        resolve(result)
+    })
+    .catch(reject) 
+    });
+};
+
+// Returns a User by id
+exports.getUserById = function getUserById(idUser) {
+    return new Promise(function(resolve, reject) {
+        User.findById(idUser).then(function(result) {
+            if (result) {
+                resolve(result);
+            } else {
+                throw new UserNotFound();
+            }
+        }).catch(reject);
     });
 };

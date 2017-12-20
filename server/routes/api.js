@@ -9,6 +9,7 @@ var ArtistCtrl = require("../controllers/artist.controller");
 var UserCtrl = require("../controllers/user.controller");
 
 var ensureAuthenticated = require("../utils/security").ensureAuthenticated;
+var ensureAdminUser = require("../utils/security").ensureAdminUser;
 // API routes
 var router = express.Router();
 
@@ -18,6 +19,11 @@ router.route('/users/count').get(UserCtrl.getCountUsers);
 router.route('/users/default').post(UserCtrl.createDefaultUser);
 
 // Users
+router.route('/users')
+    .get(ensureAuthenticated, ensureAdminUser, UserCtrl.getUsers)
+    .post(ensureAuthenticated, ensureAdminUser, UserCtrl.createUser);
+
+router.route('/users/bulkdelete').post(ensureAuthenticated, ensureAdminUser, UserCtrl.deleteUsers);
 
 // Library
 router.route('/library')

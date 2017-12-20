@@ -1,11 +1,12 @@
 class SecurityService {
-    constructor($auth, $q, $state, $timeout, Restangular, $sessionStorage) { "ngInject";
+    constructor($auth, $q, $state, $timeout, Restangular, $sessionStorage, $msMessage) { "ngInject";
         this.$auth = $auth
         this.$q = $q
         this.$state = $state
         this.$timeout = $timeout
         this.Restangular = Restangular
         this.$sessionStorage = $sessionStorage
+        this.$msMessage = $msMessage
         
         this.options = {}
         this.$auth.setStorageType('sessionStorage')
@@ -40,7 +41,7 @@ class SecurityService {
     login(name, password){
        this.$auth.login({
         	name: name,
-         password: password
+            password: password
         })
         .then( (response) => {
            this.$sessionStorage.user = response.data.user
@@ -49,7 +50,7 @@ class SecurityService {
             },100);
         })
         .catch( (response) => {
-        	  this.$message.showMessageError(response.data)
+        	  this.$msMessage.showMessageError(response.data)
         });
     }
     

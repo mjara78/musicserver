@@ -1,0 +1,56 @@
+<md-card>
+	<md-card-title class="ms-table-header" ng-hide="$ctrl.showContextMenu">
+   <md-card-title-text>
+      <span  class="md-title">Accounts</span>
+   </md-card-title-text>
+ </md-card-title>
+ <md-card-title class="ms-table-header" ng-show="$ctrl.showContextMenu"
+                md-colors="{background: 'default-primary-50'}">
+   <md-card-title-text layout="row" layout-align="start center">
+      <span class="ms-selected-text" md-colors="{color: 'default-primary'}">{{$ctrl.selected.length}} items selected</span>
+      <span flex></span>
+      <md-button class="md-icon-button" ng-click="$ctrl.delete()">
+          <md-icon md-svg-icon="delete" aria-label="Delete selected"></md-icon>
+      </md-button>
+   </md-card-title-text>
+ </md-card-title>
+  <div id="ms-header-list" layout="row" layout-align="start center" flex="100">
+     <md-checkbox id="ms-header-checkbox" ng-click="$ctrl.toggleCheckboxs()"></md-checkbox>
+      <span flex="40">
+        Name
+      </span>
+      <span flex="10">
+        Admin
+      </span>
+      <span flex="30">
+        Last login
+      </span>
+      <span></span>
+   </div>
+  <md-list flex>
+	  <div ng-repeat="user in $ctrl.users">
+		  <md-divider></md-divider>
+      <md-list-item id="ms-table-row">
+        <md-checkbox checklist-model="$ctrl.selected" 
+                     checklist-value="user.id" 
+                     ng-click="$ctrl.testSelected()"></md-checkbox>
+        <span flex="40">
+          {{user.name}} 
+        </span>
+        <span flex="10">
+          {{user.isAdmin  ? "Yes":"No"}}
+        </span>
+        <span flex="30">
+          {{user.lastLogin | date:'dd/MM/yyyy HH:mm:ss'}}
+        </span>
+        <md-button class="md-secondary md-icon-button" aria-label="Edit library directory" ng-click="$ctrl.editAccount($event, user)">
+      				<md-icon md-svg-icon="edit"></md-icon>
+        </md-button>
+      </md-list-item>
+   </div>
+	</md-list>
+</md-card>
+<md-button class="md-fab md-fab-bottom-right" aria-label="Create Account" 
+            ng-click="$ctrl.addAccount($event)">
+  <md-icon md-svg-icon="add"></md-icon>
+</md-button>

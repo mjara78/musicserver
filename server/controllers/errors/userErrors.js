@@ -12,3 +12,18 @@ UserPassNotFound.prototype = Object.create(Error.prototype);
 UserPassNotFound.prototype.constructor = UserPassNotFound;
 
 exports.UserPassNotFound = UserPassNotFound;
+
+//
+// Define UserNotFound
+//
+function UserNotFound() {
+    this.message = 'User not found';
+    this.name = "UserNotFound";
+    this.code = 6404;
+    this.statusCode = 404;
+    Error.captureStackTrace(this, UserNotFound);
+}
+UserNotFound.prototype = Object.create(Error.prototype);
+UserNotFound.prototype.constructor = UserNotFound;
+
+exports.UserNotFound = UserNotFound;

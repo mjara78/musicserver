@@ -18,7 +18,7 @@ class MessageService {
   showMessageError(error) {
     this.$mdToast.show(
       this.$mdToast.simple()
-        .textContent('Error: '+ error.message)
+        .textContent('ERROR: '+ error.message)
         .hideDelay(6000)
       );
   }

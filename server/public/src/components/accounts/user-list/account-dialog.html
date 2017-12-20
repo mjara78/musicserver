@@ -1,0 +1,50 @@
+<md-dialog flex="80">
+    <md-toolbar layout="row">
+        <div class="md-toolbar-tools">
+            <h2>{{$ctrl.titleDialog}}</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="$ctrl.$mdDialog.cancel()">
+                <md-icon md-svg-icon="close" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <form name="userForm" layout="column" ng-submit="$ctrl.save(userForm)" novalidate>
+      <md-dialog-content class="md-dialog-content">
+        
+            <md-input-container flex>
+                <label>Name</label>
+                <input required name="name" ng-model="$ctrl.user.name">
+        
+                <div ng-messages="userForm.name.$error">
+                    <div ng-message="required">Name is required.</div>
+                </div>
+            </md-input-container>
+            <md-input-container flex>
+                <label>Password</label>
+                <input required type="password" name="password" ng-model="$ctrl.user.password">
+            
+                <div ng-messages="userForm.password.$error">
+                    <div ng-message="required">Password is required.</div>
+                </div>
+            </md-input-container>
+            <md-input-container flex>
+                <label>Repeate Password</label>
+                <input required type="password" name="password2" ng-change="$ctrl.validatePassword(userForm)" ng-model="$ctrl.user.password2"> 
+                    
+                     <div ng-messages="userForm.password2.$error">
+                        <div ng-message="required">Password repeate required.</div>
+                        <div ng-message="passwordsMatch">Passwords do not match.</div>
+                     </div>
+            </md-input-container>
+            <md-input-container flex>
+                <md-checkbox ng-model="$ctrl.user.isAdmin"></md-checkbox>
+                <span>Administrator</span>
+            </md-input-container>
+       
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+        <md-button ng-click="$ctrl.$mdDialog.cancel()" class="md-primary">cancel</md-button>
+        <md-button type="submit" class="md-primary">save</md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

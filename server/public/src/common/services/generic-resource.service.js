@@ -33,6 +33,16 @@ class GenericResourceService {
 
     return this.getCountAll(this.options);
   }
+
+  post(content){
+    return this.Restangular.all(this.resource).post(content);
+  }
+
+  put(content){
+    return this.Restangular.one(this.resource)
+            .customPUT(content)
+            .then(response => response)
+  }
   
 }
 

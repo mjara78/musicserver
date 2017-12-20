@@ -7,6 +7,7 @@ import 'angular-material'
 import 'restangular'
 import 'satellizer'
 import 'ngstorage'
+import 'checklist-model'
 
 import '/home/osmc/workspace/angular-soundmanager2/dist/angular-soundmanager2'
 
@@ -24,7 +25,8 @@ const root = angular
         'restangular',
         'angularSoundManager',
         'satellizer',
-        'ngStorage'
+        'ngStorage',
+        'checklist-model'
     ])
     .config(['$mdIconProvider',
         '$mdThemingProvider',
@@ -58,6 +60,9 @@ const root = angular
                 .icon("exit", "assets/svg/ic_exit_to_app_black_24px.svg", 24)
                 .icon("arrowDropDown", "assets/svg/ic_arrow_drop_down_white_24px.svg", 24)
                 .icon("arrowDropUp", "assets/svg/ic_arrow_drop_up_white_24px.svg", 24)
+                .icon("add", "assets/svg/ic_add_white_24px.svg", 24)
+                .icon("close", "assets/svg/ic_close_white_24px.svg", 24)
+                .icon("delete", "assets/svg/ic_delete_black_24px.svg", 24)
       
 
             $mdThemingProvider.theme('default');

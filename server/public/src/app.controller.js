@@ -10,6 +10,7 @@ class AppController {
         this.views.set("secure.settings", "Settings");
         this.views.set("secure.music.artists", "Music Explorer");
         this.views.set("secure.music.albums", "Music Explorer");
+        this.views.set("secure.accounts", "Manage Users Accounts");
     }
 
     handleViewLoaded(view) {
