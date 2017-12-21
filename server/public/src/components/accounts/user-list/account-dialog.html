@@ -9,8 +9,7 @@
         </div>
     </md-toolbar>
     <form name="userForm" layout="column" ng-submit="$ctrl.save(userForm)" novalidate>
-      <md-dialog-content class="md-dialog-content">
-        
+      <md-dialog-content layout="column" class="md-dialog-content">  
             <md-input-container flex>
                 <label>Name</label>
                 <input required name="name" ng-model="$ctrl.user.name">
@@ -40,7 +39,7 @@
                 <md-checkbox ng-model="$ctrl.user.isAdmin"></md-checkbox>
                 <span>Administrator</span>
             </md-input-container>
-       
+    
     </md-dialog-content>
     <md-dialog-actions layout="row">
         <md-button ng-click="$ctrl.$mdDialog.cancel()" class="md-primary">cancel</md-button>
