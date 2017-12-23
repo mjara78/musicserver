@@ -3,6 +3,7 @@ var fs = Promise.promisifyAll(require("fs"));
 var fsSync = require('fs');
 var path = require('path');
 var mm = require('musicmetadata');
+var songExists = require('../controllers/library.controller').songExists;
 
 var fileTypes = ['.mp3'];
 
@@ -28,24 +29,35 @@ function extractMetadata(baseDir, callback) {
           
           var filePath = path.join(baseDir, element);
           var ext = path.extname(filePath);
-          
+
           fs.statAsync(filePath)
-          .then( function (stats) {
-               if (stats.isFile()) {
-                   if (admittedType(ext)) {
-                      readMetadata(filePath)
-                        .then(function (tags) {
-                            return callback (filePath, tags).then(resolve);
-                        })
-                        .catch(reject);
-                   } else { // Filetype not admitted
-                     return resolve(0);
-                   }
-               } else { // is a directory
-                  return extractMetadata(filePath, callback).then(resolve);
-               }
-            })
-          .catch(reject);
+            .then( function (stats) {
+                 if (stats.isFile()) {
+                     if (admittedType(ext)) {
+                        songExists(filePath)
+                          .then(function (exists) {
+                            if (exists) {
+                        //      console.log("===========>>>>>>>> Filepath already exists:"+filePath)
+                              return resolve(0); // If song already exists dont process it
+                            } else { // filepath not exists at any song
+                              // Read metadata from file
+                              readMetadata(filePath)
+                                .then(function (tags) {
+                          //          console.log("===========>>>>>>>> Processing file:"+filePath)
+                                    return callback (filePath, tags).then(resolve);
+                                })
+                                .catch(reject);
+                            }
+                          })
+                     } else { // Filetype not admitted
+                       return resolve(0);
+                     }
+                 } else { // is a directory
+                    return extractMetadata(filePath, callback).then(resolve);
+                 }
+              })
+            .catch(reject);  
+              
         });
         
   }

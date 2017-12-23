@@ -74,7 +74,7 @@ exports.refreshLibrary = function refreshLibrary(req, res) {
     return new Promise (function (resolve, reject) {
 			
        	if (library.base_dir) { // base_dir not null
-				   if (library.state != 'updating') {	
+				   if (library.state != 'updating000') {	
 				     // Test if base_dir exists
 				     fs.readdirAsync(library.base_dir)
 				       .then(function(){
@@ -115,7 +115,7 @@ exports.refreshLibrary = function refreshLibrary(req, res) {
 					  function (genre, albumArtist) { // after create genre and albumArtist we can create album
 					    var album = {
 						     	name: tags.album,
-							     year: tags.year,
+							    year: tags.year,
 					     		GenreId: genre.id,
 					     		ArtistId: albumArtist.id,
 					     		artistName: albumArtist.name
@@ -125,32 +125,25 @@ exports.refreshLibrary = function refreshLibrary(req, res) {
 					      AlbumDao.getOrCreateAlbumByName(album),
 					      ArtistDao.getOrCreateArtistByName(tags.artist),
 					      function ( album, artist){ // after create album and artist we can create song
-					        // get song
-									 	   SongDao.getSongByFilePath(filePath)
-									  	   .then()
-									     	.catch(SongNotFoundError, function (error) { // if song not found create it
-									  		
-									       		// Create Song
-									       		var song = {
-									   		      title: tags.title,
-									          year: tags.year,
-									          track: tags.track,
-									          duration: tags.duration,
-									          file_path: filePath,
-									          last_sync: new Date(),
-										        		AlbumId: album.id,
-									        			ArtistId: artist.id,
-									        			GenreId: genre.id
-									      		};
-									 		
-								    	  		SongDao.createSong(song)
-									       		.then(function (song) {
-								        	 			elements ++;
-									         			resolve(elements);
-								     	 		})
-									 	     	.catch(reject);
-									    	})
-									 	   .catch(reject);
+				       		// Create Song
+				       		var song = {
+				   		      	title: tags.title,
+				          		year: tags.year,
+				          		track: tags.track,
+				          		duration: tags.duration,
+				          		file_path: filePath,
+				          		last_sync: new Date(),
+					        	AlbumId: album.id,
+				        		ArtistId: artist.id,
+				        		GenreId: genre.id
+				      		};
+				 		
+			    	  		SongDao.createSong(song)
+				       		.then(function (song) {
+			        	 			elements ++;
+				         			resolve(elements);
+			     	 		})
+				 	     	.catch(reject);
 					      }
 					    );
 					  }
@@ -180,4 +173,18 @@ exports.refreshLibrary = function refreshLibrary(req, res) {
 			resolve(library);
 		})
 	} 
+}
+
+// Function for test if exists a song by filePath
+exports.songExists = function (songFilePath){
+	return new Promise( function (resolve, reject) {
+		SongDao.getSongByFilePath(songFilePath)
+  	 	.then(function (result){
+  	    	resolve(true)
+  	   	})
+     	.catch(SongNotFoundError, function (error) {
+     		resolve(false)
+     	})
+     	.catch(reject)
+	})
 }
