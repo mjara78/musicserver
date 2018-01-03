@@ -1,12 +1,13 @@
 class PlayerController {  
-  constructor($msPlayer) { "ngInject";
+  constructor($msPlayer, $scope) { "ngInject";
     this.$msPlayer = $msPlayer
-
+    this.$scope = $scope
+    
+    this.currentSong = null
     this.volume = this.$msPlayer.getVolume()
   }
-    
-  setCurrentTime($event){
 
+  setCurrentTime($event){
     var posX = $event.x;
     var progress = document.getElementById('progress');
     var dur = this.$msPlayer.getDuration();
@@ -17,6 +18,19 @@ class PlayerController {
   
   changeVolume(){
     this.$msPlayer.setVolume(this.volume);
+  }
+  
+  $doCheck(){
+    if ( (this.$scope.currentPlaying && this.currentSong 
+         && (this.$scope.currentPlaying.id != this.currentSong.id)) ||
+         ( this.$scope.currentPlaying && this.currentSong == null ) ||
+         ( this.$scope.currentPlaying == undefined && this.currentSong)){
+ 
+         this.currentSong = this.$scope.currentPlaying
+
+       this.parent.handlePlayingTrack({ currentSong: this.currentSong});
+    }
+  
   }
 }
 
