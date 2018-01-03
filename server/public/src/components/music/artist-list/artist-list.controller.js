@@ -1,4 +1,4 @@
-import VirtualRepeaterList from '../virtual-repeater-list'
+import VirtualRepeaterColumnList from '../virtual-repeater-column-list'
 import angular from 'angular'
 
 class ArtistListController {
@@ -39,7 +39,7 @@ class ArtistListController {
         }
         this.$msArtist.getCount(paramFilter)
             .then(numItems => {
-                this.artists = new VirtualRepeaterList(this.columns,
+                this.artists = new VirtualRepeaterColumnList(this.columns,
                     this.pageSize,
                     numItems,
                     this.$msArtist,

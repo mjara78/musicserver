@@ -1,4 +1,4 @@
-import VirtualRepeaterList from '../virtual-repeater-list'
+import VirtualRepeaterColunmList from '../virtual-repeater-column-list'
 
 class AlbumListController {
     constructor($msAlbum, $mdMedia, $window) { "ngInject";
@@ -30,7 +30,7 @@ class AlbumListController {
             selected : "albums"
           }
         });
-        
+
         // Load repeter component
         var paramFilter = {
             name: this.filter
@@ -38,7 +38,7 @@ class AlbumListController {
 
         this.$msAlbum.getCount(paramFilter)
             .then(numItems => {
-                this.albums = new VirtualRepeaterList(this.columns,
+                this.albums = new VirtualRepeaterColunmList(this.columns,
                     this.pageSize,
                     numItems,
                     this.$msAlbum,
@@ -79,8 +79,8 @@ class AlbumListController {
             }
         }
     }
-    
-    
+
+
     // Workaround for vinrtual-repeat height: https://github.com/angular/material/issues/4314
     getListHeight() {
         return { height: '' + (this.$window.innerHeight - 91 /* player */ - 64 /* header */ - 48 /* nav-bar */ - 20 /* padding */ ) + 'px' };

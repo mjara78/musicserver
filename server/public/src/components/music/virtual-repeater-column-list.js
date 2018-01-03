@@ -1,6 +1,6 @@
-class VirtualRepeaterList {
+class VirtualRepeaterColunmList {
 
-    constructor(numColumns, pageSize, numItems, $msModel, filter) { 
+    constructor(numColumns, pageSize, numItems, $msModel, filter) {
         this.numColumns = numColumns;
         this.pageSize = pageSize;
         this.numItems = numItems;
@@ -19,14 +19,14 @@ class VirtualRepeaterList {
         if (page) {
             return page[index % (this.pageSize / this.numColumns)];
         } else if (page !== null) {
-            // Set the page to null so we know it is already being fetched.      
+            // Set the page to null so we know it is already being fetched.
             this.loadedData[pageNumber] = null
                 // Call the function for get data of page
-           
+
             this.$msModel.fetchPage(pageNumber * this.pageSize, this.pageSize, this.filter)
                 .then(data => {
                     this.loadedData[pageNumber] = []
-                        // Split data on arrays with columns 
+                        // Split data on arrays with columns
                     while (data.length) {
                         this.loadedData[pageNumber].push(data.splice(0, this.numColumns));
                     }
@@ -41,4 +41,4 @@ class VirtualRepeaterList {
     }
 }
 
-export default VirtualRepeaterList
+export default VirtualRepeaterColunmList
