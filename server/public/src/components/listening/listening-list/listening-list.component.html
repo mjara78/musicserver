@@ -1,0 +1,67 @@
+<md-card>
+	<md-card-title class="ms-table-header">
+   <md-card-title-text>
+      <span  class="md-title">Listening Tracks</span>
+   </md-card-title-text>
+ </md-card-title>
+  <div id="ms-header-listening-list" layout="row" layout-align="start center" flex>
+      <span flex="none" id="ms-header-left-empty"></span>
+      <span flex="35">
+        Title
+      </span>
+      <span flex="35">
+        Album
+      </span>
+      <span flex="20">
+        Artist
+      </span>
+      <span flex="10" layout="row" layout-align="center">
+        <md-icon class="ms-header-time" md-svg-icon="time"></md-icon>
+      </span>
+      <span flex="none" id="ms-header-right-empty"></span>
+   </div>
+  <md-list flex>
+    <md-virtual-repeat-container class="list-repeat-full-height" ng-style="$ctrl.getListHeight()">
+        <div md-virtual-repeat="song in $ctrl.tracks" class="ms-repeated-row" layout="column" md-on-demand flex>
+          <md-divider></md-divider>
+          <md-list-item id="ms-table-row" layout="row" ng-click="$ctrl.playSong(song.id)" flex>
+            <img flex="none" class="ms-listening-playing"  ng-show="song.id == $ctrl.currentTrack.id" src="assets/images/playing.gif">
+            <img flex="none" class="ms-album-art-list" ng-src="{{ song.imageUrlSmall }}"
+                 ng-hide="song.id == $ctrl.currentTrack.id"></img>
+            <span class="md-truncate ms-content-row" flex="35">
+              {{song.title}}
+            </span>
+            <span class="md-truncate ms-content-row" flex="35">
+              {{song.album}}
+            </span>
+            <span class="md-truncate ms-content-row" flex="20">
+              {{song.artist}}
+            </span>
+            <span flex="10" layout="row" layout-align="center">
+              {{song.duration }}
+            </span>
+            <md-button flex="none" class="md-icon-button md-secundary" aria-label="Dislike">
+                <md-icon md-svg-icon="dislike" md-colors="{color: 'grey-300'}"></md-icon>
+            </md-button>
+            <md-button flex="none" class="md-icon-button md-secundary" aria-label="Like">
+                <md-icon md-svg-icon="like" class="md-primary"></md-icon>
+            </md-button>
+            <md-menu flex="none" class="ms-list-menu">
+              <md-button ng-click="$mdMenu.open($event)" 
+                         class="md-secundary" 
+                         style="margin: 0px;padding: 0px;" 
+                         aria-label="Open song menu">
+                <md-icon md-svg-icon="more"></md-icon>
+              </md-button>
+              <md-menu-content>
+                <md-menu-item><md-button ng-click="doSomething()">Song Info</md-button></md-menu-item>
+                <md-menu-item><md-button ng-click="doSomething()">Delete from List</md-button></md-menu-item>
+                <md-menu-item><md-button ng-click="doSomething()">Go to Album</md-button></md-menu-item>
+                <md-menu-item><md-button ng-click="doSomething()">Go to Artist</md-button></md-menu-item>
+              </md-menu-content>
+            </md-menu>
+          </md-list-item>
+        </div>
+    </md-virtual-repeat-container>
+	</md-list>
+</md-card>
