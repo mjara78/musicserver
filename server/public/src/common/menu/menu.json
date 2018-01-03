@@ -6,7 +6,7 @@
         "divider": false
     },
     {
-        "name": "secure.listenig",
+        "name": "secure.listening",
         "icon": "listening",
         "label": "Listening",
         "ariaLabel": "Listening",
