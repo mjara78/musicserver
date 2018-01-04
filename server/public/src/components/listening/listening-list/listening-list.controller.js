@@ -2,10 +2,11 @@ import VirtualRepeaterList from 'common/virtual-repeater-list'
 import BaseNavController from 'common/base-nav.controller'
 
 class ListeningListController extends BaseNavController {
-    constructor($msPlayer, $window) { "ngInject";
+    constructor($msPlayer, $window, $msMessage) { "ngInject";
         super()
         this.$msPlayer = $msPlayer
         this.$window = $window
+        this.$msMessage = $msMessage
 
         this.tracks = null
         this.currentTrack = null
@@ -40,6 +41,10 @@ class ListeningListController extends BaseNavController {
       }
       
     }
+    
+  doSomething(){
+    this.$msMessage.showMessage("Coming Soon!!")
+  }
 }
 
 export default ListeningListController

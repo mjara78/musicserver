@@ -40,10 +40,10 @@
             <span flex="10" layout="row" layout-align="center">
               {{song.duration }}
             </span>
-            <md-button flex="none" class="md-icon-button md-secundary" aria-label="Dislike">
+            <md-button ng-click="$ctrl.doSomething()" flex="none" class="md-icon-button md-secundary" aria-label="Dislike">
                 <md-icon md-svg-icon="dislike" md-colors="{color: 'grey-300'}"></md-icon>
             </md-button>
-            <md-button flex="none" class="md-icon-button md-secundary" aria-label="Like">
+            <md-button ng-click="$ctrl.doSomething()" flex="none" class="md-icon-button md-secundary" aria-label="Like">
                 <md-icon md-svg-icon="like" class="md-primary"></md-icon>
             </md-button>
             <md-menu flex="none" class="ms-list-menu">
@@ -54,10 +54,10 @@
                 <md-icon md-svg-icon="more"></md-icon>
               </md-button>
               <md-menu-content>
-                <md-menu-item><md-button ng-click="doSomething()">Song Info</md-button></md-menu-item>
-                <md-menu-item><md-button ng-click="doSomething()">Delete from List</md-button></md-menu-item>
-                <md-menu-item><md-button ng-click="doSomething()">Go to Album</md-button></md-menu-item>
-                <md-menu-item><md-button ng-click="doSomething()">Go to Artist</md-button></md-menu-item>
+                <md-menu-item><md-button ng-click="$ctrl.doSomething()">Song Info</md-button></md-menu-item>
+                <md-menu-item><md-button ng-click="$ctrl.doSomething()">Delete from List</md-button></md-menu-item>
+                <md-menu-item><md-button ng-click="$ctrl.doSomething()">Go to Album</md-button></md-menu-item>
+                <md-menu-item><md-button ng-click="$ctrl.doSomething()">Go to Artist</md-button></md-menu-item>
               </md-menu-content>
             </md-menu>
           </md-list-item>

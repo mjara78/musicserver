@@ -86,6 +86,29 @@ class PlayerService {
 
       return pad(min) + ':' + pad(sec)
   }
+  
+  addAlbumToPlaylist(id){
+    this.$msAlbum.getAlbumSongs(id)
+      .then( songs => {
+           //Add songs to the new playlist
+           for (let song of songs){
+             let track = {
+               url: 'api/songs/' + song.id + '/stream',
+               id: '#'+song.id,
+               title: song.title,
+               track: song.track,
+               album: song.Album.name,
+               artist: song.Artist.name,
+               imageUrlSmall: song.Album.imageUrlSmall,
+               imageUrlLarge: song.Album.imageUrlLarge,
+               duration: this.getHumanTime(song.duration)
+             };
+
+             // Add to playlist
+             this.angularPlayer.addTrack(track);
+           }
+         })
+  }
 }
 
 export default PlayerService
