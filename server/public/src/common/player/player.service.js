@@ -109,6 +109,10 @@ class PlayerService {
            }
          })
   }
+  
+  getIndexById(id){
+    return this.angularPlayer.isInArray(this.getPlaylist(),id)
+  }
 }
 
 export default PlayerService

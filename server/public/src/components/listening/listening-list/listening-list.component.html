@@ -21,7 +21,7 @@
       <span flex="none" id="ms-header-right-empty"></span>
    </div>
   <md-list flex>
-    <md-virtual-repeat-container class="list-repeat-full-height" ng-style="$ctrl.getListHeight()">
+    <md-virtual-repeat-container md-top-index="$ctrl.indexCurrentTrack" class="list-repeat-full-height" ng-style="$ctrl.getListHeight()">
         <div md-virtual-repeat="song in $ctrl.tracks" class="ms-repeated-row" layout="column" md-on-demand flex>
           <md-divider></md-divider>
           <md-list-item id="ms-table-row" layout="row" ng-click="$ctrl.playSong(song.id)" flex>
