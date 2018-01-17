@@ -18,30 +18,12 @@ class PlayerService {
     this.$msAlbum.getAlbumSongs(id)
       .then( songs => {
          // Clear playlist
-
          this.angularPlayer.clearPlaylist( data => {
-
-           //Populate new playlist
-           for (let song of songs){
-             let track = {
-               url: 'api/songs/' + song.id + '/stream',
-               id: '#'+song.id,
-               title: song.title,
-               track: song.track,
-               album: song.Album.name,
-               artist: song.Artist.name,
-               imageUrlSmall: song.Album.imageUrlSmall,
-               imageUrlLarge: song.Album.imageUrlLarge,
-               duration: this.getHumanTime(song.duration)
-             };
-
-             // Add to playlist
-             this.angularPlayer.addTrack(track);
-           }
+           this.populatePlaylist(songs)
 
            // Play first track of new playlist
-           this.angularPlayer.playTrack(this.angularPlayer.getPlaylist(0).id);
-         });
+           this.angularPlayer.playTrack(this.angularPlayer.getPlaylist(0).id)
+         })
       })
   }
 
@@ -58,7 +40,7 @@ class PlayerService {
   }
 
   getPlaylistCount(){
-    return this.angularPlayer.getPlaylist().length
+    return this.getPlaylist().length
   }
 
   fetchPage(offset, limit) {
@@ -90,28 +72,48 @@ class PlayerService {
   addAlbumToPlaylist(id){
     this.$msAlbum.getAlbumSongs(id)
       .then( songs => {
-           //Add songs to the new playlist
-           for (let song of songs){
-             let track = {
-               url: 'api/songs/' + song.id + '/stream',
-               id: '#'+song.id,
-               title: song.title,
-               track: song.track,
-               album: song.Album.name,
-               artist: song.Artist.name,
-               imageUrlSmall: song.Album.imageUrlSmall,
-               imageUrlLarge: song.Album.imageUrlLarge,
-               duration: this.getHumanTime(song.duration)
-             };
-
-             // Add to playlist
-             this.angularPlayer.addTrack(track);
-           }
-         })
+           this.populatePlaylist(songs)
+      })
   }
   
   getIndexById(id){
     return this.angularPlayer.isInArray(this.getPlaylist(),id)
+  }
+
+  populatePlaylist(songs){
+    //Add songs to the new playlist
+    for (let song of songs){
+
+       let track = {
+         url: 'api/songs/' + song.id + '/stream',
+         id: '#'+song.id,
+         idSong: song.id,
+         title: song.title,
+         track: song.track,
+         album: song.Album.name,
+         artist: song.Artist.name,
+         imageUrlSmall: song.Album.imageUrlSmall,
+         imageUrlLarge: song.Album.imageUrlLarge,
+         duration: this.getHumanTime(song.duration),
+         like: this.getSongUserInfo(song.SongUsers, 'like'),
+         dislike: this.getSongUserInfo(song.SongUsers, 'dislike')
+       };
+
+       // Add to playlist
+       this.angularPlayer.addTrack(track);
+    }
+  }
+  
+  getSongUserInfo(info, type){
+    if(info.length > 0){
+      if (info[0][type] ===  null) {
+        return false
+      } else {
+        return info[0][type]
+      } 
+    } else {
+      return false
+    }
   }
 }
 

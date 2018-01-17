@@ -48,6 +48,8 @@ router.route('/albums/:idAlbum/songs')
 // Songs
 router.route('/songs/:id/stream')
     .get(SongCtrl.getSongStream);
+router.route('/songs/:id/userinfo')
+    .put(ensureAuthenticated, SongCtrl.updateSongInfoByUser);
 
 // Genres
 router.route('/genres/:id')

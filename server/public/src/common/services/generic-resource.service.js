@@ -38,9 +38,9 @@ class GenericResourceService {
     return this.Restangular.all(this.resource).post(content);
   }
 
-  put(content){
-    return this.Restangular.one(this.resource)
-            .customPUT(content)
+  put(content, id, path){
+    return this.Restangular.one(this.resource, id)
+            .customPUT(content, path)
             .then(response => response)
   }
   

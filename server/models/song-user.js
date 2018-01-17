@@ -4,8 +4,16 @@ module.exports = function(sequelize, DataTypes) {
     UserId: { type: DataTypes.INTEGER, primaryKey: true},
     SongId: { type: DataTypes.INTEGER, primaryKey: true},
     playCount: DataTypes.INTEGER,
-    like: DataTypes.BOOLEAN,
-    dislike: DataTypes.BOOLEAN
+    like: { 
+      type: DataTypes.BOOLEAN, 
+      defaultValue: false, 
+      allowNull: false
+    },
+    dislike: { 
+      type: DataTypes.BOOLEAN, 
+      defaultValue: false, 
+      allowNull: false
+    }
   }, {
     classMethods: {
       associate: function(models) {

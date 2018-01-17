@@ -1,0 +1,5 @@
+<md-button ng-click="$ctrl.toggleRating()"  
+			class="md-icon-button md-secundary" aria-label="{{ $ctrl.ratingType }}">
+<md-icon md-svg-icon="{{ $ctrl.ratingType }}" 
+		 md-colors="{color: '{{$ctrl.getStateColor()}}'}"></md-icon>
+</md-button>

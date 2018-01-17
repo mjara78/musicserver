@@ -1,7 +1,8 @@
 class PlayerController {  
-  constructor($msPlayer, $scope) { "ngInject";
+  constructor($msPlayer, $scope, $msSong) { "ngInject";
     this.$msPlayer = $msPlayer
     this.$scope = $scope
+    this.$msSong = $msSong
     
     this.currentSong = null
     this.volume = this.$msPlayer.getVolume()
@@ -30,7 +31,12 @@ class PlayerController {
 
        this.parent.handlePlayingTrack({ currentSong: this.currentSong});
     }
+  }
   
+  setLike(idSong, value){
+    this.$msSong.updateUserInfo({like: value},idSong)
+      .then()
+      
   }
 }
 

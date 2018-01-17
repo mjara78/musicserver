@@ -27,12 +27,8 @@
                     </md-button>
                 </div>
                 <div layout="row" flex="none" id="rating" ng-show="isActive" layout-align="start center">
-                    <md-button class="md-icon-button" aria-label="Dislike">
-                        <md-icon md-svg-icon="dislike" md-colors="{color: 'grey-300'}"></md-icon>
-                    </md-button>
-                    <md-button class="md-icon-button" aria-label="Like">
-                        <md-icon md-svg-icon="like" class="md-primary"></md-icon>
-                    </md-button>
+                    <ms-rating-button rating-type="like" song="currentPlaying"></ms-rating-button>
+                    <ms-rating-button rating-type="dislike" song="currentPlaying"></ms-rating-button>
                 </div>
                 <div ng-show="isActive" layout="column" flex="30">
                     <div class="md-caption ms-player-position">{{currentPostion}} / {{currentDuration}}</div>

@@ -37,12 +37,8 @@ exports.getSongsByAlbum = function(req, res) {
  if (req.query.offset){
    options.offset = req.query.offset;
  }
- 
- options.where = {
-   AlbumId : req.params.idAlbum
- };
 
-	SongDao.getSongsByAlbum(options)
+	SongDao.getSongsByAlbum(options, req.params.idAlbum, req.user)
 		.then(function (songs) {
 			res.status(200).json(songs);
 		})
@@ -67,6 +63,24 @@ exports.getSongStream = function(req, res) {
 		})
 		.catch(SongFileNotFoundError, function (error) {
 			res.status(error.statusCode).json(error);
+		})
+		.catch(function (error) {
+			var errorObj = new ServerError(error.message);
+			res.status(errorObj.statusCode).json(errorObj);
+		});
+};
+
+// PUT - Update song info for logged user user
+exports.updateSongInfoByUser = function(req, res) {
+	
+	var info = { 
+	  playcount: req.body.playcount,
+	  like: req.body.like,
+	  dislike: req.body.dislike	}
+
+	SongDao.updateSongInfoByUser(req.params.id, req.user, info)
+		.then(function (result) {
+			res.status(200).json(result);
 		})
 		.catch(function (error) {
 			var errorObj = new ServerError(error.message);

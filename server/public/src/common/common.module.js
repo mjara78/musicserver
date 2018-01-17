@@ -5,6 +5,7 @@ import { HeaderComponent } from './header/header.component'
 import { MenuComponent } from './menu/menu.component'
 import { PlayerComponent } from './player/player.component'
 import { SecurityComponent } from './security/security.component'
+import { RatingButtonComponent } from './rating-button/rating-button.component'
 
 // services
 import MenuService from './menu/menu.service'
@@ -24,6 +25,7 @@ const common = angular
     .component('msMenu', MenuComponent)
     .component('msPlayer', PlayerComponent)
     .component('msSecurity', SecurityComponent)
+    .component('msRatingButton', RatingButtonComponent)
     .config(['$stateProvider', '$urlRouterProvider', ($stateProvider, $urlRouterProvider) => {
         $stateProvider
             .state('secure', {

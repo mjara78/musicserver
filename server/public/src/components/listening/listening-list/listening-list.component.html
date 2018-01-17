@@ -40,12 +40,8 @@
             <span flex="10" layout="row" layout-align="center">
               {{song.duration }}
             </span>
-            <md-button ng-click="$ctrl.doSomething()" flex="none" class="md-icon-button md-secundary" aria-label="Dislike">
-                <md-icon md-svg-icon="dislike" md-colors="{color: 'grey-300'}"></md-icon>
-            </md-button>
-            <md-button ng-click="$ctrl.doSomething()" flex="none" class="md-icon-button md-secundary" aria-label="Like">
-                <md-icon md-svg-icon="like" class="md-primary"></md-icon>
-            </md-button>
+            <ms-rating-button rating-type="like" flex="none" song="song"></ms-rating-button>
+            <ms-rating-button rating-type="dislike" flex="none" song="song"></ms-rating-button>
             <md-menu flex="none" class="ms-list-menu">
               <md-button ng-click="$mdMenu.open($event)" 
                          class="md-secundary" 

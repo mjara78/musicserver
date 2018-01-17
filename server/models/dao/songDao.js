@@ -7,6 +7,7 @@ var models = require('../../models/index');
 var Song = models.Song;
 var Artist = models.Artist;
 var Album = models.Album;
+var SongUser = models.SongUser;
 var SongNotFoundError = require("../../controllers/errors/songErrors").SongNotFoundError;
 
 var me = exports;  
@@ -68,10 +69,37 @@ exports.createSong = function createSong(song) {
 };
 
 // Returns all Song by album id
-exports.getSongsByAlbum = function getSongsByAlbum (options) {
+exports.getSongsByAlbum = function getSongsByAlbum (options, idAlbum, idUser) {
     return new Promise(function (resolve, reject) {
-        options.include = [Album, Artist];
+        options.where = {
+          AlbumId : idAlbum
+        };
+        options.include = [
+        {
+          model: SongUser,
+          where: { UserId: idUser },
+          required: false
+        }, 
+        Album, 
+        Artist];
+        
         Song.findAll(options).then(resolve).catch(reject);
     });
 };
+
+// Update info of a song by user
+exports.updateSongInfoByUser = function updateSongInfoByUser (idSong, idUser, info) {
+    return new Promise(function (resolve, reject) {
+        SongUser.upsert({
+            playCount: info.playCount,
+            like: info.like,
+            dislike: info.dislike,
+            UserId: idUser,
+            SongId: idSong
+          }).then(resolve)
+          .catch(reject);
+    });
+};
+
+
 
