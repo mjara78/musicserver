@@ -1,0 +1,37 @@
+<md-bottom-sheet layout="column">
+ <div layout="row">
+  	<img class="ms-player-img" ng-src="{{ $ctrl.current.imageUrlLarge }}">
+	  <div flex layout="column" class="ms-player-info">
+     <div md-truncate class="md-body-2 ms-player-info-title">{{ $ctrl.current.title}}</div>
+     <span md-truncate class="md-caption ms-player-info-album">{{ $ctrl.current.album}}</span>
+     <span md-truncate class="md-caption ms-player-info-artist">{{ $ctrl.current.artist}}</span>
+   </div>
+ </div>
+ <div layout="row" layout-align="center center">
+    <md-button class="md-icon-button" aria-label="Go to artist">
+      <md-icon md-svg-icon="artist" class="md-primary"></md-icon>
+    </md-button>
+    <md-button class="md-icon-button" aria-label="Go to album">
+      <md-icon md-svg-icon="album" class="md-primary"></md-icon>
+    </md-button>
+    <md-button class="md-icon-button" ng-click="$ctrl.go('secure.listening')" aria-label="Navigate to listening section">
+      <md-icon md-svg-icon="listening" class="md-primary"></md-icon>
+    </md-button>
+ </div>
+ <div layout="row" layout-align="center center">
+    <ms-rating-button rating-type="dislike" song="$ctrl.current"></ms-rating-button>
+    <md-button id="ms-player-button-med" class="md-icon-button" aria-label="Previous track" prev-track>
+      <md-icon md-svg-icon="previous" class="ms-player-icon-button"></md-icon>
+    </md-button>
+    <md-button id="ms-player-button-big" ng-click="$ctrl.play()" class="md-icon-button" ng-hide="$ctrl.isPlaying" aria-label="Play music" md-autofocus>
+      <md-icon md-svg-icon="playFilled" id="ms-player-icon-big" class="md-primary"></md-icon>
+    </md-button>
+    <md-button id="ms-player-button-big" ng-click="$ctrl.pause()" class="md-icon-button" ng-show="$ctrl.isPlaying" aria-label="Pause music" md-autofocus>
+      <md-icon id="ms-player-icon-big" md-svg-icon="pauseFilled" class="md-primary"></md-icon>
+    </md-button>
+    <md-button id="ms-player-button-med" class="md-icon-button" aria-label="Next track" next-track>
+       <md-icon md-svg-icon="next" class="ms-player-icon-button"></md-icon>
+    </md-button>
+    <ms-rating-button rating-type="like" song="$ctrl.current"></ms-rating-button> 
+ </div>
+</md-bottom-sheet>

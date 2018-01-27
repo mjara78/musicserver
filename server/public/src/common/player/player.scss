@@ -1,3 +1,5 @@
+$player-info-max-width: 240px;
+
 ms-player {
     height: 90px;
     margin-top: 1px;
@@ -19,7 +21,11 @@ ms-player {
 }
 
 .ms-player-info-title {
-    /* margin-left: 3px;*/
+    max-width: $player-info-max-width;
+}
+
+.ms-player-info-artist {
+    max-width: $player-info-max-width;
 }
 
 .ms-player-info {
@@ -28,11 +34,12 @@ ms-player {
 
 .ms-player-info-album {
     margin-bottom: 5px;
+    max-width: $player-info-max-width;
 }
 
-.ms-player-button {
-    width: 46px;
-    height: 46px;
+.md-icon-button#ms-player-button-med {
+    width: 50px;
+    height: 50px;
 }
 
 .ms-player-icon-button {
@@ -40,12 +47,25 @@ ms-player {
     height: 36px;
 }
 
+.ms-player-mini-icon-button {
+    width: 32px;
+    height: 32px;
+}
+
+.ms-player-more-controls{
+    margin-left: 0px;
+    margin-rigth: 0px;
+}
 .md-icon-button#ms-player-button-big {
-    width: 74px;
-    height: 74px
+    width: 78px;
+    height: 78px
 }
 
 md-icon#ms-player-icon-big {
     width: 64px;
     height: 64px;
+}
+
+.ms-player-mini-controls{
+    width: 100px;
 }

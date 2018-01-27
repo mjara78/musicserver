@@ -67,7 +67,11 @@ const root = angular
                 .icon("delete", "assets/svg/ic_delete_black_24px.svg", 24)
                 .icon("play", "assets/svg/ic_play_arrow_black_24px.svg", 24)
                 .icon("time", "assets/svg/ic_access_time_black_24px.svg", 24)
-                .icon("album", "assets/svg/ic_album_black_24px.svg", 24)               
+                .icon("album", "assets/svg/ic_album_black_24px.svg", 24)
+                .icon("pause", "assets/svg/ic_pause_black_24px.svg", 24)   
+                .icon("keyboardArrowUp", "assets/svg/ic_keyboard_arrow_up_black_24px.svg", 24)  
+                .icon("artist", "assets/svg/ic_account_box_black_24px.svg", 24)
+                          
 
             $mdThemingProvider.theme('default');
     

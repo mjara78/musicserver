@@ -1,10 +1,14 @@
+import PlayerControlsController from './player-controls/player-controls.controller'
+
 class PlayerController {  
-  constructor($msPlayer, $scope, $msSong) { "ngInject";
+  constructor($msPlayer, $scope, $msSong, $mdBottomSheet) { "ngInject";
     this.$msPlayer = $msPlayer
     this.$scope = $scope
     this.$msSong = $msSong
+    this.$mdBottomSheet = $mdBottomSheet
     
     this.currentSong = null
+    this.showPlayerControls = false
     this.volume = this.$msPlayer.getVolume()
   }
 
@@ -30,13 +34,47 @@ class PlayerController {
          this.currentSong = this.$scope.currentPlaying
 
        this.parent.handlePlayingTrack({ currentSong: this.currentSong});
+       
+       // hide and show advanced player controls again
+       if (this.showPlayerControls){
+         this.$mdBottomSheet.hide({ showAgain: true })
+         this.showPlayerCtrls()
+       }
     }
   }
+
+  nextTrack(){
+    this.$msPlayer.nextTrack()
+  }
+
+  prevTrack(){
+    this.$msPlayer.prevTrack()
+  }
   
-  setLike(idSong, value){
-    this.$msSong.updateUserInfo({like: value},idSong)
-      .then()
-      
+  showPlayerCtrls(){
+    this.showPlayerControls = true
+    console.log("showPlayerControls(show): " + this.showPlayerControls )
+    this.$mdBottomSheet.show({
+      templateUrl: './src/common/player/player-controls/player-controls.html',
+      controller: PlayerControlsController,
+      locals: { current: this.currentSong, 
+                isPlaying: this.$scope.isPlaying
+              },
+      bindToController: true,
+      controllerAs: '$ctrl'
+    })
+    .then( (result) => {
+      if (result.showAgain){
+        this.showPlayerControls = true  
+      } else {
+        this.showPlayerControls = false
+      }
+      console.log("showPlayerControls(then): " + this.showPlayerControls )
+    })
+    .catch( () => {
+      this.showPlayerControls = false
+      console.log("showPlayerControls(catch): " + this.showPlayerControls )
+    });
   }
 }
 

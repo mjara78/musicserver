@@ -115,6 +115,25 @@ class PlayerService {
       return false
     }
   }
+
+  nextTrack(){
+    if( this.angularPlayer.isLastTrack() && this.angularPlayer.isPlayingStatus() ){
+      return false
+    }
+    this.angularPlayer.nextTrack()
+  }
+
+  prevTrack(){
+    this.angularPlayer.prevTrack()
+  }
+  
+  play(){
+    this.angularPlayer.play()
+  }
+  
+  pause(){
+    this.angularPlayer.pause()
+  }
 }
 
 export default PlayerService
