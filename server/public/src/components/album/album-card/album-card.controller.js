@@ -6,7 +6,7 @@ class AlbumCardController {
 
   playAlbum(){
     this.$msPlayer.playAlbum(this.album.id)
-    this.$msMessage.showMessage("Playing album")
+  //  this.$msMessage.showMessage("Playing album")
   }
   
   addAlbumToPlaylist(){
