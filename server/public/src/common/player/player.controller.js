@@ -53,7 +53,7 @@ class PlayerController {
   
   showPlayerCtrls(){
     this.showPlayerControls = true
-    console.log("showPlayerControls(show): " + this.showPlayerControls )
+
     this.$mdBottomSheet.show({
       templateUrl: './src/common/player/player-controls/player-controls.html',
       controller: PlayerControlsController,
@@ -69,11 +69,9 @@ class PlayerController {
       } else {
         this.showPlayerControls = false
       }
-      console.log("showPlayerControls(then): " + this.showPlayerControls )
     })
     .catch( () => {
       this.showPlayerControls = false
-      console.log("showPlayerControls(catch): " + this.showPlayerControls )
     });
   }
 }
