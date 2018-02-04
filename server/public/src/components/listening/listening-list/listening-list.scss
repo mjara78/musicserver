@@ -11,6 +11,9 @@
     @media screen and (min-width: $break-medium){
       height: calc(100vh - #{$header-gt-sm-height} - #{$player-height} - #{$table-header-height} - #{$table-header-padding-top} - #{$table-header-padding-bottom} - 18px - 16px - 16px - 2px);  
     }    
+    @media screen and (-webkit-min-device-pixel-ratio:0) and (min-width: 0) and (max-width: $break-small - 1px){
+       height: calc(100vh - #{$header-sm-height} - #{$player-height} - #{$table-header-height} - #{$table-header-padding-top} - #{$table-header-padding-bottom} - 16px - 16px - 2px - 56px);
+    }
 }
 
 .ms-repeated-row {
