@@ -4,7 +4,7 @@
       <span  class="md-title">Listening Tracks</span>
    </md-card-title-text>
  </md-card-title>
-  <div id="ms-header-listening-list" layout="row" layout-align="start center" flex>
+  <div hide-xs id="ms-header-listening-list" layout="row" layout-align="start center" flex>
       <span flex="none" id="ms-header-left-empty"></span>
       <span flex="35">
         Title
@@ -20,28 +20,35 @@
       </span>
       <span flex="none" id="ms-header-right-empty"></span>
    </div>
-  <md-list flex>
-    <md-virtual-repeat-container md-top-index="$ctrl.indexCurrentTrack" class="list-repeat-full-height" ng-style="$ctrl.getListHeight()">
+  <md-list ng-class="{'md-dense' : $ctrl.$mdMedia('xs')}" flex >
+    <md-virtual-repeat-container md-top-index="$ctrl.indexCurrentTrack" 
+                                 class="list-repeat-full-height">
         <div md-virtual-repeat="song in $ctrl.tracks" class="ms-repeated-row" layout="column" md-on-demand flex>
           <md-divider></md-divider>
-          <md-list-item id="ms-table-row" layout="row" ng-click="$ctrl.playSong(song.id)" flex>
+          <md-list-item id="ms-table-row" layout="row" ng-class="{'md-3-line' : $ctrl.$mdMedia('xs')}" ng-click="$ctrl.playSong(song.id)" flex>
             <img flex="none" class="ms-listening-playing"  ng-show="song.id == $ctrl.currentTrack.id" src="assets/images/playing.gif">
             <img flex="none" class="ms-album-art-list" ng-src="{{ song.imageUrlSmall }}"
                  ng-hide="song.id == $ctrl.currentTrack.id"></img>
-            <span class="md-truncate ms-content-row" flex="35">
+            <span hide-xs class="md-truncate ms-content-row" flex="35">
               {{song.title}}
             </span>
-            <span class="md-truncate ms-content-row" flex="35">
+            <span hide-xs class="md-truncate ms-content-row" flex="35">
               {{song.album}}
             </span>
-            <span class="md-truncate ms-content-row" flex="20">
+            <span hide-xs class="md-truncate ms-content-row" flex="20">
               {{song.artist}}
             </span>
-            <span flex="10" layout="row" layout-align="center">
+            <span hide-xs flex="10" layout="row" layout-align="center">
               {{song.duration }}
             </span>
-            <ms-rating-button rating-type="like" flex="none" song="song"></ms-rating-button>
-            <ms-rating-button rating-type="dislike" flex="none" song="song"></ms-rating-button>
+            <div class="md-list-item-text" hide-gt-xs flex-xs="100" layout="column">
+              <h3 class="md-truncate ms-xs-listening-title">{{song.title}}</h3>
+              <h4 class="md-truncate ms-xs-listening-subtitle">{{song.album}}</h4>
+              <p class="md-truncate">{{song.duration }} • {{song.artist}}</p>
+              
+            </div>
+            <ms-rating-button id="listening-rating" rating-type="like" flex="none" song="song"></ms-rating-button>
+            <ms-rating-button id="listening-rating" rating-type="dislike" flex="none" song="song"></ms-rating-button>
             <md-menu flex="none" class="ms-list-menu">
               <md-button ng-click="$mdMenu.open($event)" 
                          class="md-secundary" 

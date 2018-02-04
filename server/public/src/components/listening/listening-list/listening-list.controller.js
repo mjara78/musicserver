@@ -2,11 +2,12 @@ import VirtualRepeaterList from 'common/virtual-repeater-list'
 import BaseNavController from 'common/base-nav.controller'
 
 class ListeningListController extends BaseNavController {
-    constructor($msPlayer, $window, $msMessage) { "ngInject";
+    constructor($msPlayer, $window, $msMessage, $mdMedia) { "ngInject";
         super()
         this.$msPlayer = $msPlayer
         this.$window = $window
         this.$msMessage = $msMessage
+        this.$mdMedia = $mdMedia 
 
         this.tracks = null
         this.currentTrack = null
@@ -21,11 +22,6 @@ class ListeningListController extends BaseNavController {
             this.$msPlayer.getPlaylistCount(),
             this.$msPlayer)
       
-    }
-
-    // Workaround for vinrtual-repeat height: https://github.com/angular/material/issues/4314
-    getListHeight() {
-        return { height: '' + (this.$window.innerHeight - 91 /* player */ - 64 /* header */ - 53 /* card-title */ - 52 /* table-header */ - 33 /* padding */ ) + 'px' };
     }
   	
   	playSong(id){

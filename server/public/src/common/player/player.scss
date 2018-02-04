@@ -1,13 +1,13 @@
-$player-info-max-width: 240px;
+@import "~common/variables";
 
 ms-player {
-    height: 90px;
+    height: $player-height;
     margin-top: 1px;
 }
 
 .ms-player-img {
-    width: 90px;
-    height: 90px;
+    width: $player-height;
+    height: $player-height;
 }
 
 .ms-progress {

@@ -1,12 +1,5 @@
-$break-xsmall: 320px;
-$break-medsmall: 480px;
-$break-small: 600px;
-$break-medium: 960px;
-$break-large: 1280px;
-$break-medlarge: 1520px;
-$break-superlarge: 1680px;
-$break-xlarge: 1920px;
-$break-4kxlarge: 2560px;
+@import "~common/variables";
+
 .album-repeat-full-height {
     min-height: 300px;
 }

@@ -1,9 +1,25 @@
+@import "~common/variables"; 
+
 .list-repeat-full-height {
     min-height: 300px;
+    @media screen and (min-width: 0) and (max-width: $break-small - 1px){
+      height: calc(100vh - #{$header-sm-height} - #{$player-height} - #{$table-header-height} - #{$table-header-padding-top} - #{$table-header-padding-bottom} - 16px - 16px - 2px);
+    }
+    @media screen and (min-width: $break-small) and (max-width: $break-medium - 1px){
+      height: calc(100vh - #{$header-sm-height} - #{$player-height} - #{$table-header-height} - #{$table-header-padding-top} - #{$table-header-padding-bottom} - 18px - 16px - 16px - 2px);  
+    }
+    @media screen and (min-width: $break-medium){
+      height: calc(100vh - #{$header-gt-sm-height} - #{$player-height} - #{$table-header-height} - #{$table-header-padding-top} - #{$table-header-padding-bottom} - 18px - 16px - 16px - 2px);  
+    }    
 }
 
 .ms-repeated-row {
-  height: 48px;
+  @media screen and (min-width: 0) and (max-width: $break-small - 1px){
+    height: 76px;  
+  }
+  @media screen and (min-width: $break-small){
+    height: 48px;
+  }
 
 }
 
@@ -46,4 +62,30 @@
 
 #ms-header-right-empty{
   width: 124px;
+}
+
+#listening-rating {
+  button {
+     @media screen and (min-width: 0) and (max-width: $break-medsmall - 1px) {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+
+    md-icon {
+      @media screen and (min-width: 0) and (max-width: $break-medsmall - 1px) {
+        min-width: 20px;
+        min-height: 20px;
+      }
+    }
+  }
+}
+
+.ms-xs-listening-title{
+  padding-bottom: 1px;
+}
+
+.ms-xs-listening-subtitle{
+  margin-bottom: 3px;
+  padding-bottom: 1px;
+  font-style: oblique;
 }
