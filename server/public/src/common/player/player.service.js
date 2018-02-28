@@ -1,83 +1,39 @@
 class PlayerService {
-  constructor (angularPlayer, $msAlbum, $q) { "ngInject";
-    this.angularPlayer = angularPlayer;
+  constructor ($sm2Player, $msAlbum, $q) { "ngInject";
+    this.$sm2Player = $sm2Player;
     this.$msAlbum = $msAlbum;
     this.$q = $q
 
+    // Init soundmanager2 player
+    this.$sm2Player.init()
   }
 
   setPosition(pos){
-    this.angularPlayer.setPosition(pos);
+    this.$sm2Player.setPosition(pos);
   }
 
   getDuration(){
-    return this.angularPlayer.getDuration();
+    return this.$sm2Player.getDuration();
   }
 
   playAlbum(id){
     this.$msAlbum.getAlbumSongs(id)
       .then( songs => {
          // Clear playlist
-         this.angularPlayer.clearPlaylist( data => {
+         this.$sm2Player.clearPlaylist( data => {
            this.populatePlaylist(songs)
 
            // Play first track of new playlist
-           this.angularPlayer.playTrack(this.angularPlayer.getPlaylist(0).id)
+           this.$sm2Player.playTrack(this.$sm2Player.getPlaylist(0).id)
          })
       })
   }
 
-  getVolume() {
-    return this.angularPlayer.getVolume();
-  }
-
-  setVolume(value){
-    this.angularPlayer.adjustVolumeSlider(value);
-  }
-
-  getPlaylist(){
-    return this.angularPlayer.getPlaylist()
-  }
-
-  getPlaylistCount(){
-    return this.getPlaylist().length
-  }
-
-  fetchPage(offset, limit) {
-      var defered = this.$q.defer();
-      var promise = defered.promise;
-
-      // Return array page in a promise
-      defered.resolve(this.getPlaylist().slice(offset, offset+limit))
-      
-      return promise
-  }
-  
-  // Play track from playlist by track id
-  playTrack(id){
-    this.angularPlayer.playTrack(id)
-  }
- 
-  getHumanTime(time) {
-      function pad(d) {
-        return (d < 10) ? '0' + d.toString() : d.toString();
-      }
-
-      var min = (time / 60) << 0,
-           sec = Math.round( time % 60);
-
-      return pad(min) + ':' + pad(sec)
-  }
-  
   addAlbumToPlaylist(id){
     this.$msAlbum.getAlbumSongs(id)
       .then( songs => {
            this.populatePlaylist(songs)
       })
-  }
-  
-  getIndexById(id){
-    return this.angularPlayer.isInArray(this.getPlaylist(),id)
   }
 
   populatePlaylist(songs){
@@ -100,8 +56,54 @@ class PlayerService {
        };
 
        // Add to playlist
-       this.angularPlayer.addTrack(track);
+       this.$sm2Player.addTrack(track);
     }
+  }
+
+  getVolume() {
+    return this.$sm2Player.getVolume();
+  }
+
+  setVolume(value){
+    this.$sm2Player.adjustVolumeSlider(value);
+  }
+
+  getPlaylist(){
+    return this.$sm2Player.getPlaylist()
+  }
+
+  getPlaylistCount(){
+    return this.getPlaylist().length
+  }
+
+  fetchPage(offset, limit) {
+      var defered = this.$q.defer();
+      var promise = defered.promise;
+
+      // Return array page in a promise
+      defered.resolve(this.getPlaylist().slice(offset, offset+limit))
+      
+      return promise
+  }
+  
+  // Play track from playlist by track id
+  playTrack(id){
+    this.$sm2Player.playTrack(id)
+  }
+ 
+  getHumanTime(time) {
+      function pad(d) {
+        return (d < 10) ? '0' + d.toString() : d.toString();
+      }
+
+      var min = (time / 60) << 0,
+           sec = Math.round( time % 60);
+
+      return pad(min) + ':' + pad(sec)
+  }
+  
+  getIndexById(id){
+    return this.$sm2Player.isInArray(this.getPlaylist(),id)
   }
   
   getSongUserInfo(info, type){
@@ -117,23 +119,49 @@ class PlayerService {
   }
 
   nextTrack(){
-    if( this.angularPlayer.isLastTrack() && this.angularPlayer.isPlayingStatus() ){
+    if( this.$sm2Player.isLastTrack() && this.getPlaying() ){
       return false
     }
-    this.angularPlayer.nextTrack()
+    this.$sm2Player.nextTrack()
   }
 
   prevTrack(){
-    this.angularPlayer.prevTrack()
+    this.$sm2Player.prevTrack()
   }
   
   play(){
-    this.angularPlayer.play()
+    this.$sm2Player.play()
   }
   
   pause(){
-    this.angularPlayer.pause()
+    this.$sm2Player.pause()
   }
+
+  getProgress(){
+    return this.$sm2Player.getProgress()
+  }
+
+  getPlaying(){
+    return this.$sm2Player.getPlaying()
+  } 
+
+  getActive(){
+    return this.$sm2Player.getActive()
+  }
+
+  getLoadedProgress(){
+    return this.$sm2Player.getLoadedProgress()
+  }
+
+  getCurrentTrackData(){
+    return this.$sm2Player.getCurrentTrackData()
+  }
+
+  subscribe(subject, callback){
+    this.$sm2Player.subjects[subject].subscribe(callback)
+  }
+
+
 }
 
 export default PlayerService

@@ -20,7 +20,7 @@
  </div>
  <div layout="row" layout-align="center center">
     <ms-rating-button rating-type="dislike" song="$ctrl.current"></ms-rating-button>
-    <md-button id="ms-player-button-med" class="md-icon-button" aria-label="Previous track" prev-track>
+    <md-button id="ms-player-button-med" class="md-icon-button" aria-label="Previous track" ng-click="$ctrl.prevTrack()">
       <md-icon md-svg-icon="previous" class="ms-player-icon-button"></md-icon>
     </md-button>
     <md-button id="ms-player-button-big" ng-click="$ctrl.play()" class="md-icon-button" ng-hide="$ctrl.isPlaying" aria-label="Play music" md-autofocus>
@@ -29,7 +29,7 @@
     <md-button id="ms-player-button-big" ng-click="$ctrl.pause()" class="md-icon-button" ng-show="$ctrl.isPlaying" aria-label="Pause music" md-autofocus>
       <md-icon id="ms-player-icon-big" md-svg-icon="pauseFilled" class="md-primary"></md-icon>
     </md-button>
-    <md-button id="ms-player-button-med" class="md-icon-button" aria-label="Next track" next-track>
+    <md-button id="ms-player-button-med" class="md-icon-button" aria-label="Next track" ng-click="$ctrl.nextTrack()">
        <md-icon md-svg-icon="next" class="ms-player-icon-button"></md-icon>
     </md-button>
     <ms-rating-button rating-type="like" song="$ctrl.current"></ms-rating-button> 

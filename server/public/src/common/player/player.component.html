@@ -1,8 +1,7 @@
-<sound-manager></sound-manager>
 <div class="ms-player-container" layout="row">
-    <img class="ms-player-img" hide-xs ng-show="isActive" flex="none" ng-src="{{ currentPlaying.imageUrlLarge }}">
+    <img class="ms-player-img" hide-xs ng-show="$ctrl.isActive" flex="none" ng-src="{{ $ctrl.currentPlaying.imageUrlLarge }}">
     <div layout="column" flex="auto">
-        <div ng-show="isActive" 
+        <div ng-show="$ctrl.isActive" 
              id="progress" 
              class="ms-progress" 
              ng-click="$ctrl.setCurrentTime($event)" 
@@ -10,9 +9,9 @@
             <md-progress-linear md-mode="buffer" 
                                 class="md-accent" 
                                 flex 
-                                value="{{progress}}" 
-                                ng-show="isActive" 
-                                md-buffer-value="{{loaded}}"></md-progress-linear>
+                                value="{{$ctrl.progress}}" 
+                                ng-show="$ctrl.isActive" 
+                                md-buffer-value="{{$ctrl.loaded}}"></md-progress-linear>
         </div>
         <div layout="row" 
              flex="auto">
@@ -26,19 +25,19 @@
                  md-swipe-left="$ctrl.prevTrack()"
             md-swipe-right="$ctrl.nextTrack()"
             md-swipe-up="$ctrl.showPlayerCtrls()">
-                <div md-truncate class="md-body-2 ms-player-info-title">{{ currentPlaying.title}}</div>
-                <span md-truncate class="md-caption ms-player-info-album">{{ currentPlaying.album}}</span>
-                <span md-truncate class="md-caption ms-player-info-artist">{{ currentPlaying.artist}}</span>
+                <div md-truncate class="md-body-2 ms-player-info-title">{{ $ctrl.currentPlaying.title}}</div>
+                <span md-truncate class="md-caption ms-player-info-album">{{ $ctrl.currentPlaying.album}}</span>
+                <span md-truncate class="md-caption ms-player-info-artist">{{ $ctrl.currentPlaying.artist}}</span>
             </div>
             <div layout="row" flex="none" class="ms-player-mini-controls" hide-gt-xs>
-              <div ng-show="isActive" layout="column">
-                <div class="md-caption ms-player-position">{{currentPostion}} / {{currentDuration}}</div>
+              <div ng-show="$ctrl.isActive" layout="column">
+                <div class="md-caption ms-player-position">{{$ctrl.currentPosition}} / {{$ctrl.currentDuration}}</div>
                 <div layout="row">
-                    <md-button play-music class="md-icon-button" ng-hide="isPlaying" aria-label="Play music">
+                    <md-button ng-click="$ctrl.play()" class="md-icon-button" ng-hide="$ctrl.isPlaying" aria-label="Play music">
                       <md-icon md-svg-icon="play" class="md-primary ms-player-mini-icon-button"></md-icon>
                     </md-button>
                     <md-button class="md-icon-button" 
-                               ng-show="isPlaying" aria-label="Pause music" pause-music>
+                               ng-show="$ctrl.isPlaying" aria-label="Pause music" ng-click="$ctrl.pause()">
                       <md-icon  md-svg-icon="pause" class="md-primary ms-player-mini-icon-button"></md-icon>
                     </md-button>
                     <md-button class="md-icon-button ms-player-more-controls"  
@@ -51,25 +50,25 @@
             </div>
             <div hide-xs flex-sm="75" flex-md="70" flex-lg="65" flex-xl="60" layout="row" layout-align="space-between">
                 <div layout="row" id="controls" flex="none" layout-align="start center">
-                    <md-button class="md-icon-button ms-player-button" aria-label="Previous track" prev-track>
+                    <md-button class="md-icon-button ms-player-button" aria-label="Previous track" ng-click="$ctrl.prevTrack()">
                         <md-icon md-svg-icon="previous" class="ms-player-icon-button"></md-icon>
                     </md-button>
-                    <md-button id="ms-player-button-big" play-music class="md-icon-button" ng-hide="isPlaying" aria-label="Play music">
+                    <md-button id="ms-player-button-big" ng-click="$ctrl.play()" class="md-icon-button" ng-hide="$ctrl.isPlaying" aria-label="Play music">
                         <md-icon md-svg-icon="playFilled" id="ms-player-icon-big" class="md-primary"></md-icon>
                     </md-button>
-                    <md-button id="ms-player-button-big" class="md-icon-button" ng-show="isPlaying" aria-label="Pause music" pause-music>
+                    <md-button id="ms-player-button-big" class="md-icon-button" ng-show="$ctrl.isPlaying" aria-label="Pause music" ng-click="$ctrl.pause()">
                         <md-icon id="ms-player-icon-big" md-svg-icon="pauseFilled" class="md-primary"></md-icon>
                     </md-button>
-                    <md-button class="md-icon-button ms-player-button" aria-label="Next track" next-track>
+                    <md-button class="md-icon-button ms-player-button" aria-label="Next track" ng-click="$ctrl.nextTrack()">
                         <md-icon md-svg-icon="next" class="ms-player-icon-button"></md-icon>
                     </md-button>
                 </div>
-                <div layout="row" flex="none" id="rating" ng-show="isActive" layout-align="start center">
-                    <ms-rating-button rating-type="like" song="currentPlaying"></ms-rating-button>
-                    <ms-rating-button rating-type="dislike" song="currentPlaying"></ms-rating-button>
+                <div layout="row" flex="none" id="rating" ng-show="$ctrl.isActive" layout-align="start center">
+                    <ms-rating-button rating-type="like" song="$ctrl.currentPlaying"></ms-rating-button>
+                    <ms-rating-button rating-type="dislike" song="$ctrl.currentPlaying"></ms-rating-button>
                 </div>
-                <div ng-show="isActive" layout="column" flex="30">
-                    <div class="md-caption ms-player-position">{{currentPostion}} / {{currentDuration}}</div>
+                <div ng-show="$ctrl.isActive" layout="column" flex="30">
+                    <div class="md-caption ms-player-position">{{$ctrl.currentPosition}} / {{$ctrl.currentDuration}}</div>
                     <div id="volume" hide-xs layout="row" layout-align="start center">
                         <md-button md-no-ink class="md-icon-button" aria-label="Volume Down">
                             <md-icon md-svg-icon="volumeDown"></md-icon>

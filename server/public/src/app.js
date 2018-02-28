@@ -9,9 +9,7 @@ import 'satellizer'
 import 'ngstorage'
 import 'checklist-model'
 import 'angular-messages'
-
-import '/home/osmc/workspace/angular-soundmanager2/dist/angular-soundmanager2'
-
+import 'soundmanager2'
 
 import common from './common/common.module'
 import components from './components/components.module'
@@ -24,11 +22,11 @@ const root = angular
         components,
         'ngMaterial',
         'restangular',
-        'angularSoundManager',
         'satellizer',
         'ngStorage',
         'checklist-model',
-        'ngMessages'
+        'ngMessages',
+        'rx'
     ])
     .config(['$mdIconProvider',
         '$mdThemingProvider',

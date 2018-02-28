@@ -19,6 +19,14 @@ class PlayerControlsController {
     this.$mdBottomSheet.hide({ showAgain: false })
     this.$state.go(option)
   }
+  
+  nextTrack(){
+    this.$msPlayer.nextTrack()
+  }
+
+  prevTrack(){
+    this.$msPlayer.prevTrack()
+  }
 }
 
 export default PlayerControlsController

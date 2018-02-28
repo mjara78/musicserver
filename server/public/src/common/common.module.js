@@ -11,6 +11,7 @@ import { RatingButtonComponent } from './rating-button/rating-button.component'
 import MenuService from './menu/menu.service'
 import MessageService from './message/message.service'
 import PlayerService from './player/player.service'
+import Sm2PlayerService from './player/sm2-player.service'
 import AlbumService from '../components/album/album.service'
 import SecurityService from './security/security.service'
 
@@ -19,6 +20,7 @@ const common = angular
     .service('$msMenu', MenuService)
     .service('$msMessage', MessageService)
     .service('$msPlayer', PlayerService)
+    .service('$sm2Player', Sm2PlayerService)
     .service('$msAlbum', AlbumService)
     .service('$msSecurity', SecurityService)
     .component('msHeader', HeaderComponent)
