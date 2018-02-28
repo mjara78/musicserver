@@ -129,6 +129,19 @@ class Sm2PlayerService {
 	                    //_self.updateSubjectData('currentTrackData', _self.getCurrentTrackData())
 	                    //$sm2Player.$rootScope.$broadcast('track:id', $sm2Player.currentTrack);
 	                }
+	            },
+	            onerror: function() {
+	                soundManager._writeDebug(this.id + ' error, go to next track.');
+	                if(_self.autoPlay === true) {
+	                    //play next track if autoplay is on
+	                    //get your angular app
+	                    var elem = angular.element(document.body);
+	                    //get the injector.
+	                    var injector = elem.injector();
+	                    //get the service.
+	                    var $sm2Player = injector.get('$sm2Player');
+	                    $sm2Player.nextTrack();
+	                }
 	            }
 	        }
 	    });
