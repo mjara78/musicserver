@@ -32,7 +32,7 @@ router.route('/library')
     .post(ensureAuthenticated, LibraryCtrl.refreshLibrary);
 
 // Albums
-router.route('/albums/:id([0-9])')
+router.route('/albums/:id(\\d+)')
     .get(ensureAuthenticated, AlbumCtrl.getAlbumById)
     .put(ensureAuthenticated, AlbumCtrl.updateAlbum);
 
