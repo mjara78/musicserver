@@ -1,0 +1,19 @@
+@import "~common/variables"; 
+
+ms-data-table-header {
+	padding-left: 16px;
+ padding-right: 32px;	
+}
+
+md-checkbox#list-checkbox {
+  @media screen and (min-width: 0) and (max-width: $break-small - 1px){
+    margin-right: 13px;
+  }
+}
+
+#data-table-progress{
+	height: 3px;
+	div{
+		height: 3px;
+	}
+}

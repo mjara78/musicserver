@@ -1,0 +1,17 @@
+<md-toolbar layout="row" class="md-toolbar-tools"
+            md-colors="{background: 'default-primary-50'}">
+      <md-button class="md-icon-button" ng-click="$ctrl.cancel()" aria-label="Cancel selection">
+        <md-icon md-svg-icon="backBlack"></md-icon>
+      </md-button>
+      <span class="ms-selected-text" md-colors="{color: 'default-primary'}">{{$ctrl.selected.length}} items selected</span>
+      <span flex></span>
+      <md-button class="md-icon-button" ng-click="$ctrl.delete()">
+          <md-icon md-svg-icon="play" aria-label="Delete selected"></md-icon>
+      </md-button>
+      <md-button class="md-icon-button" ng-click="$ctrl.delete()">
+          <md-icon md-svg-icon="playlistAddB" aria-label="Delete selected"></md-icon>
+      </md-button>
+      <md-button class="md-icon-button" ng-click="$ctrl.more()">
+          <md-icon md-svg-icon="more" aria-label="More options for selected"></md-icon>
+      </md-button>
+</md-toolbar>

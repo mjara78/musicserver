@@ -1,0 +1,83 @@
+@import "~common/variables";
+
+ms-header-picture {
+    
+    @media screen and (min-width: 0) and (max-width: $break-small - 1px){
+      height:200px;  
+    }
+    @media screen and (min-width: $break-small){
+      height:100px; /* for desktop */
+      filter: blur(1px) opacity(30%); /* only for desktop*/  
+    }
+    
+    position: relative;
+    overflow:hidden;
+    background-size:100%; /* You can override this value if your picture has a weird ratio */
+    background-position:40% 40%;
+    background-color: rgba(100, 100, 100, 0.5);
+}
+
+#ms-album-detail-play{
+  position: absolute;
+  @media screen and (min-width: 0) and (max-width: $break-small - 1px){
+      top: 165px; 
+  }
+  @media screen and (min-width: $break-small){
+      top: 60px; /*for desktop */  
+  }
+  
+  left: 70%;
+}
+
+ms-detail-container {
+  margin-top: 23px;
+  margin-bottom: 10px;
+  
+  img {
+    width: 172px; 
+    height: 172px;
+  }
+}
+
+ms-detail-data {
+  margin-left: 10px;
+}
+
+ms-detail-artist{
+  margin-top: 5px;
+  img{
+    width: 40px; 
+    height: 40px; 
+    border-radius: 50%;
+  }
+  span{
+    margin-left: 8px;
+  }
+}
+
+.ms-detail-others{
+  margin-top: 5px;
+}
+
+#mini-button-xs {
+     @media screen and (min-width: 0) and (max-width: $break-medsmall - 1px) {
+        margin-left: 0px;
+        margin-right: 0px;
+        padding: 5px;
+    }
+
+    md-icon {
+      @media screen and (min-width: 0) and (max-width: $break-medsmall - 1px) {
+        min-width: 15px;
+        min-height: 15px;
+      }
+    }
+  }
+
+  #ms-header-songs-menu-empty{
+    width: 55px;
+  }
+
+  #ms-header-songs-right-empty{
+    width: 105px;
+  }

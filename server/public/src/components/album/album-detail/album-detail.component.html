@@ -1,0 +1,102 @@
+<div layout="row" layout-align="center" flex>
+  <ms-header-picture md-whiteframe="3" 
+                     flex 
+                     style="background-image:url({{ $ctrl.album.imageUrlExtralarge }})">
+  </ms-header-picture>
+  <md-button id="ms-album-detail-play" 
+             class="md-fab md-accent" ng-click="$ctrl.playAlbumFrom($ctrl.songs[0].id)" 
+             aria-label="Play Album"
+             ng-show="$ctrl.songs[0]">
+     <md-icon md-svg-icon="playWhite"></md-icon>
+  </md-button>
+</div>
+
+<div layout="row" layout-align="center" flex>
+  <ms-detail-container 	layout-gt-xs="row" flex-gt-xs="60"
+  	                    layout-xs="column" flex-xs="100">
+  	<img hide-xs md-whiteframe="2" 
+         ng-src="{{ $ctrl.album.imageUrlLarge }}" alt="{{ $ctrl.album.name }}">
+  	<ms-detail-data layout="column">
+  		<div layout="row">
+  			<span class="md-headline">{{ $ctrl.album.name }}</span>
+  		</div>
+  		<ms-detail-artist layout="row" layout-align="start center">
+  			<img ng-src="{{ $ctrl.album.Artist.imageUrlLarge }}">
+  			<span class="md-subhead">{{ $ctrl.album.Artist.name }}</span>	
+  		</ms-detail-artist>
+  		<div layout="row" layout-align="start center">
+  		  <div class="md-subhead ms-detail-others">{{ $ctrl.album.year }} • {{ $ctrl.songs.length }} tracks • {{$ctrl.duration}} • {{ $ctrl.album.Genre.name }}</div>
+  		  
+      </div>
+  	</ms-detail-data>	
+  </ms-detail-container>
+</div>
+
+
+<ms-data-table>
+  <div id="ms-header-list" layout="row" layout-align="start center" flex="100">
+     <md-checkbox ng-model="$ctrl.checkboxAll" aria-label="select all" id="ms-header-checkbox" ng-click="$ctrl.toggleCheckboxs()"></md-checkbox>
+      <span hide-xs flex="5">
+        Nº
+      </span>
+      <span hide-xs flex="40">
+        Title
+      </span>
+      <span flex="none" id="ms-header-songs-menu-empty"></span>
+      <span hide-xs flex="35">
+        Artist
+      </span>
+      <span hide-xs flex="10" layout="row" layout-align="center">
+        <md-icon class="ms-header-time" md-svg-icon="time"></md-icon>
+      </span>
+      <span flex="none" id="ms-header-songs-right-empty"></span>
+   </div>
+  <md-list ng-class="{'md-dense' : $ctrl.$mdMedia('xs')}" flex>
+    <div ng-repeat="song in $ctrl.songs">
+      <md-divider></md-divider>
+      <md-list-item id="ms-table-row" 
+                    ng-class="{'md-3-line' : $ctrl.$mdMedia('xs')}"
+                    ng-click="$ctrl.playAlbumFrom(song.id)">
+        <md-checkbox checklist-model="$ctrl.selected" 
+                     checklist-value="song.id"
+                     aria-label="select song" 
+                     id="list-checkbox"
+                     ng-click="$ctrl.testSelected()"></md-checkbox>
+        <span hide-xs flex="5">
+          {{ song.track }} 
+        </span>
+        <span class="ms-content-row md-truncate" hide-xs flex="40">
+          {{ song.title }}
+        </span>
+        <div class="md-list-item-text" hide-gt-xs flex-xs="100" layout="column">
+            <span class="md-truncate ms-xs-listening-title">{{song.title}}</span>
+            <h4 class="md-truncate ms-xs-listening-subtitle">{{song.Artist.name}}</h4>
+            <p>Track {{song.track}} • {{$ctrl.$msPlayer.getHumanTime(song.duration) }}</p>
+        </div>
+        <md-menu flex="none">
+            <md-button ng-click="$mdMenu.open($event)" 
+                       class="md-icon-button" 
+                       id="mini-button-xs"
+                       aria-label="Open song menu">
+              <md-icon md-svg-icon="more"></md-icon>
+            </md-button>
+            <md-menu-content>
+              <md-menu-item><md-button ng-click="$ctrl.doSomething()">Song Info</md-button></md-menu-item>
+              <md-menu-item><md-button ng-click="$ctrl.doSomething()">Delete from Library</md-button></md-menu-item>
+              <md-menu-item><md-button ng-click="$ctrl.doSomething()">Go to Artist</md-button></md-menu-item>
+            </md-menu-content>
+          </md-menu> 
+        <span class="ms-content-row md-truncate" hide-xs flex="35">
+          {{ song.Artist.name }}
+        </span>
+        <span hide-xs flex="10" style="text-align: center;">
+          {{ $ctrl.$msPlayer.getHumanTime(song.duration) }}
+        </span>
+        <ms-rating-button hide-xs id="listening-rating" rating-type="like" flex="none" song="song"></ms-rating-button>
+        <ms-rating-button hide-xs id="listening-rating" rating-type="dislike" flex="none" song="song"></ms-rating-button>
+        
+      </md-list-item>
+   </div>
+  </md-list>
+  <md-progress-linear md-mode="intermediate" id="data-table-progress" ng-disabled="$ctrl.songs[0]"></md-progress-linear>
+</ms-data-table>
