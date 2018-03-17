@@ -6,6 +6,7 @@ var Promise = require("bluebird");
 var models = require('../../models/index');
 var Album = models.Album;
 var Artist = models.Artist;
+var Genre = models.Genre;
 var AlbumNotFoundError = require("../../controllers/errors/albumErrors").AlbumNotFoundError;
 var musicArt = require("../../utils/music-art");
 
@@ -14,7 +15,7 @@ var me = exports;
 // Returns an Album by id
 exports.getAlbumById = function getAlbumById(idAlbum) {
     return new Promise(function(resolve, reject) {
-        Album.findById(idAlbum).then(function(result) {
+        Album.findById(idAlbum, { include: [Artist, Genre] }).then(function(result) {
             if (result) {
                 resolve(result);
             } else {
