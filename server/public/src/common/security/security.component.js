@@ -2,8 +2,10 @@ import controller from './security.controller'
 
 export const SecurityComponent = {
     bindings: {
-        onSecureLoaded: "&"
+        onSecureLoaded: "&",
+        cancelSelected: "<",
+        currentTrack: "<"
     },
     controller,
-    template: `<ui-view />`
+    template: `<ui-view autoscroll='true' cancel-selected='$ctrl.cancelSelected' current-track="$ctrl.currentTrack" />`
 }

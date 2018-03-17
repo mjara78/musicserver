@@ -6,7 +6,7 @@ class RecentsListController extends BaseNavController {
     }
 
     $onInit() {
-        super.registerNavigation()
+        super.updateHeader()
     }
 
 }

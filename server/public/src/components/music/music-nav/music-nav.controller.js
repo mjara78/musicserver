@@ -12,7 +12,7 @@ class MusicNavController extends BaseNavController {
     }
     
     $onInit() {
-      super.registerNavigation()
+      super.updateHeader()
     }
 
 }

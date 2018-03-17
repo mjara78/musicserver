@@ -14,7 +14,7 @@ class UserListController extends BaseNavController {
   }
 
 	$onInit() {
-		super.registerNavigation()
+		super.updateHeader()
 	}
     
 	addAccount (ev){

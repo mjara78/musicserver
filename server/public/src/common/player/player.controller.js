@@ -1,11 +1,12 @@
 import PlayerControlsController from './player-controls/player-controls.controller'
 
 class PlayerController {  
-  constructor($msPlayer, $msSong, $mdBottomSheet, $timeout) { "ngInject";
+  constructor($msPlayer, $msSong, $mdBottomSheet, $timeout, $msCommon) { "ngInject";
     this.$msPlayer = $msPlayer
     this.$msSong = $msSong
     this.$mdBottomSheet = $mdBottomSheet
     this.$timeout = $timeout
+    this.$msCommon = $msCommon
    
     this.showPlayerControls = false
     this.volume = this.$msPlayer.getVolume()
@@ -61,6 +62,9 @@ class PlayerController {
                     this.showPlayerCtrls()
               }
             }
+        } else {
+          // There is no previous track
+          this.parent.handlePlayingTrack({ currentSong: this.currentPlaying})
         }
 
         
@@ -77,7 +81,7 @@ class PlayerController {
     // subscribe duration changes
     this.subscriptionDuration = $msPlayer.subscribe('duration', (function(newValue) {
       this.$timeout( () => {
-        this.currentDuration = this.$msPlayer.getHumanTime(newValue)
+        this.currentDuration = this.$msCommon.getHumanTime(newValue)
       })
     }).bind(this))
   }

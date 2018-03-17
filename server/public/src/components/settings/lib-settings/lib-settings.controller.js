@@ -11,7 +11,7 @@ class LibSettingsController extends BaseNavController {
   }
 
 	$onInit() {
-		super.registerNavigation()
+		super.updateHeader()
 	}
   
 	refresh() {

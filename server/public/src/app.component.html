@@ -1,8 +1,12 @@
 <md-content flex="auto" layout="row">
     <md-content flex layout="column">
-        <ms-header ng-show="$ctrl.userAuthenticated()" title="$ctrl.headerTitle"></ms-header>
+        <ms-header ng-show="$ctrl.userAuthenticated()" header-info="$ctrl.headerInfo"></ms-header>
         <md-content id="main-content">
-            <div flex ui-view id="main-view" on-secure-loaded="$ctrl.handleUserLoaded( $event )" layout="column"></div>
+            <div flex ui-view autoscroll="true" id="main-view" 
+            	on-secure-loaded="$ctrl.handleUserLoaded( $event )" 
+            	cancel-selected="$ctrl.cancelSelected"
+            	current-track="$ctrl.currentTrack" 
+            	layout="column"></div>
         </md-content>
     </md-content>
 </md-content>

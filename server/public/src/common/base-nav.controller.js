@@ -2,8 +2,22 @@ class BaseNavController {
     constructor() {
     }
 
-    registerNavigation() {
-        this.parent.handleViewLoaded(this.$transition$.to().name);
+    updateHeader(options) {
+      var custom = null
+      var data = null
+      
+      if (options){
+        if(options.customHeader){
+          custom = options.customHeader
+          data = options.customData
+        }
+      } 
+        
+      this.parent.handleViewLoaded( {
+              view: this.$transition$.to().name,
+              customHeader: custom,
+              customData: data
+            });  
     }
 
 }

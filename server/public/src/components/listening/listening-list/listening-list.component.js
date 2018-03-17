@@ -3,7 +3,8 @@ import './listening-list.scss';
 
 export const ListeningListComponent = {
     bindings: {
-         $transition$: '<'
+         $transition$: '<',
+         currentTrack: "<"
     },
     require: {
       parent: '^^msApp'

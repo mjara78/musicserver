@@ -2,50 +2,49 @@ import VirtualRepeaterList from 'common/virtual-repeater-list'
 import BaseNavController from 'common/base-nav.controller'
 
 class ListeningListController extends BaseNavController {
-    constructor($msPlayer, $window, $msMessage, $mdMedia) { "ngInject";
+    constructor($msPlayer, $window, $msMessage, $mdMedia, $state) { "ngInject";
         super()
         this.$msPlayer = $msPlayer
         this.$window = $window
         this.$msMessage = $msMessage
         this.$mdMedia = $mdMedia 
+        this.$state = $state
 
         this.tracks = null
-        this.currentTrack = null
         this.indexCurrentTrack = null
     }
 
     $onInit() {
-      super.registerNavigation()
+      super.updateHeader()
        // Initialize repeater list
         this.tracks = new VirtualRepeaterList(
             50,
             this.$msPlayer.getPlaylistCount(),
             this.$msPlayer)
-      
+    
     }
   	
   	playSong(id){
   	  this.$msPlayer.playTrack(id)
   	}
 
-    $doCheck(){
-      if ( (this.parent.getPlayingTrack() && this.currentTrack 
-           && (this.parent.getPlayingTrack().id != this.currentTrack.id)) ||
-           ( this.parent.getPlayingTrack() && this.currentTrack == null ) ||
-           ( this.parent.getPlayingTrack() == undefined && this.currentTrack)){
-           // Set currentTrack when change playing track
-           this.currentTrack = this.parent.getPlayingTrack()
-           
-           // Set index positon of playing track, only when loading first time
-           if(this.currentTrack && this.indexCurrentTrack == null && this.tracks){
-             this.indexCurrentTrack = this.$msPlayer.getIndexById(this.currentTrack.id)-1
-           }
-      }
-      
-    }
+  $onChanges(changes){
+    this._updateIndexTrack()
+  }
     
   doSomething(){
     this.$msMessage.showMessage("Coming Soon!!")
+  }
+  
+  goAlbum(id){
+    this.$state.go('secure.album', { idAlbum: id })
+  }
+
+  _updateIndexTrack(){
+    // Set index positon of playing track, only when loading first time
+    if(this.currentTrack && this.indexCurrentTrack == null){
+       this.indexCurrentTrack = this.$msPlayer.getIndexById(this.currentTrack.id)-1
+    } 
   }
 }
 

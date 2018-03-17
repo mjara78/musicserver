@@ -44,9 +44,12 @@ const root = angular
                 .icon("musicLib", "assets/svg/ic_library_music_black_24px.svg", 24)
                 .icon("settings", "assets/svg/ic_settings_black_24px.svg", 24)
                 .icon("edit", "assets/svg/ic_mode_edit_black_24px.svg", 24)
+                .icon("editW", "assets/svg/ic_edit_white_24px.svg", 24)
                 .icon("refresh", "assets/svg/ic_refresh_black_24px.svg", 24)
                 .icon("back", "assets/svg/ic_arrow_back_white_24px.svg", 24)
+                .icon("backBlack", "assets/svg/ic_arrow_back_black_24px.svg", 24)
                 .icon("more", "assets/svg/ic_more_vert_black_24px.svg", 24)
+                .icon("moreW", "assets/svg/ic_more_vert_white_24px.svg", 24)
                 .icon("like", "assets/svg/ic_thumb_up_black_24px.svg", 24)
                 .icon("dislike", "assets/svg/ic_thumb_down_black_24px.svg", 24)
                 .icon("volumeUp", "assets/svg/ic_volume_up_black_24px.svg", 24)
@@ -69,6 +72,11 @@ const root = angular
                 .icon("pause", "assets/svg/ic_pause_black_24px.svg", 24)   
                 .icon("keyboardArrowUp", "assets/svg/ic_keyboard_arrow_up_black_24px.svg", 24)  
                 .icon("artist", "assets/svg/ic_account_box_black_24px.svg", 24)
+                .icon("playWhite", "assets/svg/ic_play_arrow_white_48px.svg", 48)
+                .icon("playlistAddW", "assets/svg/ic_playlist_add_white_24px.svg", 24)
+                .icon("playlistAddB", "assets/svg/ic_playlist_add_black_24px.svg", 24)
+                
+                
                           
 
             $mdThemingProvider.theme('default');
@@ -90,7 +98,7 @@ const root = angular
         }
     ])
     .component('msApp', AppComponent)
-    .run(['$window',
+    .run(['$window', 
         ($window) => { // Hide Loading page
             $window.loading_screen.finish();
         }

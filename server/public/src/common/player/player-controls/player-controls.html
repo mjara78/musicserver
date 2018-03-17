@@ -11,7 +11,7 @@
     <md-button class="md-icon-button" aria-label="Go to artist">
       <md-icon md-svg-icon="artist" class="md-primary"></md-icon>
     </md-button>
-    <md-button class="md-icon-button" aria-label="Go to album">
+    <md-button class="md-icon-button" ng-click="$ctrl.go('secure.album', {idAlbum: $ctrl.current.idAlbum})" aria-label="Go to album">
       <md-icon md-svg-icon="album" class="md-primary"></md-icon>
     </md-button>
     <md-button class="md-icon-button" ng-click="$ctrl.go('secure.listening')" aria-label="Navigate to listening section">

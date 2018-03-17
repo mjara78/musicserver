@@ -2,9 +2,11 @@ class AppController {
     constructor($msSecurity) { "ngInject";
         this.$msSecurity = $msSecurity
 
-        this.headerTitle = "";
         this.userInfo = null
         this.currentTrack = null
+        this.headerInfo = null
+        
+        this.cancelSelected = false
 
         this.views = new Map();
         this.views.set("secure.home", "Home");
@@ -13,15 +15,18 @@ class AppController {
         this.views.set("secure.music.albums", "Music Explorer");
         this.views.set("secure.accounts", "Manage Users Accounts");
         this.views.set("secure.listening", "Listening");
+        this.views.set("secure.album", "Album Detail");
 
     }
 
-    handleViewLoaded(view) {
-
-        if (this.views.has(view)) {
-            this.headerTitle = this.views.get(view);
+    handleViewLoaded($event) {
+    
+        this.headerInfo = $event
+        
+        if (this.views.has($event.view)) {
+            this.headerInfo.title = this.views.get($event.view);
         } else {
-            this.headerTitle = "undefined view";
+            this.headerInfo.title = "undefined view";
         }
 
     }
@@ -38,9 +43,9 @@ class AppController {
     handlePlayingTrack($event){
         this.currentTrack = $event.currentSong    
     }
-
-    getPlayingTrack(){
-        return this.currentTrack   
+    
+    updateSelected($event){
+      this.cancelSelected = $event.cancelSelected
     }
 }
 

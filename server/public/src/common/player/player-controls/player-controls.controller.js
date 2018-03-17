@@ -15,9 +15,9 @@ class PlayerControlsController {
     this.isPlaying = false
   }
 
-  go(option){
+  go(option, param){
     this.$mdBottomSheet.hide({ showAgain: false })
-    this.$state.go(option)
+    this.$state.go(option, param)
   }
   
   nextTrack(){

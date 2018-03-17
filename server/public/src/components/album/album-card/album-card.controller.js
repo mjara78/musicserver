@@ -1,7 +1,8 @@
 class AlbumCardController {  
-  constructor($msPlayer, $msMessage ) { "ngInject";
+  constructor($msPlayer, $msMessage, $state ) { "ngInject";
      this.$msPlayer = $msPlayer
      this.$msMessage = $msMessage
+     this.$state = $state
   }
 
   playAlbum(){
@@ -16,6 +17,10 @@ class AlbumCardController {
   
   doSomething(){
     this.$msMessage.showMessage("Coming Soon!!")
+  }
+  
+  goAlbum(){
+    this.$state.go('secure.album', { idAlbum: this.album.id })
   }
   
 }

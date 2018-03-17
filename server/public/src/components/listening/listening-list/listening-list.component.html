@@ -42,7 +42,7 @@
               {{song.duration }}
             </span>
             <div class="md-list-item-text" hide-gt-xs flex-xs="100" layout="column">
-              <h3 class="md-truncate ms-xs-listening-title">{{song.title}}</h3>
+              <span class="md-truncate ms-xs-listening-title">{{song.title}}</span>
               <h4 class="md-truncate ms-xs-listening-subtitle">{{song.album}}</h4>
               <p class="md-truncate">{{song.duration }} • {{song.artist}}</p>
               
@@ -59,7 +59,7 @@
               <md-menu-content>
                 <md-menu-item><md-button ng-click="$ctrl.doSomething()">Song Info</md-button></md-menu-item>
                 <md-menu-item><md-button ng-click="$ctrl.doSomething()">Delete from List</md-button></md-menu-item>
-                <md-menu-item><md-button ng-click="$ctrl.doSomething()">Go to Album</md-button></md-menu-item>
+                <md-menu-item><md-button ng-click="$ctrl.goAlbum(song.idAlbum)">Go to Album</md-button></md-menu-item>
                 <md-menu-item><md-button ng-click="$ctrl.doSomething()">Go to Artist</md-button></md-menu-item>
               </md-menu-content>
             </md-menu>

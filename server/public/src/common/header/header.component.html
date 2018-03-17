@@ -1,6 +1,12 @@
-<md-toolbar layout="row" class="md-toolbar-tools">
+<md-toolbar ng-hide="$ctrl.hideGenericToolbar" layout="row" class="md-toolbar-tools">
       <md-button class="md-fab md-mini md-accent" ng-click="$ctrl.toggleMenu()" aria-label="Show Menu">
         <md-icon md-svg-icon="menu"></md-icon>
       </md-button>
-      <h1>{{$ctrl.title}}</h1>
+      <h1>{{$ctrl.headerInfo.title}}</h1>
 </md-toolbar>
+<ms-album-header 
+      ng-show="($ctrl.headerInfo.customHeader == 'album-header')" 
+      album="$ctrl.headerInfo.customData"></ms-album-header>
+<ms-album-header-select 
+      ng-show="($ctrl.headerInfo.customHeader == 'album-header-select')" 
+      selected="$ctrl.headerInfo.customData"></ms-album-header-select>

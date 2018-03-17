@@ -1,8 +1,9 @@
 class PlayerService {
-  constructor ($sm2Player, $msAlbum, $q) { "ngInject";
+  constructor ($sm2Player, $msAlbum, $q, $msCommon) { "ngInject";
     this.$sm2Player = $sm2Player;
     this.$msAlbum = $msAlbum;
     this.$q = $q
+    this.$msCommon = $msCommon
 
     // Init soundmanager2 player
     this.$sm2Player.init()
@@ -24,7 +25,7 @@ class PlayerService {
            this.populatePlaylist(songs)
 
            // Play first track of new playlist
-           this.$sm2Player.playTrack(this.$sm2Player.getPlaylist(0).id)
+           this.playTrack(this.$sm2Player.getPlaylist(0).id)
          })
       })
   }
@@ -47,10 +48,12 @@ class PlayerService {
          title: song.title,
          track: song.track,
          album: song.Album.name,
+         idAlbum: song.Album.id,
          artist: song.Artist.name,
+         idArtist: song.Artist.id,
          imageUrlSmall: song.Album.imageUrlSmall,
          imageUrlLarge: song.Album.imageUrlLarge,
-         duration: this.getHumanTime(song.duration),
+         duration: this.$msCommon.getHumanTime(song.duration),
          like: this.getSongUserInfo(song.SongUsers, 'like'),
          dislike: this.getSongUserInfo(song.SongUsers, 'dislike')
        };
@@ -58,6 +61,16 @@ class PlayerService {
        // Add to playlist
        this.$sm2Player.addTrack(track);
     }
+  }
+
+  playSongsFrom(id, songs){
+    // Clear playlist
+     this.$sm2Player.clearPlaylist( data => {
+       this.populatePlaylist(songs)
+
+       // Play track id of new playlist
+       this.playTrack("#"+id)
+     })
   }
 
   getVolume() {
