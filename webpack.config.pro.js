@@ -40,7 +40,14 @@ module.exports = {
       }
     ]
   },
+  resolve: {
+    modules: [
+      path.resolve('./server/public/src'),
+      path.resolve('./node_modules')
+    ]
+  },
   plugins: [
-        new webpack.optimize.UglifyJsPlugin()
+        new webpack.optimize.UglifyJsPlugin(),
+        new webpack.EnvironmentPlugin(['NODE_ENV'])
     ] 
 };

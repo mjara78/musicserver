@@ -12,15 +12,20 @@ var webpackDevMiddleware = require("webpack-dev-middleware");
 var webpack = require("webpack");
 var webpackConfig = require("../webpack.config.dev");
 
+var compression = require('compression');
 
 var app = express();
 
-var compiler = webpack(webpackConfig);
+if (process.env.NODE_ENV == "development"){
+  var compiler = webpack(webpackConfig);
 
+  app.use(webpackDevMiddleware(compiler, {
+     publicPath: "/dist" // Same as `output.publicPath` in most cases.
+  }))
+}
 
-app.use(webpackDevMiddleware(compiler, {
-  publicPath: "/dist" // Same as `output.publicPath` in most cases.
-}))
+// Use gzip compression to responses
+app.use(compression());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

@@ -5,3 +5,5 @@ server/public/assets/thumbnails/*
 *.log
 *.mp3
 *.sqlite
+*.err
+*.out
