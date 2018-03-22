@@ -21,8 +21,9 @@
       <span flex="none" id="ms-header-right-empty"></span>
    </div>
   <md-list ng-class="{'md-dense' : $ctrl.$mdMedia('xs')}" flex >
-    <md-virtual-repeat-container md-top-index="$ctrl.indexCurrentTrack" 
-                                 class="list-repeat-full-height">
+    <md-virtual-repeat-container md-top-index="$ctrl.topIndex" 
+                                 class="list-repeat-full-height"
+                                 id="ms-table-body">
         <div md-virtual-repeat="song in $ctrl.tracks" class="ms-repeated-row" layout="column" md-on-demand flex>
           <md-divider></md-divider>
           <md-list-item id="ms-table-row" layout="row" ng-class="{'md-3-line' : $ctrl.$mdMedia('xs')}" ng-click="$ctrl.playSong(song.id)" flex>
