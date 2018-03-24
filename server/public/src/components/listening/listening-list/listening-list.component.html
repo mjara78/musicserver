@@ -27,9 +27,9 @@
         <div md-virtual-repeat="song in $ctrl.tracks" class="ms-repeated-row" layout="column" md-on-demand flex>
           <md-divider></md-divider>
           <md-list-item id="ms-table-row" layout="row" ng-class="{'md-3-line' : $ctrl.$mdMedia('xs')}" ng-click="$ctrl.playSong(song.id)" flex>
-            <img flex="none" class="ms-listening-playing"  ng-show="song.id == $ctrl.currentTrack.id" src="assets/images/playing.gif">
             <img flex="none" class="ms-album-art-list" ng-src="{{ song.imageUrlSmall }}"
-                 ng-hide="song.id == $ctrl.currentTrack.id"></img>
+                 ng-hide="$ctrl.getPlayingRow($index)"></img>
+            <img flex="none" class="ms-listening-playing" ng-show="$ctrl.getPlayingRow($index)" src="assets/images/playing.gif"></img>
             <span hide-xs class="md-truncate ms-content-row" flex="35">
               {{song.title}}
             </span>

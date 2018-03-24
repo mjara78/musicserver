@@ -13,8 +13,6 @@ class ListeningListController extends BaseNavController {
         this.tracks = null
         this.topIndex = null
         
-        this.tableHeight = null
-        this.rowHeight = null
     }
 
     $onInit() {
@@ -43,13 +41,22 @@ class ListeningListController extends BaseNavController {
   }
 
   _updateIndexTrack(){
-    this._getElementsHeight()
   
-    var visibleElems = Math.floor(this.tableHeight/this.rowHeight)
-    var indexCurrent = this.$msPlayer.getIndexById(this.currentTrack.id)
-  
-    // Set index positon of playing track, only when loading first time
+    var tableElement = angular.element(document.querySelector('#ms-table-body'))
+    var rowElement = angular.element(document.querySelector('#ms-table-row')) 
+    
+    if (rowElement.length > 0){
+      var tableHeight = tableElement[0].offsetHeight
+      var rowHeight = rowElement[0].offsetHeight
+
+      var visibleElems = Math.floor(tableHeight/rowHeight)
+    }
+    
+    // Set index positon of playing track
     if(this.currentTrack){
+      
+      var indexCurrent = this.$msPlayer.getIndexById(this.currentTrack.id)
+
       if ( this.topIndex == null ){ // First time access to page
         this.topIndex = indexCurrent - 1
       } else { // Top index not null. Allready in page
@@ -65,15 +72,12 @@ class ListeningListController extends BaseNavController {
         
       }
       
-    } 
+    }  
+    
   }
   
-  _getElementsHeight(){
-    var tableElement = angular.element(document.querySelector('#ms-table-body'))
-    var rowElement = angular.element(document.querySelector('#ms-table-row')) 
-    
-    this.tableHeight = tableElement[0].offsetHeight
-    this.rowHeight = rowElement[0].offsetHeight
+  getPlayingRow(index){
+    return ( this.$msPlayer.getIndexById(this.currentTrack.id) === index )
   }
 }
 
