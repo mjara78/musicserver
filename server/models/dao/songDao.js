@@ -8,6 +8,7 @@ var Song = models.Song;
 var Artist = models.Artist;
 var Album = models.Album;
 var SongUser = models.SongUser;
+var Sequelize = require('sequelize');
 var SongNotFoundError = require("../../controllers/errors/songErrors").SongNotFoundError;
 
 var me = exports;  
@@ -70,6 +71,9 @@ exports.createSong = function createSong(song) {
 
 // Returns all Song by album id
 exports.getSongsByAlbum = function getSongsByAlbum (options, idAlbum, idUser) {
+    if (options.order == "random"){
+        options.order = [ Sequelize.fn('RANDOM') ]
+    }
     return new Promise(function (resolve, reject) {
         options.where = {
           AlbumId : idAlbum

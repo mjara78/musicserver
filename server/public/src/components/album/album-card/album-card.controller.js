@@ -5,9 +5,8 @@ class AlbumCardController {
      this.$state = $state
   }
 
-  playAlbum(){
-    this.$msPlayer.playAlbum(this.album.id)
-  //  this.$msMessage.showMessage("Playing album")
+  playAlbum(options){
+    this.$msPlayer.playAlbum(this.album.id, options)
   }
   
   addAlbumToPlaylist(){

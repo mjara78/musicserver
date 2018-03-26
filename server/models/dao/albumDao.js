@@ -7,6 +7,7 @@ var models = require('../../models/index');
 var Album = models.Album;
 var Artist = models.Artist;
 var Genre = models.Genre;
+var Sequelize = require('sequelize');
 var AlbumNotFoundError = require("../../controllers/errors/albumErrors").AlbumNotFoundError;
 var musicArt = require("../../utils/music-art");
 
@@ -34,6 +35,11 @@ exports.getAlbums = function getAlbums(options, filter) {
             }
         };
     }
+
+    if (options.order == "random"){
+        options.order = [ Sequelize.fn('RANDOM') ]
+    }
+
     return new Promise(function(resolve, reject) {
         options.include = [Artist];
         Album.findAll(options).then(resolve).catch(reject);

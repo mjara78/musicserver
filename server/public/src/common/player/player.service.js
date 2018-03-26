@@ -17,8 +17,8 @@ class PlayerService {
     return this.$sm2Player.getDuration();
   }
 
-  playAlbum(id){
-    this.$msAlbum.getAlbumSongs(id)
+  playAlbum(id, options){
+    this.$msAlbum.getAlbumSongs(id, options)
       .then( songs => {
          // Clear playlist
          this.$sm2Player.clearPlaylist( data => {

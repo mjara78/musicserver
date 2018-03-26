@@ -11,9 +11,13 @@ class AlbumService extends GenericResourceService {
     return this.getAll({ limit:'12', order: 'Album.createdAt DESC'})
   }
 
-  getAlbumSongs (idAlbum) {
+  // Get all songs by album id
+  getAlbumSongs (idAlbum, options) {
+    if (!options){ // Default Order by track
+      options = { order: 'track'}
+    }
     return this.Restangular.one('albums', idAlbum).all('songs')
-    	.getList({ order: 'track'})
+    	.getList(options)
     	.then(	response => response )
   }
   

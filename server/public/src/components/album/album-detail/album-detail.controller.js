@@ -72,6 +72,17 @@ class AlbumDetailController extends BaseNavController {
 		this.$msPlayer.playSongsFrom(id, this.songs)
 	}
 	
+	playShuffle(){
+	  var shuffleSongs = []
+	  
+	  angular.copy(this.songs, shuffleSongs)
+	  // sort array copied random
+	  this.$msCommon.shuffle(shuffleSongs)
+	  
+	  // play it
+	  this.$msPlayer.playSongsFrom(shuffleSongs[0].id, shuffleSongs)
+	}
+	
 	_setStandarHeader(){
 	  super.updateHeader({ 
 		   customHeader: 'album-header',

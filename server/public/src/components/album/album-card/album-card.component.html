@@ -13,10 +13,11 @@
         <md-icon md-svg-icon="more"></md-icon>
       </md-button>
       <md-menu-content>
-        <md-menu-item><md-button ng-click="$ctrl.playAlbum()">Play Album</md-button></md-menu-item>
-        <md-menu-item><md-button ng-click="$ctrl.addAlbumToPlaylist()">Add Album</md-button></md-menu-item>
-        <md-menu-item><md-button ng-click="$ctrl.goAlbum()">Go to Album</md-button></md-menu-item>
-        <md-menu-item><md-button ng-click="$ctrl.doSomething()">Go to Artist</md-button></md-menu-item>
+        <md-menu-item><md-button ng-click="$ctrl.playAlbum()"><md-icon md-svg-icon="play"></md-icon>Play Album</md-button></md-menu-item>
+        <md-menu-item><md-button ng-click="$ctrl.addAlbumToPlaylist()"><md-icon md-svg-icon="playlistAddB"></md-icon>Add Album</md-button></md-menu-item>
+        <md-menu-item><md-button ng-click="$ctrl.playAlbum({order: 'random'})"><md-icon md-svg-icon="shuffle"></md-icon>Play Random</md-button></md-menu-item>
+        <md-menu-item><md-button ng-click="$ctrl.goAlbum()"><md-icon md-svg-icon="album"></md-icon>Go to Album</md-button></md-menu-item>
+        <md-menu-item><md-button ng-click="$ctrl.doSomething()"><md-icon md-svg-icon="artist"></md-icon>Go to Artist</md-button></md-menu-item>
       </md-menu-content>
     </md-menu>
   </md-card-content> 

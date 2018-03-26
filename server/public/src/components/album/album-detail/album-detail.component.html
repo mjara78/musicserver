@@ -26,8 +26,8 @@
   		</ms-detail-artist>
   		<div layout="row" layout-align="start center">
   		  <div class="md-subhead ms-detail-others">{{ $ctrl.album.year }} • {{ $ctrl.songs.length }} tracks • {{$ctrl.duration}} • {{ $ctrl.album.Genre.name }}</div>
-  		  
       </div>
+      <md-button ng-click="$ctrl.playShuffle()"><md-icon class="ms-icon-text-button" md-svg-icon="shuffle"></md-icon>Play Random</md-button>
   	</ms-detail-data>	
   </ms-detail-container>
 </div>
