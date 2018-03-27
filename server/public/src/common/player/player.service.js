@@ -64,13 +64,20 @@ class PlayerService {
   }
 
   playSongsFrom(id, songs){
+    var defered = this.$q.defer()
+    
     // Clear playlist
      this.$sm2Player.clearPlaylist( data => {
        this.populatePlaylist(songs)
 
        // Play track id of new playlist
        this.playTrack("#"+id)
+       
+       // Resolve promise when populate playlist and play 
+       defered.resolve()
      })
+     
+     return defered.promise
   }
 
   getVolume() {

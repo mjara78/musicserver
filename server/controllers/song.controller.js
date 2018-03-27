@@ -24,7 +24,7 @@ exports.getSongById = function(req, res) {
 		});
 };
 
-// GET - Return all songs
+// GET - Return all songs by Album
 exports.getSongsByAlbum = function(req, res) {
  var options = {};
  if (req.query.order){
@@ -88,5 +88,27 @@ exports.updateSongInfoByUser = function(req, res) {
 		});
 };
 
+// GET - Return all songs 
+exports.getSongs = function(req, res) {
+ var options = {};
+ if (req.query.order){
+   options.order = req.query.order;
+ }
 
+ if (req.query.limit){
+   options.limit = req.query.limit;
+ }
+ if (req.query.offset){
+   options.offset = req.query.offset;
+ }
+
+	SongDao.getSongs(options, req.user)
+		.then(function (songs) {
+			res.status(200).json(songs);
+		})
+		.catch(function (error) {
+			var errorObj = new ServerError(error.message);
+			res.status(errorObj.statusCode).json(errorObj);
+		});
+};
 

@@ -27,9 +27,26 @@ exports.getSongById = function getSongById (idSong) {
 };
 
 // Returns all Song
-exports.getSongs = function getSongs () {
+exports.getSongs = function getSongs (options, idUser) {
+    if (options.order == "random"){
+        options.order = [ Sequelize.fn('RANDOM') ]
+    }
+
+    options.include = [
+        {
+          model: SongUser,
+          where: { UserId: idUser },
+          required: false
+        }, 
+        Album, 
+        Artist
+    ];
+
+    // For limit results after join and order by
+    options.subQuery = false
+
     return new Promise(function (resolve, reject) {
-        Song.findAll().then(resolve).catch(reject);
+        Song.findAll(options).then(resolve).catch(reject);
     });
 };
 

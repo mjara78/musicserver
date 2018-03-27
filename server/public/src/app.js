@@ -76,6 +76,8 @@ const root = angular
                 .icon("playlistAddW", "assets/svg/ic_playlist_add_white_24px.svg", 24)
                 .icon("playlistAddB", "assets/svg/ic_playlist_add_black_24px.svg", 24)
                 .icon("shuffle", "assets/svg/ic_shuffle_black_24px.svg", 24)
+                .icon("randomLucky", "assets/svg/random_lucky.svg", 24)
+                
                 
                 
                           

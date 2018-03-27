@@ -7,3 +7,19 @@ md-content#main-content {
         height: inherit;
     }
 }
+
+button#ms-fab-bottom-right {
+	top: auto;
+	right: 20px;
+	bottom: 105px;
+	left: auto;
+	position: fixed;
+}
+
+.ms-progress-fab{
+	top: auto;
+	right: 26px;
+	bottom: 109px;
+	left: auto;
+	position: fixed;	
+}

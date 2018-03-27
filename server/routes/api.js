@@ -42,14 +42,16 @@ router.route('/albums')
 router.route('/albums/count')
     .get(ensureAuthenticated, AlbumCtrl.getCountAlbums);
 
-router.route('/albums/:idAlbum/songs')
+router.route('/albums/:idAlbum(\\d+)/songs')
     .get(ensureAuthenticated, SongCtrl.getSongsByAlbum);
 
 // Songs
-router.route('/songs/:id/stream')
+router.route('/songs/:id(\\d+)/stream')
     .get(SongCtrl.getSongStream);
-router.route('/songs/:id/userinfo')
+router.route('/songs/:id(\\d+)/userinfo')
     .put(ensureAuthenticated, SongCtrl.updateSongInfoByUser);
+router.route('/songs')
+    .get(ensureAuthenticated, SongCtrl.getSongs);
 
 // Genres
 router.route('/genres/:id')
@@ -60,7 +62,7 @@ router.route('/genres')
     .get(ensureAuthenticated, GenreCtrl.getGenres);
 
 // Artist
-router.route('/artists/:id([0-9])')
+router.route('/artists/:id(\\d+)')
     .get(ensureAuthenticated, ArtistCtrl.getArtistById)
     .put(ensureAuthenticated, ArtistCtrl.updateArtist);
 

@@ -6,3 +6,8 @@
     <ms-album-card album="recent"></ms-album-card>
   </div>
 </div>
+<md-button id="ms-fab-bottom-right" class="md-fab md-fab-bottom-right" aria-label="Generat random Playlist" 
+            ng-click="$ctrl.playRandomAll()">
+  <md-icon md-svg-icon="randomLucky"></md-icon>
+</md-button>
+<md-progress-circular class="ms-progress-fab" ng-hide="$ctrl.songsLoaded" md-mode="indeterminate" md-diameter="60" ng-disabled="$ctrl.songsLoaded"></md-progress-circular>
