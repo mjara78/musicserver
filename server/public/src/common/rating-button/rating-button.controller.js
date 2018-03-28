@@ -36,6 +36,11 @@ class RatingButtonController {
       .then( result => {
         // Callback function
         this.onRatingChange()
+
+        // If dislike and song is playing go to next track
+        if (userInfo.dislike && this.$msPlayer.getCurrentTrackData().idSong == this.song.idSong) {
+          this.$msPlayer.nextTrack()
+        }
       })
   }
   
