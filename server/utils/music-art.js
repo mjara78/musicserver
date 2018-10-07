@@ -42,7 +42,7 @@ var musicArt = function (artistName, albumName, size) {
           var filename = path.basename(url.parse(urlImage).pathname, ext);
               
           // Download image
-          download(urlImage, saveBasedir + folder + filename + '.' + size + ext )
+         return download(urlImage, saveBasedir + folder + filename + '.' + size + ext )
           .then( function () {
             image["imageUrl" + size.capitalize()] = folder + filename + '.' + size + ext;
             resolve(image);

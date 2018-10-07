@@ -3,110 +3,58 @@
 //
 
 var Promise = require("bluebird");
-var models = require('../../models/index');
-var Song = models.Song;
-var Artist = models.Artist;
-var Album = models.Album;
-var SongUser = models.SongUser;
-var Sequelize = require('sequelize');
-var SongNotFoundError = require("../../controllers/errors/songErrors").SongNotFoundError;
+var musicDB = require('../db/musicDB');
 
-var me = exports;  
+const GenericDao = require('./genericDao');
 
-// Returns a Song by id
-exports.getSongById = function getSongById (idSong) {
-    return new Promise(function (resolve, reject) {
-        Song.findById(idSong).then(function (result) {
-        	if (result) {
-        		resolve(result);
-        	} else {
-        		throw new SongNotFoundError();
-        	}
-        }).catch(reject);
-    });
-};
+module.exports = class SongDao extends GenericDao {
 
-// Returns all Song
-exports.getSongs = function getSongs (options, idUser) {
-    if (options.order == "random"){
-        options.order = [ Sequelize.fn('RANDOM') ]
+  constructor(){
+    super(musicDB.db, musicDB.schema, 'song') 
+  }
+ 
+  getSongByFilePath(filePath) {
+    let options = {}
+    options.filter = {
+      'filePath': filePath
+    }; 
+    return this.getAllFilter(options)
+  }
+
+  getSongById(id, include, idUser){
+      let options = null;
+    if(include){
+        options.include = [ { type: 'Artist' },
+                        { type: 'Album' },
+                        { type: 'UserLikes', filter: { UserId: idUser } } 
+                      ]
+    }
+    
+    return this.getById(id, options);
+  }
+
+  getSongs(options, idUser){
+    options.include = [ { type: 'Artist' },
+                        { type: 'Album' },
+                        { type: 'UserLikes', filter: { UserId: idUser } } 
+                    ]
+
+    return this.getAllFilter(options);
+  }
+
+  getSongsByAlbum(options, idUser, idAlbum){
+    options.include = [ { type: 'Artist' },
+                        { type: 'Album' },
+                        { type: 'UserLikes', filter: { UserId: idUser } } 
+                    ]
+    options.filter = {
+        'AlbumId': idAlbum 
     }
 
-    options.include = [
-        {
-          model: SongUser,
-          where: { UserId: idUser },
-          required: false
-        }, 
-        Album, 
-        Artist
-    ];
-
-    // For limit results after join and order by
-    options.subQuery = false
-
-    return new Promise(function (resolve, reject) {
-        Song.findAll(options).then(resolve).catch(reject);
-    });
-};
-
-// Get a Song by File Path
-exports.getSongByFilePath = function getSongByFilePath (filePath) {
-    return new Promise(function (resolve, reject) {
-        Song.find({
-	    	where: { file_path: filePath }
-	    }).then(function (song) {
-			if (song) {
-				resolve(song);
-			} else { // filePath not exists
-				throw new SongNotFoundError();
-			}
-	    }).catch(reject);
-    });
-};
-
-// Create Song
-exports.createSong = function createSong(song) {
-	return new Promise(function (resolve, reject) {
-	    Song.create({
-	        title: song.title,
-            year: song.year,
-            track: song.track,
-            // comment: DataTypes.STRING,
-            duration: song.duration,
-            file_path: song.file_path,
-            last_sync: song.last_sync,
-			AlbumId: song.AlbumId,
-			ArtistId: song.ArtistId,
-			albumArtistId: song.albumArtistId,
-			GenreId: song.GenreId
-	    })
-	    .then(resolve)
-	    .catch(reject);
-	});
-};
-
-// Returns all Song by album id
-exports.getSongsByAlbum = function getSongsByAlbum (options, idAlbum, idUser) {
-    if (options.order == "random"){
-        options.order = [ Sequelize.fn('RANDOM') ]
-    }
-    return new Promise(function (resolve, reject) {
-        options.where = {
-          AlbumId : idAlbum
-        };
-        options.include = [
-        {
-          model: SongUser,
-          where: { UserId: idUser },
-          required: false
-        }, 
-        Album, 
-        Artist];
-        
-        Song.findAll(options).then(resolve).catch(reject);
-    });
-};
+    return this.getAllFilter(options);
+  }
+}
+/*
 
 // Update info of a song by user
 exports.updateSongInfoByUser = function updateSongInfoByUser (idSong, idUser, info) {
@@ -121,6 +69,6 @@ exports.updateSongInfoByUser = function updateSongInfoByUser (idSong, idUser, in
           .catch(reject);
     });
 };
-
+*/
 
 

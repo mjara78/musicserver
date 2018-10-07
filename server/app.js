@@ -41,7 +41,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //app.use('/', index);
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 app.use('/api', api);
+
+// Share PouchDB musicDB by Http
+app.use('/db', require('express-pouchdb')(require('./models/db/musicDB').PouchDB));
+
 
 // envía el index.html para la SPA.
 app.get('*', (req, res, next) => {  
@@ -68,7 +78,8 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  //res.render('error');
+  next(err);
 });
 
 // Add Capitalize method to String

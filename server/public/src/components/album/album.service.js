@@ -8,13 +8,14 @@ class AlbumService extends GenericResourceService {
   }
 
   getRecents () {
-    return this.getAll({ limit:'12', order: 'Album.createdAt DESC'})
+    return this.getAll({ limit:'12', order: 'createdAt', orderType: 'desc'})
   }
 
   // Get all songs by album id
   getAlbumSongs (idAlbum, options) {
     if (!options){ // Default Order by track
       options = { order: 'track'}
+   //   options.debug = true
     }
     return this.Restangular.one('albums', idAlbum).all('songs')
     	.getList(options)
@@ -23,12 +24,13 @@ class AlbumService extends GenericResourceService {
   
   fetchPage(offset, limit, filter) {
     var options = {}
-    options.order = 'Album.name';
+    options.order = 'name';
     options.offset = offset;
     options.limit = limit;
  
     if (filter.name) {
       options.name = filter.name;
+      options.regexp = true;
     }
                
     return this.getAll(options)

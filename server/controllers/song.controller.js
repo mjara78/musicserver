@@ -3,50 +3,80 @@
 //
 
 var SongDao = require("../models/dao/songDao");
-var SongNotFoundError = require("./errors/songErrors").SongNotFoundError;
 var SongFileNotFoundError = require("./errors/songErrors").SongFileNotFoundError;
 var ServerError = require("./errors/genericErrors").ServerError;
+var NotFoundError = require("./errors/genericErrors").NotFoundError;
 var ms = require("mediaserver");
+const GenericController = require("./generic.controller");
 
-// GET - Return an album by id
-exports.getSongById = function(req, res) {
 
-	SongDao.getSongById(req.params.id)
+module.exports = class SongController extends GenericController {
+  constructor() {
+    super(new SongDao())
+	}
+	
+	getSongById(req, res) {
+		this.dao.getSongById(req.params.id, true, req.user)
 		.then(function (result) {
+			//console.log(result)
 			res.status(200).json(result);	
 		})
-		.catch(SongNotFoundError, function (error) {
+		.catch(NotFoundError, function (error) {
 			res.status(error.statusCode).json(error);
 		})
 		.catch(function (error) {
 			var errorObj = new ServerError(error.message);
+			console.error(error);
 			res.status(errorObj.statusCode).json(errorObj);
 		});
-};
+	}
 
-// GET - Return all songs by Album
-exports.getSongsByAlbum = function(req, res) {
- var options = {};
- if (req.query.order){
-   options.order = req.query.order;
- }
+	getSongsByAlbum(req, res) {	 
+	 this.dao.getSongsByAlbum(this.parseParams(req), req.user, req.params.idAlbum)
+			 .then(function (songs) {
+				 res.status(200).json(songs);
+			 })
+			 .catch(function (error) {
+				 var errorObj = new ServerError(error.message);
+				 console.error(error);
+				 res.status(errorObj.statusCode).json(errorObj);
+			 });
+	 }
 
- if (req.query.limit){
-   options.limit = req.query.limit;
- }
- if (req.query.offset){
-   options.offset = req.query.offset;
- }
+	 getSongStream(req, res) {
+		this.dao.getSongById(req.params.id, false)
+			.then(function (song) {
+			 // Stream file 
+			 ms.pipe(req, res, song.filePath);
+	
+			})
+			.catch(NotFoundError, function (error) {
+				res.status(error.statusCode).json(error);
+			})
+			.catch(SongFileNotFoundError, function (error) {
+				res.status(error.statusCode).json(error);
+			})
+			.catch(function (error) {
+				var errorObj = new ServerError(error.message);
+				console.error(error)
+				res.status(errorObj.statusCode).json(errorObj);
+			});
+	}
 
-	SongDao.getSongsByAlbum(options, req.params.idAlbum, req.user)
-		.then(function (songs) {
-			res.status(200).json(songs);
-		})
-		.catch(function (error) {
-			var errorObj = new ServerError(error.message);
-			res.status(errorObj.statusCode).json(errorObj);
-		});
-};
+	getSongs(req, res) {
+		 this.dao.getSongs(this.parseParams(req), req.user)
+			 .then(function (songs) {
+				 res.status(200).json(songs);
+			 })
+			 .catch(function (error) {
+				 var errorObj = new ServerError(error.message);
+				 console.error(error)
+				 res.status(errorObj.statusCode).json(errorObj);
+			 });
+	 }
+}
+
+/*
 
 // GET - Return song stream
 exports.getSongStream = function(req, res) {
@@ -88,27 +118,5 @@ exports.updateSongInfoByUser = function(req, res) {
 		});
 };
 
-// GET - Return all songs 
-exports.getSongs = function(req, res) {
- var options = {};
- if (req.query.order){
-   options.order = req.query.order;
- }
 
- if (req.query.limit){
-   options.limit = req.query.limit;
- }
- if (req.query.offset){
-   options.offset = req.query.offset;
- }
-
-	SongDao.getSongs(options, req.user)
-		.then(function (songs) {
-			res.status(200).json(songs);
-		})
-		.catch(function (error) {
-			var errorObj = new ServerError(error.message);
-			res.status(errorObj.statusCode).json(errorObj);
-		});
-};
-
+*/

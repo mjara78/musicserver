@@ -15,6 +15,7 @@ class ArtistService extends GenericResourceService {
      
         if (filter.name) {
           options.name = filter.name;
+          options.regexp = true;
         }
                    
         return this.getAll(options)

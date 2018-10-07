@@ -13,17 +13,22 @@ var ensureAdminUser = require("../utils/security").ensureAdminUser;
 // API routes
 var router = express.Router();
 
+var albumCtrl = new AlbumCtrl();
+var userCtrl = new UserCtrl(); 
+var artistCtrl = new ArtistCtrl();
+var songCtrl = new SongCtrl();
+
 // Authentication 
-router.route('/login').post(UserCtrl.loginUser);
-router.route('/users/count').get(UserCtrl.getCountUsers);
-router.route('/users/default').post(UserCtrl.createDefaultUser);
+router.route('/login').post(userCtrl.loginUser.bind(userCtrl));
+router.route('/users/count').get(userCtrl.getCountFilter.bind(userCtrl));
+router.route('/users/default').post(userCtrl.createDefaultUser.bind(userCtrl));
 
 // Users
 router.route('/users')
-    .get(ensureAuthenticated, ensureAdminUser, UserCtrl.getUsers)
-    .post(ensureAuthenticated, ensureAdminUser, UserCtrl.createUser);
+    .get(ensureAuthenticated, ensureAdminUser, userCtrl.getAllFilter.bind(userCtrl))
+    .post(ensureAuthenticated, ensureAdminUser, userCtrl.create.bind(userCtrl));
 
-router.route('/users/bulkdelete').post(ensureAuthenticated, ensureAdminUser, UserCtrl.deleteUsers);
+router.route('/users/bulkdelete').post(ensureAuthenticated, ensureAdminUser, userCtrl.delete.bind(userCtrl));
 
 // Library
 router.route('/library')
@@ -31,30 +36,34 @@ router.route('/library')
     .put(ensureAuthenticated, LibraryCtrl.updateLibrary)
     .post(ensureAuthenticated, LibraryCtrl.refreshLibrary);
 
+router.route('/library/:id(\\d+)')
+    .put(ensureAuthenticated, LibraryCtrl.updateLibrary);
+
 // Albums
-router.route('/albums/:id(\\d+)')
-    .get(ensureAuthenticated, AlbumCtrl.getAlbumById)
-    .put(ensureAuthenticated, AlbumCtrl.updateAlbum);
+router.route('/albums/:id([a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89aAbB][a-f0-9]{3}-[a-f0-9]{12})')
+    .get(ensureAuthenticated, albumCtrl.getAlbumById.bind(albumCtrl))
+    .put(ensureAuthenticated, albumCtrl.update.bind(albumCtrl));
 
 router.route('/albums')
-    .get(ensureAuthenticated, AlbumCtrl.getAlbums);
+    //.get(ensureAuthenticated, AlbumCtrl.getAlbums);
+	.get(albumCtrl.getAlbums.bind(albumCtrl));
 
 router.route('/albums/count')
-    .get(ensureAuthenticated, AlbumCtrl.getCountAlbums);
+    .get(ensureAuthenticated, albumCtrl.getCountFilter.bind(albumCtrl));
 
-router.route('/albums/:idAlbum(\\d+)/songs')
-    .get(ensureAuthenticated, SongCtrl.getSongsByAlbum);
+router.route('/albums/:idAlbum([a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89aAbB][a-f0-9]{3}-[a-f0-9]{12})/songs')
+    .get(ensureAuthenticated, songCtrl.getSongsByAlbum.bind(songCtrl));
 
 // Songs
-router.route('/songs/:id(\\d+)/stream')
-    .get(SongCtrl.getSongStream);
-router.route('/songs/:id(\\d+)/userinfo')
-    .put(ensureAuthenticated, SongCtrl.updateSongInfoByUser);
+router.route('/songs/:id([a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89aAbB][a-f0-9]{3}-[a-f0-9]{12})/stream')
+    .get(songCtrl.getSongStream.bind(songCtrl));
+//router.route('/songs/:id(\\d+)/userinfo')
+//    .put(ensureAuthenticated, songCtrl.updateSongInfoByUser);
 router.route('/songs')
-    .get(ensureAuthenticated, SongCtrl.getSongs);
+    .get(ensureAuthenticated, songCtrl.getSongs.bind(songCtrl));
 
 // Genres
-router.route('/genres/:id')
+router.route('/genres/:id([a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89aAbB][a-f0-9]{3}-[a-f0-9]{12})')
     .get(ensureAuthenticated, GenreCtrl.getGenreById)
     .put(ensureAuthenticated, GenreCtrl.updateGenre);
 
@@ -62,14 +71,14 @@ router.route('/genres')
     .get(ensureAuthenticated, GenreCtrl.getGenres);
 
 // Artist
-router.route('/artists/:id(\\d+)')
-    .get(ensureAuthenticated, ArtistCtrl.getArtistById)
-    .put(ensureAuthenticated, ArtistCtrl.updateArtist);
+router.route('/artists/:id([a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89aAbB][a-f0-9]{3}-[a-f0-9]{12})')
+    .get(ensureAuthenticated, artistCtrl.getById.bind(artistCtrl))
+    .put(ensureAuthenticated, artistCtrl.update.bind(artistCtrl));
 
 router.route('/artists')
-    .get(ensureAuthenticated, ArtistCtrl.getArtists);
+    .get(ensureAuthenticated, artistCtrl.getAllFilter.bind(artistCtrl));
 
 router.route('/artists/count')
-    .get(ensureAuthenticated, ArtistCtrl.getCountArtists);
+    .get(ensureAuthenticated, artistCtrl.getCountFilter.bind(artistCtrl));
 
 module.exports = router;

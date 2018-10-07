@@ -10,10 +10,12 @@ class LibraryService {
   }
 
   updateBasedir (basedir) {
-    var library = this.Restangular.one('library');
-    library.base_dir = basedir; 
-    
-    return library.put();
+    this.Restangular.one('library')
+    .get()
+    .then( (library) => {
+       library.baseDir = basedir; 
+       return library.put();
+    });
   }
   
   refreshLibrary () {

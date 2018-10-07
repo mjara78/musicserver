@@ -42,3 +42,35 @@ UnauthorizedAccessError.prototype = Object.create(Error.prototype);
 UnauthorizedAccessError.prototype.constructor = UnauthorizedAccessError;
 
 exports.UnauthorizedAccessError = UnauthorizedAccessError;
+
+//
+// Define ConflictError
+//
+function ConflictError (message) {
+    this.message = message;
+    this.name = "ConflictError";
+    this.code = '0409';
+    this.statusCode = 409;
+    Error.captureStackTrace(this, ConflictError);
+}
+ConflictError.prototype = Object.create(Error.prototype);
+ConflictError.prototype.constructor = ConflictError;
+
+exports.ConflictError = ConflictError;
+
+
+//
+// Define generic NotFoundError
+//
+function NotFoundError (message) {
+    this.message = message;
+    this.name = "NotFoundError";
+    this.code = '0404';
+    this.statusCode = 404;
+    Error.captureStackTrace(this, NotFoundError);
+}
+NotFoundError.prototype = Object.create(Error.prototype);
+NotFoundError.prototype.constructor = NotFoundError;
+
+exports.NotFoundError = NotFoundError;
+

@@ -10,9 +10,9 @@
         <md-list-item class="md-2-line">
           <div class="md-list-item-text">
             <h3>Music Directory</h3>
-            <p>{{$ctrl.library.base_dir}}</p>
+            <p>{{$ctrl.library.baseDir}}</p>
           </div>
-          <md-button class="md-secondary md-icon-button" aria-label="Edit library directory" ng-click="$ctrl.editMusicdir($event, $ctrl.library.base_dir)">
+          <md-button class="md-secondary md-icon-button" aria-label="Edit library directory" ng-click="$ctrl.editMusicdir($event, $ctrl.library.baseDir)">
         				<md-icon md-svg-icon="edit"></md-icon>
           </md-button>
         </md-list-item>
@@ -20,7 +20,7 @@
         <md-list-item class="md-2-line">
           <div class="md-list-item-text">
             <h3>Songs</h3>
-            <p>{{$ctrl.library.num_elements}}</p>
+            <p>{{$ctrl.library.numElements}}</p>
           </div>
         </md-list-item>
         <md-divider></md-divider>
@@ -37,7 +37,7 @@
         <md-list-item class="md-2-line">
           <div class="md-list-item-text">
             <h3>Last Refresh</h3>
-            <p>{{$ctrl.library.last_refresh | date:'dd/MM/yyyy HH:mm:ss'}}</p>
+            <p>{{$ctrl.library.lastRefresh | date:'dd/MM/yyyy HH:mm:ss'}}</p>
           </div>
         </md-list-item>
     	</md-list>

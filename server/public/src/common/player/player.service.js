@@ -53,9 +53,9 @@ class PlayerService {
          idArtist: song.Artist.id,
          imageUrlSmall: song.Album.imageUrlSmall,
          imageUrlLarge: song.Album.imageUrlLarge,
-         duration: this.$msCommon.getHumanTime(song.duration),
+         duration: this.$msCommon.getHumanTime(song.duration)/*,
          like: this.getSongUserInfo(song.SongUsers, 'like'),
-         dislike: this.getSongUserInfo(song.SongUsers, 'dislike')
+         dislike: this.getSongUserInfo(song.SongUsers, 'dislike')*/
        };
 
        // Add to playlist

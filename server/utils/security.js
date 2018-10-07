@@ -4,7 +4,9 @@ var moment = require('moment');
 var config = require('../config/security.config');
 var AccessDeniedError = require("../controllers/errors/genericErrors").AccessDeniedError;
 var UnauthorizedAccessError = require("../controllers/errors/genericErrors").UnauthorizedAccessError;
-var UserDao = require("../models/dao/userDao");
+const UserDao = require("../models/dao/userDao");
+
+var userDao = new UserDao()
 
 exports.createToken = function(userId) {
     var payload = {
@@ -17,7 +19,7 @@ exports.createToken = function(userId) {
 
 exports.ensureAdminUser = function(req, res, next) {
   
-  UserDao.getUserById(req.user)
+  userDao.getById(req.user)
     .then(function (user) {
       if (!user.isAdmin) {
         var error = new AccessDeniedError('Insufficient privileges.');
