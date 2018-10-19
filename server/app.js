@@ -4,6 +4,7 @@ var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var cors = require('cors')
 
 var index = require('./routes/index');
 var api = require("./routes/api");
@@ -15,6 +16,7 @@ var webpackConfig = require("../webpack.config.dev");
 var compression = require('compression');
 
 var app = express();
+app.use(cors());
 
 if (process.env.NODE_ENV == "development"){
   var compiler = webpack(webpackConfig);
@@ -43,7 +45,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "OPTIONS, GET, POST, PUT, DELETE");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header("Access-Control-Allow-Credentials", true);
   next();
 });
 
