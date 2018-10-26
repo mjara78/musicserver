@@ -221,8 +221,8 @@ console.log(explained.index.def.fields)
              return this.getBelongsTo(rel[keys[0]].type, doc[rel[keys[0]].field])
              .then( (result) => {
                 // add to relations
-                relations[keys[0]] = result;
-                return;
+                // relations[keys[0]] = result;
+                return doc[keys[0]] = result;
              });
            } else {
              return; // nothing to add 
@@ -240,8 +240,8 @@ console.log(explained.index.def.fields)
             return this.getHasMany(rel[keys[0]].type, doc.id, included.filter)
             .then( (results) => {
                 // add to relations
-                relations[keys[0]] = results;
-                return;
+                // relations[keys[0]] = results;
+                return doc[keys[0]] = result;
             });
           } else {
             return; // nothing to add 
@@ -250,7 +250,7 @@ console.log(explained.index.def.fields)
         });
 
          // 
-         return Promise.join(belongsToPromise, hasManyPromise, (belongsTo, hasMany) => {
+     /*    return Promise.join(belongsToPromise, hasManyPromise, (belongsTo, hasMany) => {
             let keys = Object.keys(relations);
             //console.log(relations)
            // console.log(keys)
@@ -261,6 +261,10 @@ console.log(explained.index.def.fields)
    //    console.log(docBefore)
                return docBefore;
             }, doc);
+         }); */
+         
+         return Promise.join(belongsToPromise, hasManyPromise, (belongsTo, hasMany) => {
+            return doc;
          });
        });
     
