@@ -14,52 +14,40 @@ exports.schema = [
     },
     {
       type: 'album',
-      relations: {
-        belongsTo: [ 
-          { Artist: { type: 'artist', field: 'ArtistId'}}, 
-          { Genre: { type: 'genre', field: 'GenreId'}}
-        ],
-        hasMany: [{ songs: { type: 'song'}}]
-      }
+      relations: [ 
+          { Artist: { relType: 'belongsTo', type: 'artist', field: 'ArtistId'}}, 
+          { Genre: { relType: 'belongsTo', type: 'genre', field: 'GenreId'}},
+          { songs: { relType: 'hasMany', type: 'song'}}
+      ]    
     },
     {
       type: 'artist',
-      relations: { 
-        hasMany: [
-          { songs: { type: 'song'}},
-          { albums: { type: 'album'}}
+      relations: [
+          { songs: { relType: 'hasMany', type: 'song'}},
+          { albums: { relType: 'hasMany', type: 'album'}}
         ]
-      }
     },
     {
       type: 'genre',
-      relations: {
-        hasMany: [
-          { songs: { type: 'song'}},
-          { albums: { type: 'album'}}
-        ]
-      }
+      relations: [
+          { songs: { relType: 'hasMany', type: 'song'}},
+          { albums: { relType: 'hasMany', type: 'album'}}
+      ]
     },
     {
         type: 'song',
-        relations: {
-            belongsTo: [ 
-              { Artist: { type: 'artist', field: 'ArtistId'}}, 
-              { Genre: { type: 'genre', field: 'GenreId'}},
-              { Album: { type: 'album', field: 'AlbumId'}}
-            ],
-            hasMany: [
-               { SongUserInfo: { type: 'songuserinfo'}}
-            ]
-        }
+        relations: [ 
+              { Artist: { relType: 'belongsTo', type: 'artist', field: 'ArtistId'}}, 
+              { Genre: { relType: 'belongsTo', type: 'genre', field: 'GenreId'}},
+              { Album: { relType: 'belongsTo', type: 'album', field: 'AlbumId'}},
+              { SongUserInfo: { relType: 'hasMany', type: 'songuserinfo'}}
+        ]
     },
     {
         type: 'songuserinfo',
-        relations: {
-          belongsTo: [  
-            { Song: { type: 'song', field: 'SongId'}}
-          ],
-        }
+        relations: [  
+            { Song: { relType: 'belongsTo', type: 'song', field: 'SongId'}}
+        ]
     }
   ];
 

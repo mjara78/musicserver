@@ -11,27 +11,26 @@ module.exports = class GenericDao {
     this.schema = schema
   }
 
-  update(doc) {
-	   return new Promise( (resolve, reject) => { 
+  async update(doc) {
+	   try{ 
         doc.updatedAt = new Date();
        
-        this.db.put(doc)
-            .then( (result) => {
-                doc._rev = result.rev;
-                resolve(doc);
-            })
-            .catch(function (err) {
-                if (err.code === 409) { // conflict
-                  throw new ConflictError(err.message);
-  	             } else {
-                  reject(err) // some other error
-                }
-            });    
-     });
+        const result = await this.db.put(doc);
+        doc._rev = result.rev;
+          
+        return doc;
+                  
+     } catch (error) {
+       if (error.code === 409) { // conflict
+          throw new ConflictError(error.message);
+  	    } else {
+          throw new Error(error); // some other error
+       }
+     }
   }
 
-  create(doc) {
-    return new Promise( (resolve, reject) => {
+  async create(doc) {
+    try{
         doc.createdAt = new Date();
         doc.updatedAt = null;
         doc.type = this.type;
@@ -41,155 +40,104 @@ module.exports = class GenericDao {
         }         
         doc._id = this.type + '_' + doc.id;   
 
-        this.db.put(doc).then( (result) => {
-          doc._rev = result.rev;
-          resolve(doc)
-        }).catch(reject);
-    });
+        const result = await this.db.put(doc);
+        doc._rev = result.rev;
+        
+        return doc;
+        
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 
-  getAllFilter(options) {   
-    return new Promise( (resolve, reject) => {
-        
+  async getAllFilter(options) {   
+    try{       
           // Set doc type
           if(options.selector){
             options.selector.type = this.type;
           } else {
             options.selector = { _id: { $gt: this.type, $lt: this.type+"\uffff" }};
-    /*        if(options.order){
-              options.sort = [{}]
-              options.sort[0] = '_id';
-            } */
           } 
           // filter results
           if(options.filter){
             options.selector[Object.keys(options.filter)[0]] = Object.values(options.filter)[0]
+          }              
+         // Only for debug query
+         if(options.debug){
+           debugQuery(options);
+         }
+
+         const data = await this.db.find(options);
+         let docs = data.docs;
+         // Paging results
+         if(options.paging){
+           if(!options.paging.limit){
+              options.paging.limit = docs.length
+           }
+           if(!options.paging.offset){
+              options.paging.offset = 0
+           }
+           docs = docs.slice(options.paging.offset, options.paging.limit)
+         }
+
+         // Ordered results
+         if(options.order){
+           docs.sort( (minor, higher) => {
+             if(options.orderType === 'desc'){
+               if( typeof higher[options.order] === 'string'){
+                  return higher[options.order].localeCompare(minor[options.order]);
+               } else {
+                  return higher[options.order] - minor[options.order];
+               }
+             } else {
+               if( typeof higher[options.order] === 'string'){
+                 return minor[options.order].localeCompare(higher[options.order]);
+               } else {
+                 return minor[options.order] - higher[options.order];
+               }
+             }
+           });
           }
+
+          // Load docs with relations included
+          return await this.parseRelDocs(docs, options.include);
           
-           // order results
-   /*       if(options.order){
-            if(!options.selector){
-              options.selector = {}
-            }
-            options.selector[options.order] = {$gt: true}; 
-
-            if(options.orderType){
-              options.sort[1] = {}
-              options.sort[1][options.order] = options.orderType 
-            } else {
-              options.sort[1] = options.order
-            }
-          }*/
-                   
-         // console.log(options)
-if(options.debug){
-  this.db.explain(options)
-  .then((explained)=>{
-     console.log(explained)
-     console.log(explained.index.def.fields)
-   })
-}
-/*this.db.explain(options)
-.then((explained)=>{
-console.log(explained)
-console.log(explained.index.def.fields)
-})*/
-          this.db.find(options)
-          .then( (data) => {
-        //      console.log('Filtered query.')
-        //      console.log(options);
-            let docs = data.docs
-            // Paging results
-            if(options.paging){
-              if(!options.paging.limit){
-                options.paging.limit = docs.length
-              }
-              if(!options.paging.offset){
-                options.paging.offset = 0
-              }
-
-              docs = docs.slice(options.paging.offset, options.paging.limit)
-            }
-
-            // Ordered results
-            if(options.order){
-              docs.sort( (minor, higher) => {
-                if(options.orderType === 'desc'){
-                  if( typeof higher[options.order] === 'string'){
-                    return higher[options.order].localeCompare(minor[options.order]);
-                  } else {
-                    return higher[options.order] - minor[options.order];
-                  }
-                } else {
-                  if( typeof higher[options.order] === 'string'){
-                    return minor[options.order].localeCompare(higher[options.order]);
-                  } else {
-                    return minor[options.order] - higher[options.order];
-                  }
-                }
-              });
-            }
-
-              this.parseRelDocs(docs, options.include)
-              .then( (results) => {
-               //  console.log(results)
-                 resolve(results)
-              })
-              .catch(reject);
-          })
-          .catch(reject);
-      /*  } 
-        else { // search without filter
-          this.db.rel.find(this.type, options)
-          .then( (result) => {
-             console.log('Search '+ this.type + ' without filter.')
-             console.log(result)
-             resolve(result[this.typePlu])
-          })
-          .catch(reject);
-        }*/
-        
-    });
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 
-  getById(id, options) {
-    return new Promise( (resolve, reject) => {
+  async getById(id, options) {
+    try{    
         let include;
 
         if(options){
           include = options.include;
         }
 
-        this.db.get(this.type + '_' + id)
-        .then( (result) => {
-          //  console.log(result)
-     
-            let docs = [result];
-            this.parseRelDocs(docs, include)
-            .then( (res) => {
-          //     console.log(res	)
-               resolve(res[0]); 
-            })
-            .catch(reject);  
-        })
-        .catch( (error) => {
-          if(error.status == 404){
-            reject(new NotFoundError());
-          } else {
-            reject(error)
-          }
-        });
-    });
+        const result = await this.db.get(this.type + '_' + id);
+        let docs = [result];
+        
+        // Load relations  
+        const res = await this.parseRelDocs(docs, include);
+        return res[0]; 
+ 
+    } catch (error) {
+      if(error.status == 404){
+        throw new NotFoundError();
+      } else {
+        throw new Error(error);
+      }
+    }
   }
 
-  getCountFilter(options) {
-    return new Promise( (resolve, reject) => {
-      this.getAllFilter(options)
-      .then( (results) => {
-   //      console.log(results)
-         resolve(results.length);
-      }).catch(reject);
-    });
+  async getCountFilter(options) {   
+    try {
+      const results = await this.getAllFilter(options);
+      return results.length;
+    } catch( error) {
+      throw Error(error);
+    }
   }
 
   getByName(name){
@@ -200,77 +148,45 @@ console.log(explained.index.def.fields)
     return this.getAllFilter(options)
   }
 
-  parseRelDocs(docs, include){
-    let doctype = this.getDoctype();
+  async parseRelDocs(docs, include){
+   try {
+     let doctype = this.getDoctype();
 
-    if( (doctype.relations && doctype.relations.hasMany && include) ||
-        (doctype.relations && doctype.relations.belongsTo && include) ){
+     if( doctype.relations && doctype.relations.length > 0 && include ){
 
        // Iterate docs
-       return Promise.map(docs, (doc) => {
-//console.log("doc")
-//console.log(doc)
-         // Iterate belongsTo relations...
-         let relations = {};
-         let belongsToPromise = Promise.map(doctype.relations.belongsTo, (rel) => {
-           let keys = Object.keys(rel);
-
-           if(this.isIncluded(include, keys[0])){
-//console.log(keys[0])
-             // load belongs object
-             return this.getBelongsTo(rel[keys[0]].type, doc[rel[keys[0]].field])
-             .then( (result) => {
-                // add to relations
-                // relations[keys[0]] = result;
-                return doc[keys[0]] = result;
-             });
-           } else {
-             return; // nothing to add 
-           } 
+       let docsPromises = docs.map( async (doc) => {
+          // Iterate relations
+          let relsPromises = doctype.relations.map( async (rel) => {
+            let relName = Object.keys(rel)[0]; 
            
-         });
-
-        // Iterate hasMany relations...
-        let hasManyPromise = Promise.map(doctype.relations.hasMany, (rel) => {
-          let keys = Object.keys(rel);
-          let included = this.isIncluded(include, keys[0]);
-          if(included){
-//console.log(keys[0])
-            // load hasMany List
-            return this.getHasMany(rel[keys[0]].type, doc.id, included.filter)
-            .then( (results) => {
-                // add to relations
-                // relations[keys[0]] = results;
-                return doc[keys[0]] = result;
-            });
-          } else {
-            return; // nothing to add 
-          } 
+            if(this.isIncluded(include, relName)){
+              let result;
+              if(rel[relName].relType === 'belongsTo'){
+                result = await this.getBelongsTo(rel[relName].type, doc[rel[relName].field]);
+              } else { // hasMany
+                result = await this.getHasMany(rel[relName].type, doc.id, included.filter);
+              }
+              return doc[relName] = result;
+            } else { // rel not included
+              return; // nothing to add 
+            }
+          });
           
-        });
-
-         // 
-     /*    return Promise.join(belongsToPromise, hasManyPromise, (belongsTo, hasMany) => {
-            let keys = Object.keys(relations);
-            //console.log(relations)
-           // console.log(keys)
-          //  console.log(Object.values(relations) )
-       //  console.log(doc)
-            return Object.values(relations).reduce((docBefore, current, index) => {
-               docBefore[keys[index]] = current;
-   //    console.log(docBefore)
-               return docBefore;
-            }, doc);
-         }); */
-         
-         return Promise.join(belongsToPromise, hasManyPromise, (belongsTo, hasMany) => {
-            return doc;
-         });
-       });
-    
+          // Return doc when all relations are loaded
+          await Promise.all(relsPromises);  
+          return doc;          
+       });  
+       
+       // Return docs array when all docs finished load relations
+       return Promise.all(docsPromises);  
     } else {
       return Promise.resolve(docs);
     }
+   } catch ( error) {
+     throw new Error(error);
+   }
+    
   }
 
   getBelongsTo(type, id){
@@ -283,10 +199,10 @@ console.log(explained.index.def.fields)
   getHasMany(type, ){
     let hasManyDao = new GenericDao(this.db, this.schema, type);
 //console.log("hasManyDao "+ type + ", id "+ id)
-       if(filter){
-         let options = { filter: filter }
-       }
-       return hasManyDao.getAllFilter(options);
+    if(filter){
+      let options = { filter: filter }
+    }
+    return hasManyDao.getAllFilter(options);
   }
   
   getDoctype(){
@@ -299,5 +215,16 @@ console.log(explained.index.def.fields)
      return include.find(function (value) { // is type included
               return type === value.type; 
             });
+  }
+  
+  async debugQuery(options) {
+    try{
+      const explained = await this.db.explain(options);    
+      console.log(explained)
+      console.log(explained.index.def.fields)    
+      return;
+    } catch (error){
+      throw new Error(error);
+    }
   }
 }
