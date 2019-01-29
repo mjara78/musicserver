@@ -107,8 +107,8 @@ exports.refreshLibrary = function refreshLibrary(req, res) {
 				       .then(function(){
 				          // update library content
 			        			// first change state of library
-				       			library.state = 'updating';
-			       				libraryDao.update(library).then(resolve).catch(reject);
+				       			library.state = 'updating';	
+			       				return libraryDao.update(library).then(resolve).catch(reject);
 				       }) 
 				       .catch(reject);
 				       
@@ -135,10 +135,10 @@ exports.refreshLibrary = function refreshLibrary(req, res) {
 			// Scan base_dir
 			var extract = scanner.extractMetadata(library.baseDir, function (filePath, tags){
 				return new Promise (function  (resolve, reject){
-//			console.log("+++Insert in DB: "+filePath)		
+		//	console.log("+++Insert in DB: "+filePath)		
 					Promise.join(
 					  genreDao.getOrCreateGenreByName(tags.genre),
-					  artistDao.getOrCreateArtistByName(tags.albumArtist),
+					  artistDao.getOrCreateArtistByName(tags.albumArtist.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "")),
 					  function (genre, albumArtist) { // after create genre and albumArtist we can create album
 					    var album = {
 						     	name: tags.album,
@@ -179,7 +179,7 @@ exports.refreshLibrary = function refreshLibrary(req, res) {
 					  }
 					);
 					
-	//				console.log('#' + elements +'- Filename:' + filePath + ' => Genre:' + tags.genre + ' => Artist:' + tags.artist+ ' => Album:' + tags.album + ' => Title:' + tags.title);
+			//		console.log('#' + elements +'- Filename:' + filePath + ' => Genre:' + tags.genre + ' => Artist:' + tags.artist+ ' => Album:' + tags.album + ' => Title:' + tags.title);
 				});
 			});
 			

@@ -14,8 +14,8 @@ module.exports = class SongDao extends GenericDao {
   }
  
   getSongByFilePath(filePath) {
-    let options = {}
-    options.filter = {
+    let options = { }
+    options.customSelect = {
       'filePath': filePath
     }; 
     return this.getAllFilter(options)

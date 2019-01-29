@@ -60,10 +60,25 @@ db.createIndex({index: { fields: ['type', 'name'] }});
 
 db.createIndex({index: { fields: ['type', 'AlbumId'], name: 'song-album' }});
 
-db.createIndex({index: { fields: ['type', 'filePath'] }});
+//db.createIndex({index: { fields: ['type', 'filePath'] }});
+
+db.createIndex({index: { fields: ['filePath'], name: 'filePath' }});
 
 db.createIndex({index: { fields: ['data.name'] }});
 
+
+/*db.deleteIndex({ ddoc: '_design/idx-3cdf111b18befad2d6f058b0f9a8f197',
+       name: 'filePath',
+       type: 'json',
+       def: { fields: [ { _id: 'asc' }, { filePath: 'asc' } ]} }).then( (res) => {
+         console.log("ok");
+       })*/
+
+/*db.getIndexes().then(function (result) {
+  console.log(result)
+}).catch(function (err) {
+  // ouch, an error
+});*/
 
 exports.db = db;
 

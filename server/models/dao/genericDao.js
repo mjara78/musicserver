@@ -17,7 +17,7 @@ module.exports = class GenericDao {
        
         const result = await this.db.put(doc);
         doc._rev = result.rev;
-          
+ // console.log("update doc " + JSON.stringify(doc)) 
         return doc;
                   
      } catch (error) {
@@ -51,7 +51,10 @@ module.exports = class GenericDao {
   }
 
   async getAllFilter(options) {   
-    try{       
+    try{  
+      if(options.customSelect) {
+        options.selector = options.customSelect
+      } else {   
           // Set doc type
           if(options.selector){
             options.selector.type = this.type;
@@ -61,24 +64,15 @@ module.exports = class GenericDao {
           // filter results
           if(options.filter){
             options.selector[Object.keys(options.filter)[0]] = Object.values(options.filter)[0]
-          }              
+          }  
+      }            
          // Only for debug query
          if(options.debug){
-           debugQuery(options);
+           this.debugQuery(options);
          }
 
          const data = await this.db.find(options);
          let docs = data.docs;
-         // Paging results
-         if(options.paging){
-           if(!options.paging.limit){
-              options.paging.limit = docs.length
-           }
-           if(!options.paging.offset){
-              options.paging.offset = 0
-           }
-           docs = docs.slice(options.paging.offset, options.paging.limit)
-         }
 
          // Ordered results
          if(options.order){
@@ -99,6 +93,16 @@ module.exports = class GenericDao {
            });
           }
 
+          // Paging results
+          if(options.paging){
+            if(!options.paging.limit){
+               options.paging.limit = docs.length
+            }
+            if(!options.paging.offset){
+               options.paging.offset = 0
+            }
+            docs = docs.slice(options.paging.offset, options.paging.limit)
+          }
           // Load docs with relations included
           return await this.parseRelDocs(docs, options.include);
           
