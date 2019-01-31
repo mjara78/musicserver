@@ -1,6 +1,7 @@
 node_modules/*
 bower_components/*
 server/public/assets/thumbnails/*
+server/db/*
 
 *.log
 *.mp3

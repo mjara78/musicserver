@@ -1,9 +1,9 @@
 <md-card class="ms-card-album">
-  <img ng-src="{{ $ctrl.album.imageUrlLarge }}" ng-click="$ctrl.goAlbum()" class="md-card-image ms-album-img" alt="{{ $ctrl.album.name }}">
+  <img ng-src="{{ $ctrl.album.imageUrlLarge }}" ng-click="$ctrl.goAlbum()" class="md-card-image ms-album-img" alt="{{ $ctrl.album.albumName }}">
   <md-card-content layout="row">
     <div flex="85" layout="column">
-      <span class="md-truncate md-body-2">{{ $ctrl.album.name }}</span>
-      <span class="md-truncate md-caption">{{ $ctrl.album.Artist.name }}</span>
+      <span class="md-truncate md-body-2">{{ $ctrl.album.albumName }}</span>
+      <span class="md-truncate md-caption">{{ $ctrl.album.Artist.artistName }}</span>
     </div>
     <md-menu>
       <md-button ng-click="$mdMenu.open($event)" 

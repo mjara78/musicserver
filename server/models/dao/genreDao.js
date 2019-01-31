@@ -2,7 +2,6 @@
 // Genre DAO
 //
 
-var Promise = require("bluebird");
 var musicDB = require('../db/musicDB');
 
 const GenericDao = require('./genericDao');
@@ -13,19 +12,24 @@ module.exports = class GenreDao extends GenericDao {
     super(musicDB.db, musicDB.schema, 'genre') 
   }
 
-  getOrCreateGenreByName(genre){
-    return new Promise( (resolve, reject) => {
-      this.getByName(genre)
-      .then( (results) => {
-         if (results.length == 0 ){
-           return this.create({ name: genre })
-                  .then(resolve).catch(reject);
-         } else {
-           resolve(results[0]); 
-         }
-      })
-      .catch(reject);
-    });
+  async getOrCreateGenreByName(genre){
+    try {
+      const results = await this.getGenreByName(genre);         
+      if ( results.length == 0 ){
+         const resul = await this.create({ genreName: genre });
+         return result;
+      } else {
+         return results[0]; 
+      }
+    } 
+  }
+  
+  getGenreByName(genre) {
+    let options = { }
+    options.customSelect = {
+      'genreName': genre
+    }; 
+    return this.getAllFilter(options)
   }
 
 }

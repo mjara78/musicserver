@@ -145,12 +145,12 @@ exports.refreshLibrary = function refreshLibrary(req, res) {
 							    year: tags.year,
 					     		GenreId: genre.id,
 					     		ArtistId: albumArtist.id,
-					     		artistName: albumArtist.name
+					     		artistName: albumArtist.artistName
 						   }
 						   
 					    Promise.join(
 					      albumDao.getOrCreateAlbumByName(album),
-					      artistDao.getOrCreateArtistByName(tags.artist),
+					      artistDao.getOrCreateArtistByName(tags.artist.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "")),
 					      function ( album, artist){ // after create album and artist we can create song
 				       		// Create Song
 				       		var song = {

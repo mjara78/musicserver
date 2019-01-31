@@ -15,17 +15,17 @@
   <ms-detail-container 	layout-gt-xs="row" flex-gt-xs="60"
   	                    layout-xs="column" flex-xs="100">
   	<img hide-xs md-whiteframe="2" 
-         ng-src="{{ $ctrl.album.imageUrlLarge }}" alt="{{ $ctrl.album.name }}">
+         ng-src="{{ $ctrl.album.imageUrlLarge }}" alt="{{ $ctrl.album.albumName }}">
   	<ms-detail-data layout="column">
   		<div layout="row">
-  			<span class="md-headline">{{ $ctrl.album.name }}</span>
+  			<span class="md-headline">{{ $ctrl.album.albumName }}</span>
   		</div>
   		<ms-detail-artist layout="row" layout-align="start center">
   			<img ng-src="{{ $ctrl.album.Artist.imageUrlLarge }}">
-  			<span class="md-subhead">{{ $ctrl.album.Artist.name }}</span>	
+  			<span class="md-subhead">{{ $ctrl.album.Artist.artistName }}</span>	
   		</ms-detail-artist>
   		<div layout="row" layout-align="start center">
-  		  <div class="md-subhead ms-detail-others">{{ $ctrl.album.year }} • {{ $ctrl.songs.length }} tracks • {{$ctrl.duration}} • {{ $ctrl.album.Genre.name }}</div>
+  		  <div class="md-subhead ms-detail-others">{{ $ctrl.album.year }} • {{ $ctrl.songs.length }} tracks • {{$ctrl.duration}} • {{ $ctrl.album.Genre.genreName }}</div>
       </div>
       <md-button ng-click="$ctrl.playShuffle()"><md-icon class="ms-icon-text-button" md-svg-icon="shuffle"></md-icon>Play Random</md-button>
   	</ms-detail-data>	
@@ -70,7 +70,7 @@
         </span>
         <div class="md-list-item-text" hide-gt-xs flex-xs="100" layout="column">
             <span class="md-truncate ms-xs-table-title">{{song.title}}</span>
-            <h4 class="md-truncate ms-xs-table-subtitle">{{song.Artist.name}}</h4>
+            <h4 class="md-truncate ms-xs-table-subtitle">{{song.Artist.artistName}}</h4>
             <p>Track {{song.track}} • {{$ctrl.$msPlayer.getHumanTime(song.duration) }}</p>
         </div>
         <md-menu flex="none">
@@ -87,7 +87,7 @@
             </md-menu-content>
           </md-menu> 
         <span class="ms-content-row md-truncate" hide-xs flex="35">
-          {{ song.Artist.name }}
+          {{ song.Artist.artistName }}
         </span>
         <span hide-xs flex="10" style="text-align: center;">
           {{ $ctrl.$msPlayer.getHumanTime(song.duration) }}

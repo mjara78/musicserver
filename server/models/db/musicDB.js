@@ -52,19 +52,18 @@ exports.schema = [
   ];
 
 // Indexes section
-db.createIndex({index: { fields: ['type'] }});
+//db.createIndex({index: { fields: ['type'] }});
 
-//db.crea'createdAt', 'type'fields: ['_id', 'createdAt'] }});
+// db.createIndex({index: { fields: ['type', 'name'] }});
 
-db.createIndex({index: { fields: ['type', 'name'] }});
-
-db.createIndex({index: { fields: ['type', 'AlbumId'], name: 'song-album' }});
-
-//db.createIndex({index: { fields: ['type', 'filePath'] }});
+// db.createIndex({index: { fields: ['type', 'AlbumId'], name: 'song-album' }});
 
 db.createIndex({index: { fields: ['filePath'], name: 'filePath' }});
+db.createIndex({index: { fields: ['genreName'], name: 'genrename' }});
+db.createIndex({index: { fields: ['artistName'], name: 'artistname' }});
+db.createIndex({index: { fields: ['albumName'], name: 'albumname' }});
 
-db.createIndex({index: { fields: ['data.name'] }});
+// db.createIndex({index: { fields: ['data.name'] }});
 
 
 /*db.deleteIndex({ ddoc: '_design/idx-3cdf111b18befad2d6f058b0f9a8f197',
