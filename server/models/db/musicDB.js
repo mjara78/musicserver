@@ -15,8 +15,8 @@ exports.schema = [
     {
       type: 'album',
       relations: [ 
-          { Artist: { relType: 'belongsTo', type: 'artist', field: 'ArtistId'}}, 
-          { Genre: { relType: 'belongsTo', type: 'genre', field: 'GenreId'}},
+          { Artist: { relType: 'belongsTo', type: 'artist', field: 'albumArtistId'}}, 
+          { Genre: { relType: 'belongsTo', type: 'genre', field: 'albumGenreId'}},
           { songs: { relType: 'hasMany', type: 'song'}}
       ]    
     },
@@ -37,9 +37,9 @@ exports.schema = [
     {
         type: 'song',
         relations: [ 
-              { Artist: { relType: 'belongsTo', type: 'artist', field: 'ArtistId'}}, 
-              { Genre: { relType: 'belongsTo', type: 'genre', field: 'GenreId'}},
-              { Album: { relType: 'belongsTo', type: 'album', field: 'AlbumId'}},
+              { Artist: { relType: 'belongsTo', type: 'artist', field: 'songArtistId'}}, 
+              { Genre: { relType: 'belongsTo', type: 'genre', field: 'songGenreId'}},
+              { Album: { relType: 'belongsTo', type: 'album', field: 'songAlbumId'}},
               { SongUserInfo: { relType: 'hasMany', type: 'songuserinfo'}}
         ]
     },
@@ -62,6 +62,11 @@ db.createIndex({index: { fields: ['filePath'], name: 'filePath' }});
 db.createIndex({index: { fields: ['genreName'], name: 'genrename' }});
 db.createIndex({index: { fields: ['artistName'], name: 'artistname' }});
 db.createIndex({index: { fields: ['albumName'], name: 'albumname' }});
+db.createIndex({index: { fields: ['albumArtistId'], name: 'albumartistid' }});
+db.createIndex({index: { fields: ['albumGenreId'], name: 'albumgenreid' }});
+db.createIndex({index: { fields: ['songAlbumId'], name: 'songalbumid' }});
+db.createIndex({index: { fields: ['songArtistId'], name: 'songartistid' }});
+db.createIndex({index: { fields: ['songGenreId'], name: 'songgenreid' }});
 
 // db.createIndex({index: { fields: ['data.name'] }});
 

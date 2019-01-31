@@ -163,9 +163,9 @@ exports.refreshLibrary = function refreshLibrary(req, res) {
                bitrate: tags.bitrate,
 				          		filePath: filePath,
 				          		lastSync: new Date(),
-					        	AlbumId: album.id,
-				        		ArtistId: artist.id,
-				        		GenreId: genre.id
+					        	songAlbumId: album.id,
+				        		songArtistId: artist.id,
+				        		songGenreId: genre.id
 				      		};
 				 		
 			    	  		return songDao.create(song)

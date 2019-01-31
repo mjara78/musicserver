@@ -68,10 +68,16 @@ module.exports = class GenericDao {
       }            
          // Only for debug query
          if(options.debug){
+           console.time('Query time')
            this.debugQuery(options);
          }
 
          const data = await this.db.find(options);
+         
+         if(options.debug) {
+           console.timeEnd('Query time')
+         }
+         
          let docs = data.docs;
 
          // Ordered results
@@ -224,7 +230,7 @@ module.exports = class GenericDao {
   async debugQuery(options) {
     try{
       const explained = await this.db.explain(options);    
-      console.log(explained)
+      console.log(JSON.stringify(explained))
       console.log(explained.index.def.fields)    
       return;
     } catch (error){
