@@ -13,15 +13,13 @@ module.exports = class GenreDao extends GenericDao {
   }
 
   async getOrCreateGenreByName(genre){
-    try {
       const results = await this.getGenreByName(genre);         
       if ( results.length == 0 ){
          const resul = await this.create({ genreName: genre });
          return result;
       } else {
          return results[0]; 
-      }
-    } 
+      } 
   }
   
   getGenreByName(genre) {

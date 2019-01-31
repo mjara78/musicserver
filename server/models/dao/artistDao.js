@@ -22,7 +22,6 @@ module.exports = class ArtistDao extends GenericDao {
   }
   
   async getOrCreateArtistByName(artistName){
-    try {
       const results = await this.getArtistByName(artistName);         
       if ( results.length == 0 ){
          const images = await musicArt.getImages(artistName, null); // Get images of artist
@@ -36,7 +35,6 @@ module.exports = class ArtistDao extends GenericDao {
       } else {
          return results[0]; 
       }
-    } 
   }
 }
 
