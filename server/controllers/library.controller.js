@@ -138,7 +138,7 @@ exports.refreshLibrary = function refreshLibrary(req, res) {
 					  artistDao.getOrCreateArtistByName(tags.albumArtist.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "")),
 					  function (genre, albumArtist) { // after create genre and albumArtist we can create album
 					    var album = {
-						     	name: tags.album,
+						     	albumName: tags.album,
 							    year: tags.year,
 					     		GenreId: genre.id,
 					     		ArtistId: albumArtist.id,
