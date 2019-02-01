@@ -25,36 +25,33 @@ var songDao = new SongDao()
 var genreDao = new GenreDao()
 
 // GET - Return library
-exports.getLibrary = function getLibrary(req, res) {
-
-	libraryDao.getById(1)
-		.then( (library) => {
-  			res.status(200).json(library);
-		})
-  .catch(NotFoundError, function (error) {
-    return libraryDao.create({
+exports.getLibrary = async function getLibrary(req, res) {
+ try {
+   const library = await libraryDao.getById(1)
+   return res.status(200).json(library);  
+ } catch (error) {
+   if( error.statusCode === 404) {
+     const lib = await libraryDao.create({
               id: 1,
               baseDir: null,
 	    		      		 state: 'updated',
 	    				      numElements: 0,
 	    				      lastRefresh: null 
             })
-    .then( (result) => {
-       res.status(200).json(result)
-    });
-		})
-		.catch(function (error) {
-	  		var errorObj = new ServerError(error.message);
-    console.error(error)
-	  		res.status(errorObj.statusCode).json(errorObj);
-		});
+            
+     return res.status(200).json(lib); 
+   } else {
+     var errorObj = new ServerError(error.message);
+     console.error(error)
+	  		return res.status(errorObj.statusCode).json(errorObj);
+   }
+ }
 };
 
 // PUT - Update one reg already exists
 exports.updateLibrary = function updateLibrary(req, res) {
 	
 	var library = req.body;
-console.log(library)
 	libraryDao.update(library)
 		.then(function (result) {
 			if (result) {

@@ -31,7 +31,7 @@ module.exports = class ArtistDao extends GenericDao {
                imageUrlLarge: images.imageUrlLarge,
                imageUrlExtralarge: images.imageUrlExtralarge
          });
-         return result;
+         return resul;
       } else {
          return results[0]; 
       }

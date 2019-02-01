@@ -1,5 +1,5 @@
 // Library DAO
-var Promise = require("bluebird");
+
 var musicDB = require('../db/musicDB');
 const GenericDao = require('./genericDao');
 

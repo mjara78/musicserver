@@ -16,7 +16,7 @@ module.exports = class GenreDao extends GenericDao {
       const results = await this.getGenreByName(genre);         
       if ( results.length == 0 ){
          const resul = await this.create({ genreName: genre });
-         return result;
+         return resul;
       } else {
          return results[0]; 
       } 

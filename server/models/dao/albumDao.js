@@ -40,7 +40,7 @@ module.exports = class AlbumDao extends GenericDao {
                imageUrlLarge: images.imageUrlLarge,
                imageUrlExtralarge: images.imageUrlExtralarge
          });
-         return result;
+         return resul;
       } else {
          return results[0]; 
       }

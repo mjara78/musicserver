@@ -6,7 +6,7 @@ PouchDB.plugin(require('pouchdb-find'));
 
 var db = new PouchDB('musicserver');
 
-//db.destroy().then();
+// db.destroy().then();
 
 exports.schema = [
     {
@@ -54,9 +54,9 @@ exports.schema = [
 // Indexes section
 //db.createIndex({index: { fields: ['type'] }});
 
-// db.createIndex({index: { fields: ['type', 'name'] }});
+db.createIndex({index: { fields: ['type', 'name'], name: 'type-name' }});
 
-// db.createIndex({index: { fields: ['type', 'AlbumId'], name: 'song-album' }});
+db.createIndex({index: { fields: ['type', 'songAlbumId'], name: 'song-album' }});
 
 db.createIndex({index: { fields: ['filePath'], name: 'filePath' }});
 db.createIndex({index: { fields: ['genreName'], name: 'genrename' }});
