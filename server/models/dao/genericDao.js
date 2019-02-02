@@ -3,6 +3,7 @@ const uuid = require("uuid/v4");
 
 const NotFoundError = require("../../controllers/errors/genericErrors").NotFoundError;
 const ConfilctError = require("../../controllers/errors/genericErrors").ConflictError;
+const shuffle = require('knuth-shuffle').knuthShuffle;
 
 module.exports = class GenericDao {
   constructor(db, schema, type){
@@ -68,35 +69,40 @@ module.exports = class GenericDao {
       }            
          // Only for debug query
          if(options.debug){
-           console.time('Query time')
+           console.time('#### DEBUG => Query time')
            this.debugQuery(options);
          }
 
          const data = await this.db.find(options);
          
          if(options.debug) {
-           console.timeEnd('Query time')
+           console.log('#### DEBUG => Records found: '+data.docs.length)
+           console.timeEnd('#### DEBUG => Query time')
          }
          
          let docs = data.docs;
 
          // Ordered results
          if(options.order){
-           docs.sort( (minor, higher) => {
-             if(options.orderType === 'desc'){
-               if( typeof higher[options.order] === 'string'){
-                  return higher[options.order].localeCompare(minor[options.order]);
+           if (options.order === 'random') {
+             shuffle(docs);
+           } else {
+             docs.sort( (minor, higher) => {
+               if(options.orderType === 'desc'){
+                 if( typeof higher[options.order] === 'string'){
+                    return higher[options.order].localeCompare(minor[options.order]);
+                 } else {
+                    return higher[options.order] - minor[options.order];
+                 }
                } else {
-                  return higher[options.order] - minor[options.order];
+                 if( typeof higher[options.order] === 'string'){
+                   return minor[options.order].localeCompare(higher[options.order]);
+                 } else {
+                   return minor[options.order] - higher[options.order];
+                 }
                }
-             } else {
-               if( typeof higher[options.order] === 'string'){
-                 return minor[options.order].localeCompare(higher[options.order]);
-               } else {
-                 return minor[options.order] - higher[options.order];
-               }
-             }
-           });
+             });
+            }
           }
 
           // Paging results
@@ -113,6 +119,7 @@ module.exports = class GenericDao {
           return await this.parseRelDocs(docs, options.include);
           
     } catch (error) {
+      console.error('Error findAll: ' + JSON.stringify(error))
       throw new Error(error);
     }
   }
@@ -123,17 +130,19 @@ module.exports = class GenericDao {
 
         if(options){
           include = options.include;
-        }
-
+       }
+//console.log("getById: "+ this.type + ", id "+ id)
         const result = await this.db.get(this.type + '_' + id);
         let docs = [result];
-        
+//    console.log("getById result: "+ JSON.stringify(docs))    
         // Load relations  
         const res = await this.parseRelDocs(docs, include);
+// console.log("getById rels result: "+ JSON.stringify(res))    
         return res[0]; 
  
     } catch (error) {
       if(error.status == 404){
+        console.error('Error 404 getById ' + this.type + ' : ' + id)
         throw new NotFoundError();
       } else {
         throw new Error(error);
@@ -172,6 +181,8 @@ module.exports = class GenericDao {
            
             if(this.isIncluded(include, relName)){
               let result;
+               
+  //  console.log('=> doc: '+JSON.stringify(doc))
               if(rel[relName].relType === 'belongsTo'){
                 result = await this.getBelongsTo(rel[relName].type, doc[rel[relName].field]);
               } else { // hasMany
@@ -194,6 +205,7 @@ module.exports = class GenericDao {
       return Promise.resolve(docs);
     }
    } catch ( error) {
+     console.error('Error parseRel: ' + error.message)
      throw new Error(error);
    }
     
@@ -201,7 +213,7 @@ module.exports = class GenericDao {
 
   getBelongsTo(type, id){
        let belongsToDao = new GenericDao(this.db, this.schema, type);
-//console.log("belongsToDao "+ type + ", id "+ id)
+// console.log("belongsToDao "+ type + ", id "+ id)
        
        return belongsToDao.getById(id);
   }
@@ -230,8 +242,8 @@ module.exports = class GenericDao {
   async debugQuery(options) {
     try{
       const explained = await this.db.explain(options);    
-      console.log(JSON.stringify(explained))
-      console.log(explained.index.def.fields)    
+      console.log('#### DEBUG => Explain: ' + JSON.stringify(explained))
+      console.log("#### DEBUG => Query: " + JSON.stringify(options))    
       return;
     } catch (error){
       throw new Error(error);

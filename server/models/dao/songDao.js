@@ -47,9 +47,10 @@ module.exports = class SongDao extends GenericDao {
                         { type: 'Album' },
                         { type: 'UserLikes', filter: { UserId: idUser } } 
                     ]
-    options.filter = {
-        'AlbumId': idAlbum 
-    }
+    
+    options.customSelect = {
+      'songAlbumId': idAlbum
+    }; 
 
     return this.getAllFilter(options);
   }

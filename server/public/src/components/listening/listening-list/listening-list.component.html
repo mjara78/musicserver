@@ -36,7 +36,7 @@
             <span hide-xs class="md-truncate ms-content-row" flex="35">
               {{song.album}}
             </span>
-            <span hide-xs class="md-truncate ms-content-row" flex="20">
+            <span hide-xs class="md-truncate ms-content-row ms-artist-text" flex="20">
               {{song.artist}}
             </span>
             <span hide-xs flex="10" layout="row" layout-align="center">
@@ -45,7 +45,7 @@
             <div class="md-list-item-text" hide-gt-xs flex-xs="100" layout="column">
               <span class="md-truncate ms-xs-table-title">{{song.title}}</span>
               <h4 class="md-truncate ms-xs-table-subtitle">{{song.album}}</h4>
-              <p class="md-truncate">{{song.duration }} • {{song.artist}}</p>
+              <p class="md-truncate ms-artist-text">{{song.duration }} • {{song.artist}}</p>
               
             </div>
             <ms-rating-button id="listening-rating" rating-type="like" flex="none" song="song"></ms-rating-button>

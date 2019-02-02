@@ -24,16 +24,27 @@ class AlbumService extends GenericResourceService {
   
   fetchPage(offset, limit, filter) {
     var options = {}
-    options.order = 'name';
+    options.order = 'albumName';
     options.offset = offset;
     options.limit = limit;
  
     if (filter.name) {
-      options.name = filter.name;
+      options.albumName = filter.name;
       options.regexp = true;
     }
                
     return this.getAll(options)
+  }
+
+  getCount(filter) {
+    var options = {}
+    if (filter.name) {
+      options.albumName = filter.name
+    } else {
+      options.albumName = null
+    }
+
+    return this.getCountAll(this.options);
   }
     
 }

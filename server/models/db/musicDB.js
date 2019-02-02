@@ -56,7 +56,7 @@ exports.schema = [
 
 db.createIndex({index: { fields: ['type', 'name'], name: 'type-name' }});
 
-db.createIndex({index: { fields: ['type', 'songAlbumId'], name: 'song-album' }});
+// db.createIndex({index: { fields: ['type', 'songAlbumId'], name: 'song-album' }});
 
 db.createIndex({index: { fields: ['filePath'], name: 'filePath' }});
 db.createIndex({index: { fields: ['genreName'], name: 'genrename' }});
@@ -67,6 +67,8 @@ db.createIndex({index: { fields: ['albumGenreId'], name: 'albumgenreid' }});
 db.createIndex({index: { fields: ['songAlbumId'], name: 'songalbumid' }});
 db.createIndex({index: { fields: ['songArtistId'], name: 'songartistid' }});
 db.createIndex({index: { fields: ['songGenreId'], name: 'songgenreid' }});
+
+// db.createIndex({index: { fields: ['type'], name: 'type' }});
 
 // db.createIndex({index: { fields: ['data.name'] }});
 

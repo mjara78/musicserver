@@ -16,7 +16,8 @@ module.exports = class AlbumController extends GenericController {
 
   // GET - Return all albums
   getAlbums(req, res) {
-	   this.dao.getAlbums(this.parseParams(req))
+		  let options = this.parseAlbumParams(req);
+	   this.dao.getAlbums(this.parseParams(req, options))
 		  .then(function (albums) {
 		    	res.status(200).json(albums);
 	  	})
@@ -42,6 +43,16 @@ module.exports = class AlbumController extends GenericController {
      console.error(error)
 	   		res.status(errorObj.statusCode).json(errorObj);
 		  });
+  }
+  
+  parseAlbumParams(req) {
+    let options = {}
+    if (req.query.albumName) {
+      options.filter = {}
+      options.filter.albumName = req.query.albumName;
+    }
+    
+    return options;
   }
 }
 

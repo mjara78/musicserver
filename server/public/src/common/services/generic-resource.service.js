@@ -23,17 +23,6 @@ class GenericResourceService {
             .then(response => response)
   }
 
-  getCount(filter) {
-    var options = {}
-    if (filter.name) {
-      options.name = filter.name
-    } else {
-      options.name = null
-    }
-
-    return this.getCountAll(this.options);
-  }
-
   post(content){
     return this.Restangular.all(this.resource).post(content);
   }

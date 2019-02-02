@@ -27,7 +27,7 @@
             md-swipe-up="$ctrl.showPlayerCtrls()">
                 <div md-truncate class="md-body-2 ms-player-info-title">{{ $ctrl.currentPlaying.title}}</div>
                 <span md-truncate class="md-caption ms-player-info-album">{{ $ctrl.currentPlaying.album}}</span>
-                <span md-truncate class="md-caption ms-player-info-artist">{{ $ctrl.currentPlaying.artist}}</span>
+                <span md-truncate class="md-caption ms-player-info-artist ms-artist-text">{{ $ctrl.currentPlaying.artist}}</span>
             </div>
             <div layout="row" flex="none" class="ms-player-mini-controls" hide-gt-xs>
               <div ng-show="$ctrl.isActive" layout="column">

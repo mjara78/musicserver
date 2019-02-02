@@ -33,6 +33,7 @@
     "ieee754": "^1.1.10",
     "isarray": "^2.0.4",
     "jwt-simple": "^0.5.1",
+    "knuth-shuffle": "^1.0.8",
     "lodash": "^4.17.5",
     "mediaserver": "^0.1.1",
     "moment": "^2.18.1",

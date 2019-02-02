@@ -22,7 +22,7 @@
   		</div>
   		<ms-detail-artist layout="row" layout-align="start center">
   			<img ng-src="{{ $ctrl.album.Artist.imageUrlLarge }}">
-  			<span class="md-subhead">{{ $ctrl.album.Artist.artistName }}</span>	
+  			<span class="md-subhead ms-artist-text">{{ $ctrl.album.Artist.artistName }}</span>	
   		</ms-detail-artist>
   		<div layout="row" layout-align="start center">
   		  <div class="md-subhead ms-detail-others">{{ $ctrl.album.year }} • {{ $ctrl.songs.length }} tracks • {{$ctrl.duration}} • {{ $ctrl.album.Genre.genreName }}</div>
@@ -70,7 +70,7 @@
         </span>
         <div class="md-list-item-text" hide-gt-xs flex-xs="100" layout="column">
             <span class="md-truncate ms-xs-table-title">{{song.title}}</span>
-            <h4 class="md-truncate ms-xs-table-subtitle">{{song.Artist.artistName}}</h4>
+            <h4 class="md-truncate ms-xs-table-subtitle ms-artist-text">{{song.Artist.artistName}}</h4>
             <p>Track {{song.track}} • {{$ctrl.$msPlayer.getHumanTime(song.duration) }}</p>
         </div>
         <md-menu flex="none">
@@ -86,7 +86,7 @@
               <md-menu-item><md-button ng-click="$ctrl.doSomething()">Go to Artist</md-button></md-menu-item>
             </md-menu-content>
           </md-menu> 
-        <span class="ms-content-row md-truncate" hide-xs flex="35">
+        <span class="ms-content-row md-truncate ms-artist-text" hide-xs flex="35">
           {{ song.Artist.artistName }}
         </span>
         <span hide-xs flex="10" style="text-align: center;">

@@ -76,7 +76,7 @@ router.route('/artists/:id([a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89aAbB][a-f0-9]
     .put(ensureAuthenticated, artistCtrl.update.bind(artistCtrl));
 
 router.route('/artists')
-    .get(ensureAuthenticated, artistCtrl.getAllFilter.bind(artistCtrl));
+    .get(ensureAuthenticated, artistCtrl.getArtists.bind(artistCtrl));
 
 router.route('/artists/count')
     .get(ensureAuthenticated, artistCtrl.getCountFilter.bind(artistCtrl));

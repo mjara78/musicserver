@@ -7,9 +7,12 @@ module.exports = class GenericController {
     this.dao = dao;  
   }
 
-  parseParams(req){
-    let options = {};
- 
+  parseParams(req, options){
+    if (!options)  {
+      options = {};
+    }
+   // console.log(" ** http Get params: " + JSON.stringify(req.query))
+    
     if (req.query.order){
       options.order = req.query.order;
       if(req.query.orderType){
@@ -27,10 +30,7 @@ module.exports = class GenericController {
        }
        options.paging.offset = req.query.offset;
     }
-    if (req.query.name) {
-      options.filter = {}
-      options.filter.name = req.query.name;
-    }
+  
     if(req.query.regexp){
       options.filter.regexp = req.query.regexp;
     }
@@ -46,7 +46,7 @@ module.exports = class GenericController {
     }
     if ( options.filter && options.filter.regexp ){
       let key = Object.keys(options.filter)[0];
-      options.filter[key] = { $regex: RegExp(options.filter.name, "i") }; 
+      options.filter[key] = { $regex: RegExp(options.filter[key], "i") }; 
     }
     if( req.query.debug ){
       options.debug = true

@@ -9,17 +9,28 @@ class ArtistService extends GenericResourceService {
 
     fetchPage(offset, limit, filter) {
         var options = {}
-        options.order = 'name';
+        options.order = 'artistName';
         options.offset = offset;
         options.limit = limit;
      
         if (filter.name) {
-          options.name = filter.name;
+          options.artistName = filter.name;
           options.regexp = true;
         }
                    
         return this.getAll(options)
     }
+
+    getCount(filter) {
+        var options = {}
+        if (filter.name) {
+          options.artistName = filter.name
+        } else {
+          options.artistName = null
+        }
+    
+        return this.getCountAll(this.options);
+      }
 }
 
 export default ArtistService
