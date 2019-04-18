@@ -30,7 +30,7 @@ module.exports = class AlbumDao extends GenericDao {
   async getOrCreateAlbumByName(album){
       const results = await this.getAlbumByName(album.albumName);         
       if ( results.length == 0 ){
-         const images = await musicArt.getImages(album.artistName, album.albumName); // Get images of album
+        // const images = await musicArt.getImages(album.artistName, album.albumName); // Get images of album
          const resul = await this.create({ 
                albumName: album.albumName,
                year: album.year,

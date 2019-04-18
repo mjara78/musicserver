@@ -4,6 +4,8 @@ var fsSync = require('fs');
 var path = require('path');
 var mmeta = require('music-metadata');
 var songExists = require('../controllers/library.controller').songExists;
+var musicArt = require("./music-art");
+const { COPYFILE_EXCL } = fs.constants;
 
 var fileTypes = ['.mp3'];
 
@@ -152,19 +154,42 @@ async function readMetadata (filePath) {
       // Duration
       var duration = metadata.format.duration;
 
+      // images
+      const imageArtist = musicArt.getImages(artist, null);
+      const imageAlbum = await musicArt.getImages(artist, album);
+      
+      const localImage = null;
+      // Image album not found in internet
+      if(!imageAlbum.imageUrlSmall) {
+        localImage = await searchLocalImage(path.dirname(filePath));
+        imageAlbum.imageUrlSmall = localImage;
+        imageAlbum.imageUrlLarge = localImage;
+        imageAlbum.imageUrlExtralarge = localImage;
+      }
+  
+      // Wait until both image type download (album and artist)
+      await Promise.all([imageAlbum, imageArtist]);
+        
       var tags = {
             genre: tagGenre,
             year: year,
-            artist: artist,
+            artist: artist.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ""),
             album: album,
-            albumArtist: albumArtist,
+            albumArtist: albumArtist.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ""),
             title: title,
             track: track,
             duration: duration,
             disk: disk,
             comment: comment,
-            bitrate: bitrate
+            bitrate: bitrate,
+            albumImageUrlSmall:imageAlbum.imageUrlSmall,
+            albumImageUrlLarge:imageAlbum.imageUrlLarge
+            albumImageUrlExtrslarge:imageAlbum.imageUrlExtralarge
+            artistImageUrlSmall:imagesArtist.imageUrlSmall,
+            artistImageUrlLarge:imagesArtist.imageUrlLarge
+            artistImageUrlExtrslarge:imageArtist.imageUrlExtralarge
           };
+       
        
           return tags;
     } catch(error) {
@@ -185,8 +210,32 @@ async function readMetadata (filePath) {
           throw new Error(error);
           //return tags;
     }
+  }
+  
+  async function copyLocalImage(dir, name ) {
+    try {
+      const result = await fs.copyFile(dir+'/'+name, 'server/public/assets/thumbnails/albums',COPYFILE_EXCL);
+      return dir+'/'+name;
+    } catch (error) {
+      console.error("Error finding local image " + dir+'/'+name + " :" + JSON.stringify(error));
+      return null;
+    }
+  } 
+  
+  async function searchLocalImage(dir) {
+    const names = ['folder.jpg','cover.jpg','Folder.jpg','Cover.jpg','front.jpg','Front.jpg']
     
-    
+    try {
+      return names.find( (value) => {
+        const found = await copyLocalImage(dir, value);
+        console.log('found:'+found)
+        return (found !== null);
+      });
+      
+    } catch(error) {
+      console.error('Error searching local images in '+dir+': '+JSON.stringify(error))
+      throw new Error(error);
+    }
   }
 
 exports.extractMetadata = extractMetadata;

@@ -49,13 +49,13 @@ var musicArt = function (artistName, albumName, size) {
           })        
         }
         else{ // URL Empty
-          image["imageUrl" + size.capitalize()] = genericImage;
+          image["imageUrl" + size.capitalize()] = null;
           resolve(image);
         }
        
       })
       .catch(function (){
-        image["imageUrl" + size.capitalize()] = genericImage;
+        image["imageUrl" + size.capitalize()] = null;
         resolve(image);
       });
   });

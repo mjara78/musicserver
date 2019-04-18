@@ -132,10 +132,10 @@ exports.refreshLibrary = function refreshLibrary(req, res) {
 			// Scan base_dir
 			var extract = scanner.extractMetadata(library.baseDir, function (filePath, tags){
 				return new Promise (function  (resolve, reject){
-		//	console.log("+++Insert in DB: "+filePath)		
+			console.log("+++Insert in DB: "+filePath)		
 					Promise.join(
 					  genreDao.getOrCreateGenreByName(tags.genre),
-					  artistDao.getOrCreateArtistByName(tags.albumArtist.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "")),
+					  artistDao.getOrCreateArtistByName(tags.albumArtist),
 					  function (genre, albumArtist) { // after create genre and albumArtist we can create album
 					    var album = {
 						     	albumName: tags.album,
@@ -147,7 +147,7 @@ exports.refreshLibrary = function refreshLibrary(req, res) {
 						   
 					    Promise.join(
 					      albumDao.getOrCreateAlbumByName(album),
-					      artistDao.getOrCreateArtistByName(tags.artist.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "")),
+					      artistDao.getOrCreateArtistByName(tags.artist),
 					      function ( album, artist){ // after create album and artist we can create song
 				       		// Create Song
 				       		var song = {
