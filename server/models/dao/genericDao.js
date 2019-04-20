@@ -62,6 +62,7 @@ module.exports = class GenericDao {
           } else {
             options.selector = { _id: { $gt: this.type, $lt: this.type+"\uffff" }};
           } 
+          
           // filter results
           if(options.filter){
             options.selector[Object.keys(options.filter)[0]] = Object.values(options.filter)[0]
@@ -119,7 +120,7 @@ module.exports = class GenericDao {
           return await this.parseRelDocs(docs, options.include);
           
     } catch (error) {
-      console.error('Error findAll: ' + JSON.stringify(error))
+      console.error('Error findAll.', error);
       throw new Error(error);
     }
   }
@@ -179,14 +180,16 @@ module.exports = class GenericDao {
           let relsPromises = doctype.relations.map( async (rel) => {
             let relName = Object.keys(rel)[0]; 
            
-            if(this.isIncluded(include, relName)){
+            const included = this.isIncluded(include, relName);
+            if(included){
               let result;
                
   //  console.log('=> doc: '+JSON.stringify(doc))
               if(rel[relName].relType === 'belongsTo'){
                 result = await this.getBelongsTo(rel[relName].type, doc[rel[relName].field]);
               } else { // hasMany
-                result = await this.getHasMany(rel[relName].type, doc.id, included.filter);
+              //console.log("hasmany filter '"+relName+"':"+ JSON.stringify(rel[relName]))
+                result = await this.getHasMany(rel[relName].type, doc.id, rel[relName].field, included.filter);
               }
               return doc[relName] = result;
             } else { // rel not included
@@ -218,12 +221,19 @@ module.exports = class GenericDao {
        return belongsToDao.getById(id);
   }
 
-  getHasMany(type, ){
-    let hasManyDao = new GenericDao(this.db, this.schema, type);
+  getHasMany(type, id, fieldId, filter){
+    const hasManyDao = new GenericDao(this.db, this.schema, type);
+    const options = { customSelect: {}};
+    
 //console.log("hasManyDao "+ type + ", id "+ id)
-    if(filter){
-      let options = { filter: filter }
-    }
+    options.customSelect[fieldId] = id; 
+    
+    if (filter) { 
+      options.customSelect[Object.keys(filter)[0]] = filter[Object.keys(filter)[0]]; 
+    } 
+
+    // console.log("getHasMany: ", JSON.stringify(options));
+
     return hasManyDao.getAllFilter(options);
   }
   
@@ -247,6 +257,25 @@ module.exports = class GenericDao {
       return;
     } catch (error){
       throw new Error(error);
+    }
+  }
+  
+  async upsert(doc) {
+    try {
+      const result = await this.db.get(this.type + '_' + doc.id);
+      if(result) {
+        doc._rev = result._rev;
+        doc._id = this.type + '_' + doc.id;
+        return this.update(doc);
+      } else {
+        return;
+      }
+    } catch (error){
+      if(error.status == 404){
+        return this.create(doc);
+      } else {
+        throw new Error(error);
+      }
     }
   }
 }

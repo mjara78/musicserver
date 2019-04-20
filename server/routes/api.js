@@ -7,6 +7,7 @@ var AlbumCtrl = require("../controllers/album.controller");
 var SongCtrl = require("../controllers/song.controller");
 var ArtistCtrl = require("../controllers/artist.controller");
 var UserCtrl = require("../controllers/user.controller");
+var SongUserInfoCtrl = require("../controllers/song-user-info.controller");
 
 var ensureAuthenticated = require("../utils/security").ensureAuthenticated;
 var ensureAdminUser = require("../utils/security").ensureAdminUser;
@@ -17,6 +18,7 @@ var albumCtrl = new AlbumCtrl();
 var userCtrl = new UserCtrl(); 
 var artistCtrl = new ArtistCtrl();
 var songCtrl = new SongCtrl();
+var songUserInfoCtrl = new SongUserInfoCtrl();
 
 // Authentication 
 router.route('/login').post(userCtrl.loginUser.bind(userCtrl));
@@ -57,8 +59,10 @@ router.route('/albums/:idAlbum([a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89aAbB][a-f
 // Songs
 router.route('/songs/:id([a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89aAbB][a-f0-9]{3}-[a-f0-9]{12})/stream')
     .get(songCtrl.getSongStream.bind(songCtrl));
-//router.route('/songs/:id(\\d+)/userinfo')
-//    .put(ensureAuthenticated, songCtrl.updateSongInfoByUser);
+    
+router.route('/songs/:id([a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89aAbB][a-f0-9]{3}-[a-f0-9]{12})/userinfo')
+    .put(ensureAuthenticated, songUserInfoCtrl.updateSongInfoByUser.bind(songUserInfoCtrl));
+    
 router.route('/songs')
     .get(ensureAuthenticated, songCtrl.getSongs.bind(songCtrl));
 
