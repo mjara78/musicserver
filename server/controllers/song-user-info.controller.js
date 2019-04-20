@@ -17,7 +17,8 @@ module.exports = class SongUserInfoController extends GenericController {
 	updateSongInfoByUser(req, res) {
 	  let info = { 
 	    playcount: req.body.playcount,
-	    like: req.body.like
+	    like: req.body.like,
+	    dislike: req.body.dislike
 	  };
 	  
 		 this.dao.updateSongInfoByUser(req.params.id, req.user, info)

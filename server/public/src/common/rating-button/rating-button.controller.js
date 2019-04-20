@@ -10,8 +10,8 @@ class RatingButtonController {
       if (this.song){
         if ( String(this.song.id).indexOf('#') < 0 ){ 
             // homogenize song object for tracks and songs
-            this.song.like = this.$msPlayer.getSongUserInfo(this.song.SongUsers, 'like')
-            this.song.dislike = this.$msPlayer.getSongUserInfo(this.song.SongUsers, 'dislike')
+            this.song.like = this.$msPlayer.getSongUserInfo(this.song.SongUserInfo, 'like')
+            this.song.dislike = this.$msPlayer.getSongUserInfo(this.song.SongUserInfo, 'dislike')
             this.song.idSong = this.song.id
         }
       }

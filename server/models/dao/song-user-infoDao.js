@@ -20,6 +20,7 @@ module.exports = class SongUserInfoDao extends GenericDao {
       songuserinfoSongId: idSong,
       songuserinfoUserId: idUser,
       like: info.like,
+      dislike: info.dislike,
       playcount: info.playcount
     };
     
