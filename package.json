@@ -51,7 +51,8 @@
     "satellizer": "^0.15.5",
     "serve-favicon": "~2.3.0",
     "soundmanager2": "^2.97.20170602",
-    "uuid": "^3.3.2"
+    "uuid": "^3.3.2",
+    "webpack-dev-middleware": "~1.11.0"
   },
   "devDependencies": {
     "babel-core": "~6.25.0",
@@ -62,7 +63,6 @@
     "node-sass": "^4.7.2",
     "sass-loader": "~6.0.6",
     "style-loader": "~0.18.2",
-    "webpack": "~2.6.1",
-    "webpack-dev-middleware": "~1.11.0"
+    "webpack": "~2.6.1"
   }
 }
