@@ -2,7 +2,7 @@
 // Artist DAO
 //
 
-var musicArt = require("../../utils/music-art");
+var MusicArt = require("../../utils/music-art");
 var musicDB = require('../db/musicDB');
 
 const GenericDao = require('./genericDao');
@@ -10,7 +10,9 @@ const GenericDao = require('./genericDao');
 module.exports = class ArtistDao extends GenericDao {
 
   constructor(){
-    super(musicDB.db, musicDB.schema, 'artist') 
+    super(musicDB.db, musicDB.schema, 'artist');
+    
+    this.musicArt = new MusicArt();
   }
   
   getArtistByName(artist) {
@@ -21,10 +23,11 @@ module.exports = class ArtistDao extends GenericDao {
     return this.getAllFilter(options)
   }
   
-  async getOrCreateArtistByName(artistName){
+  async getOrCreateArtistByName(artistName, images){
+    try{
       const results = await this.getArtistByName(artistName);         
       if ( results.length == 0 ){
-         const images = await musicArt.getImages(artistName, null); // Get images of artist
+         const images = await this.musicArt.getImages(artistName, null);
          const resul = await this.create({ 
                artistName: artistName,
                imageUrlSmall: images.imageUrlSmall,
@@ -35,6 +38,10 @@ module.exports = class ArtistDao extends GenericDao {
       } else {
          return results[0]; 
       }
+    } catch(error) {
+      console.error('Error at create artist:', error);
+      throw Error(error);
+    }
   }
 }
 

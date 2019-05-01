@@ -10,19 +10,24 @@ var artistFolder = 'assets/thumbnails/artists/';
 var albumFolder = 'assets/thumbnails/albums/';
 var genericImage = 'assets/svg/logo.svg';
 
-var download = function download (uri, filename) {
-  return new Promise ( function (resolve, reject){
+module.exports = class MusicArt {
+  constructor(){
+    this.albumArt = albumArt;
+  }
+  
+  download(uri, filename) {
+    return new Promise ( function (resolve, reject){
     
      var writeStream = fs.createWriteStream(filename);
          
      request(uri).pipe(writeStream)
        .on('close', resolve)
        .on('error', reject);
-  });
-};
-
-var musicArt = function (artistName, albumName, size) { 
-  return new Promise (function (resolve, reject) {
+    });
+  }
+  
+  musicArt(artistName, albumName, size){
+    return new Promise ( (resolve, reject) => {
     var image = {};
     var folder;
     
@@ -32,8 +37,8 @@ var musicArt = function (artistName, albumName, size) {
       folder = artistFolder;
     }
     
-    albumArt(artistName, albumName, size)
-      .then( function (urlImage) {
+    this.albumArt(artistName, albumName, size)
+      .then( (urlImage) => {
       
         if (urlImage) { // URL Not Empty
 
@@ -42,27 +47,26 @@ var musicArt = function (artistName, albumName, size) {
           var filename = path.basename(url.parse(urlImage).pathname, ext);
               
           // Download image
-         return download(urlImage, saveBasedir + folder + filename + '.' + size + ext )
-          .then( function () {
+         return this.download(urlImage, saveBasedir + folder + filename + '.' + size + ext )
+          .then( () => {
             image["imageUrl" + size.capitalize()] = folder + filename + '.' + size + ext;
-            resolve(image);
+            return resolve(image);
           })        
         }
         else{ // URL Empty
           image["imageUrl" + size.capitalize()] = null;
-          resolve(image);
+          return resolve(image);
         }
        
       })
       .catch(function (){
         image["imageUrl" + size.capitalize()] = null;
-        resolve(image);
+        return resolve(image);
       });
-  });
-};
-
-exports.getImages = function getImages(artistName, albumName) {
+    });
+  }
   
+  getImages(artistName, albumName) {
     var artistSizes = ['large', 'extralarge'];
     var albumSizes = ['small', 'large', 'extralarge'];
 
@@ -74,16 +78,44 @@ exports.getImages = function getImages(artistName, albumName) {
       sizes = artistSizes;
     }
 
-    return Promise.map(sizes, function(size){
-      return musicArt(artistName, albumName, size);
+    return Promise.map(sizes, (size) => {
+      return this.musicArt(artistName, albumName, size);
     })
-    .reduce( function (imageObj,image) {
+    .reduce( (imageObj,image) => {
 				  
 				 		var imageUrl = Object.keys(image)[0];
 				 		imageObj[imageUrl] = image[imageUrl];
 				 		
 				 		return imageObj;
 				 });
+  }
+  
+  copyLocalImage(dir, name, album) {
+    return new Promise ( (resolve, reject) => {
+      const dest = 'server/public/assets/thumbnails/albums/'
+      return fs.copyFile(dir+'/'+name, dest + album + '_' + name, (err) => {
+        if (err) {
+          console.error("Error finding local image " + dir+'/'+name + ".");
+          return reject(err);
+        } else {
+          return resolve(albumFolder + album +'_'+ name);          
+        }
+      });
+    })
+  }
+  
+  searchLocalImage(dir, albumName) {
+    const names = ['folder.jpg','cover.jpg','Folder.jpg','Cover.jpg','front.jpg','Front.jpg']
+   
+    let filesPromises = names.map( async (value) => {
+      return this.copyLocalImage(dir, value, albumName);
+    })
     
-};
+    return Promise.any(filesPromises)
+    .catch( (error) => {
+      console.log('Any local image found from :' + dir, error);
+      throw new Error(error);
+    });
+  } 
+}
 
