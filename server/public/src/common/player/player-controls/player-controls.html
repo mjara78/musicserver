@@ -1,6 +1,6 @@
 <md-bottom-sheet layout="column">
  <div layout="row">
-  	<img class="ms-player-img" ng-src="{{ $ctrl.current.imageUrlLarge }}">
+  	<img class="ms-player-img" ng-src="{{ $ctrl.album.imageUrlLarge ? $ctrl.album.imageUrlLarge : 'assets/svg/baseline-album-24px.svg' }}">
 	  <div flex layout="column" class="ms-player-info">
      <div md-truncate class="md-body-2 ms-player-info-title">{{ $ctrl.current.title}}</div>
      <span md-truncate class="md-caption ms-player-info-album">{{ $ctrl.current.album}}</span>

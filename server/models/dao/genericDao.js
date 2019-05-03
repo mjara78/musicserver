@@ -114,7 +114,7 @@ module.exports = class GenericDao {
             if(!options.paging.offset){
                options.paging.offset = 0
             }
-            docs = docs.slice(options.paging.offset, options.paging.limit)
+            docs = docs.slice(options.paging.offset, options.paging.offset + options.paging.limit)
           }
           // Load docs with relations included
           return await this.parseRelDocs(docs, options.include);
@@ -216,7 +216,7 @@ module.exports = class GenericDao {
 
   getBelongsTo(type, id){
        let belongsToDao = new GenericDao(this.db, this.schema, type);
-// console.log("belongsToDao "+ type + ", id "+ id)
+  // console.log("belongsToDao "+ type + ", id "+ id)
        
        return belongsToDao.getById(id);
   }

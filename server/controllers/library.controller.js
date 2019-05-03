@@ -16,6 +16,7 @@ var ServerError = require("./errors/genericErrors").ServerError;
 var ConflictError = require("./errors/genericErrors").ConflictError;
 var LibraryNotFoundError = require("./errors/libraryErrors").LibraryNotFoundError;
 var NotFoundError = require("./errors/genericErrors").NotFoundError;
+var path = require('path');
 
 
 var libraryDao = new LibraryDao()
@@ -49,50 +50,39 @@ exports.getLibrary = async function getLibrary(req, res) {
 };
 
 // PUT - Update one reg already exists
-exports.updateLibrary = function updateLibrary(req, res) {
+exports.updateLibrary = async function updateLibrary(req, res) {
 	
-	var library = req.body;
-	libraryDao.update(library)
-		.then(function (result) {
-			if (result) {
-				res.status(200).json(result);
-			} else {
-			 var errorObj = new LibraryNotFoundError();
-				res.status(errorObj.statusCode).json(errorObj);	
-			}
-		})
-  .catch(ConflictError, function(error) {
-      console.error('Error: ' + error.message);
-      res.status(error.statusCode).json(error);
-  })
-		.catch(function (error) {
-   console.error(error)
-		 var errorObj = new ServerError(error.message);
-			res.status(errorObj.statusCode).json(errorObj);
-		});
+	const library = req.body;
+	
+	try {	
+	  const result = await libraryDao.update(library);	
+	    
+	  return res.status(200).json(result);	  
+	  	  
+	} catch(error) {	
+	  const errorObj = new ServerError(error.message);
+   console.error(error); 
+     
+	  return res.status(errorObj.statusCode).json(errorObj);
+	}
+	
+	
 };
 
 //POST - Refresh Library content
-exports.refreshLibrary = function refreshLibrary(req, res) {
-  
-	libraryDao.getById(1)
-    .then(lockLibrary)
-    .then(scanBaseDir)
-	.then(function (library) {
-		// return OK
-		res.status(200).json(library);
-	})
-	.catch(LibraryRefreshingError, function (error) {
-		res.status(error.statusCode).json(error);
-	})
-	.catch(LibraryNotBaseDirError, function (error) {
-		res.status(error.statusCode).json(error);
-	})
-    .catch( function(error){
-    console.error(error)
-    	var errorObj = new ServerError(error.message);
-			  res.status(errorObj.statusCode).json(errorObj);
-		});
+exports.refreshLibrary = async function refreshLibrary(req, res) {
+ try {
+   let library = await libraryDao.getById(1);
+	  library = await lockLibrary(library);
+	  library = await scanBaseDir(library);
+	
+	  return res.status(200).json(library);
+ } catch(error) {
+   const errorObj = new ServerError(error.message);
+   console.error(error); 
+     
+	  return res.status(errorObj.statusCode).json(errorObj);
+ }
 	
   function lockLibrary (library){
     return new Promise (function (resolve, reject) {
@@ -132,22 +122,23 @@ exports.refreshLibrary = function refreshLibrary(req, res) {
 			// Scan base_dir
 			var extract = scanner.extractMetadata(library.baseDir, function (filePath, tags){
 				return new Promise (function  (resolve, reject){
-			console.log("+++Insert in DB: "+filePath)		
+	//		console.log("+++Insert in DB: "+filePath)		
 					Promise.join(
 					  genreDao.getOrCreateGenreByName(tags.genre),
-					  artistDao.getOrCreateArtistByName(tags.albumArtist),
+					  artistDao.getOrCreateArtistByName(tags.albumArtist, tags.imageAlbumArtist),
 					  function (genre, albumArtist) { // after create genre and albumArtist we can create album
 					    var album = {
 						     	albumName: tags.album,
 							    year: tags.year,
 					     		GenreId: genre.id,
 					     		ArtistId: albumArtist.id,
-					     		artistName: albumArtist.artistName
+					     		artistName: albumArtist.artistName,
+           path: path.dirname(filePath)
 						   }
 						   
 					    Promise.join(
 					      albumDao.getOrCreateAlbumByName(album),
-					      artistDao.getOrCreateArtistByName(tags.artist),
+					      artistDao.getOrCreateArtistByName(tags.artist, tags.imageArtist),
 					      function ( album, artist){ // after create album and artist we can create song
 				       		// Create Song
 				       		var song = {
@@ -205,6 +196,7 @@ exports.refreshLibrary = function refreshLibrary(req, res) {
 			return resolve(library);
 		})
 	} 
+	
 }
 
 // Function for test if exists a song by filePath
