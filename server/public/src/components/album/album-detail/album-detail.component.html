@@ -1,7 +1,7 @@
 <div layout="row" layout-align="center" flex>
   <ms-header-picture md-whiteframe="3" 
                      flex 
-                     style="background-image:url({{ $ctrl.album.imageUrlExtralarge }})">
+                     style="background-image:url({{ $ctrl.album.imageUrlExtralarge ? $ctrl.album.imageUrlExtralarge : 'assets/svg/baseline-album-24px.svg' }})">
   </ms-header-picture>
   <md-button id="ms-album-detail-play" 
              class="md-fab md-accent" ng-click="$ctrl.playAlbumFrom($ctrl.songs[0].id)" 

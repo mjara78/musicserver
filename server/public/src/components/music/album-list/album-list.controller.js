@@ -10,16 +10,16 @@ class AlbumListController {
 
         if (this.$mdMedia('md')) {
             this.columns = 4
-            this.pageSize = 52
+            this.pageSize = 100
         } else if (this.$mdMedia('gt-md')) {
             this.columns = 6
-            this.pageSize = 54
+            this.pageSize = 102
         } else if (this.$mdMedia('sm')) {
             this.columns = 3
-            this.pageSize = 51
+            this.pageSize = 102
         } else if (this.$mdMedia('xs')) {
             this.columns = 2
-            this.pageSize = 50
+            this.pageSize = 100
         }
     }
 

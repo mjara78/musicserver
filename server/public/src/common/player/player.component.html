@@ -1,5 +1,5 @@
 <div class="ms-player-container" layout="row">
-    <img class="ms-player-img" hide-xs ng-show="$ctrl.isActive" flex="none" ng-src="{{ $ctrl.currentPlaying.imageUrlLarge }}">
+    <img class="ms-player-img" hide-xs ng-show="$ctrl.isActive" flex="none" ng-src="{{ $ctrl.album.imageUrlLarge ? $ctrl.album.imageUrlLarge : 'assets/svg/baseline-album-24px.svg' }}">
     <div layout="column" flex="auto">
         <div ng-show="$ctrl.isActive" 
              id="progress" 
