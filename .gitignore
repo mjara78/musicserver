@@ -1,6 +1,9 @@
 node_modules/*
 bower_components/*
-server/public/assets/thumbnails/*
+server/public/assets/thumbnails/albums/*.png
+server/public/assets/thumbnails/artists/*.png
+server/public/assets/thumbnails/albums/*.jpg
+server/public/assets/thumbnails/artists/*.jpg
 server/db/*
 log.txt
 .vscode/*
