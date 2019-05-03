@@ -36,7 +36,7 @@ module.exports = class SongDao extends GenericDao {
   getSongs(options, idUser){
     options.include = [ { type: 'Artist' },
                         { type: 'Album' },
-                        { type: 'SongUserInfo', filter: { UserId: idUser } } 
+                        { type: 'SongUserInfo', filter: { songuserinfoUserId: idUser } } 
                     ]
 
     return this.getAllFilter(options);
