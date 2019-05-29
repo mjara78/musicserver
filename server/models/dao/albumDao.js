@@ -45,7 +45,6 @@ module.exports = class AlbumDao extends GenericDao {
            } catch (error) {
              localImage = null;
            } 
-           console.log('localImage:', localImage)
            imageAlbum.imageUrlSmall = localImage;
            imageAlbum.imageUrlLarge = localImage;
            imageAlbum.imageUrlExtralarge = localImage;

@@ -23,7 +23,7 @@ module.exports = class ArtistDao extends GenericDao {
     return this.getAllFilter(options)
   }
   
-  async getOrCreateArtistByName(artistName, images){
+  async getOrCreateArtistByName(artistName, images, mbArtistId){
     try{
       const results = await this.getArtistByName(artistName);         
       if ( results.length == 0 ){

@@ -125,7 +125,7 @@ exports.refreshLibrary = async function refreshLibrary(req, res) {
 	//		console.log("+++Insert in DB: "+filePath)		
 					Promise.join(
 					  genreDao.getOrCreateGenreByName(tags.genre),
-					  artistDao.getOrCreateArtistByName(tags.albumArtist, tags.imageAlbumArtist),
+					  artistDao.getOrCreateArtistByName(tags.albumArtist, tags.imageAlbumArtist, tags.musicbrainz_albumartistid),
 					  function (genre, albumArtist) { // after create genre and albumArtist we can create album
 					    var album = {
 						     	albumName: tags.album,
@@ -138,7 +138,7 @@ exports.refreshLibrary = async function refreshLibrary(req, res) {
 						   
 					    Promise.join(
 					      albumDao.getOrCreateAlbumByName(album),
-					      artistDao.getOrCreateArtistByName(tags.artist, tags.imageArtist),
+					      artistDao.getOrCreateArtistByName(tags.artist, tags.imageArtist, tags.musicbrainz_artistid),
 					      function ( album, artist){ // after create album and artist we can create song
 				       		// Create Song
 				       		var song = {

@@ -80,6 +80,8 @@ function extractMetadata(baseDir, callback) {
 
 async function readMetadata (filePath) {
     try {
+      let musicbrainz_albumartistid;
+      let musicbrainz_artistid;
       
       const metadata = await mmeta.parseFile(filePath, { duration: true, skipCovers: true });
       
@@ -153,6 +155,19 @@ async function readMetadata (filePath) {
 
       // Duration
       var duration = metadata.format.duration;
+      
+      // musicbrainz
+      if(metadata.common.musicbrainz_artistid){
+        musicbrainz_artistid = metadata.common.musicbrainz_artistid;
+      } else {
+        musicbrainz_artistid = '';
+      } 
+      
+      if(metadata.common.musicbrainz_albumartistid){
+        musicbrainz_albumartistid = metadata.common.musicbrainz_albumartistid;
+      } else {
+        musicbrainz_albumartistid = '';
+      }
   
       var tags = {
             genre: tagGenre,
@@ -165,7 +180,9 @@ async function readMetadata (filePath) {
             duration: duration,
             disk: disk,
             comment: comment,
-            bitrate: bitrate
+            bitrate: bitrate,
+            musicbrainz_albumartistid: musicbrainz_albumartistid,
+            musicbrainz_artistid: musicbrainz_artistid
           };
        
        
