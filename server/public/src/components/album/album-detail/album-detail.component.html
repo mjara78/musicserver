@@ -21,7 +21,7 @@
   			<span class="md-headline">{{ $ctrl.album.albumName }}</span>
   		</div>
   		<ms-detail-artist layout="row" layout-align="start center">
-  			<img ng-src="{{ $ctrl.album.Artist.imageUrlLarge }}">
+  			<img ng-src="{{ $ctrl.album.Artist.imageUrlLarge ? $ctrl.album.Artist.imageUrlLarge : 'assets/svg/baseline-account_circle-24px.svg' }}">
   			<span class="md-subhead ms-artist-text">{{ $ctrl.album.Artist.artistName }}</span>	
   		</ms-detail-artist>
   		<div layout="row" layout-align="start center">
